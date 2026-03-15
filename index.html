@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ระบบประกาศรายชื่อผู้เข้าอบรม</title>
+    <!-- โหลด Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- โหลด Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-gray-50 font-sans text-gray-800 selection:bg-blue-200 min-h-screen">
+
+    <!-- Header -->
+    <header class="bg-white border-b border-gray-200 sticky top-0 z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                <div class="flex items-center gap-3">
+                    <div class="p-2 bg-blue-600 rounded-lg text-white">
+                        <i data-lucide="book-open" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-bold text-gray-900 leading-tight">ระบบประกาศรายชื่อผู้เข้าอบรม</h1>
+                        <p class="text-sm text-gray-500">หลักสูตรพัฒนาศักยภาพบุคลากร ประจำปี 2026</p>
+                    </div>
+                </div>
+                
+                <!-- Search Box -->
+                <div class="relative w-full md:w-72">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <i data-lucide="search" class="w-5 h-5 text-gray-400"></i>
+                    </div>
+                    <input
+                        type="text"
+                        id="searchInput"
+                        placeholder="ค้นหารายชื่อ..."
+                        class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg leading-5 bg-gray-50 placeholder-gray-500 focus:outline-none focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition-colors"
+                    >
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="flex flex-col lg:flex-row gap-8">
+            
+            <!-- Sidebar / Batch Selector -->
+            <div class="w-full lg:w-1/4">
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden sticky top-28">
+                    <div class="p-4 bg-gray-50 border-b border-gray-200">
+                        <h2 class="text-sm font-bold text-gray-700 uppercase tracking-wider flex items-center gap-2">
+                            <i data-lucide="users" class="w-4 h-4"></i> เลือกรุ่นที่อบรม
+                        </h2>
+                    </div>
+                    <ul id="batchList" class="divide-y divide-gray-100">
+                        <!-- รายการรุ่นจะถูกสร้างด้วย JS -->
+                    </ul>
+
+                    <!-- แถบแยกรายชื่อสำรอง -->
+                    <div class="p-4 bg-orange-50 border-y border-orange-100 mt-2">
+                        <h2 class="text-sm font-bold text-orange-800 uppercase tracking-wider flex items-center gap-2">
+                            <i data-lucide="user-minus" class="w-4 h-4"></i> บัญชีสำรอง
+                        </h2>
+                    </div>
+                    <ul id="reserveList" class="divide-y divide-gray-100">
+                        <!-- รายการสำรองจะถูกสร้างด้วย JS -->
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Main Content Area -->
+            <div class="w-full lg:w-3/4 space-y-6">
+                
+                <!-- Batch Info Card -->
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h2 id="batchTitle" class="text-2xl font-bold text-gray-900"></h2>
+                            <div class="mt-4 space-y-2">
+                                <p class="flex items-center text-sm text-gray-600 gap-2">
+                                    <i data-lucide="calendar" class="w-[18px] h-[18px] text-blue-500"></i>
+                                    <strong>วันเวลา:</strong> <span id="batchDate"></span>
+                                </p>
+                                <p class="flex items-center text-sm text-gray-600 gap-2">
+                                    <i data-lucide="map-pin" class="w-[18px] h-[18px] text-red-500"></i>
+                                    <strong>สถานที่:</strong> <span id="batchLocation"></span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Results Message -->
+                <div id="searchMessageContainer" class="hidden">
+                    <p id="searchMessageText" class="text-sm text-gray-600 bg-blue-50 p-3 rounded-lg border border-blue-100"></p>
+                </div>
+
+                <!-- Trainees List -->
+                <div>
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 id="listHeader" class="text-lg font-bold text-gray-900 flex items-center gap-2">
+                            <!-- จะถูกจัดการโดย JS -->
+                        </h3>
+                        <span id="traineeCount" class="bg-gray-100 text-gray-700 text-xs font-bold px-3 py-1 rounded-full">
+                            <!-- จำนวน -->
+                        </span>
+                    </div>
+                    
+                    <div id="traineeGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
+                        <!-- การ์ดผู้เข้าอบรมจะถูกสร้างด้วย JS -->
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // --- ข้อมูลจำลอง (Mock Data) ---
+        const firstNames = ["สมชาย", "สมหญิง", "กิตติ", "มาลี", "ณัฐพล", "สุจิตรา", "ธนภูมิ", "วิภาวี", "อานนท์", "พรทิพย์", "ชัยวัฒน์", "นันทนา", "จักรพันธ์", "ศิริพร", "พงศกร", "รัตนา", "ธีรเทพ", "พิมพ์ชนก", "วรวุฒิ", "กมลวรรณ", "นพดล", "จิราพร", "วีระ", "สุภาภรณ์", "อดิศักดิ์"];
+        const lastNames = ["ใจดี", "รักดี", "มีสุข", "เจริญทรัพย์", "ทองคำ", "สว่างวงศ์", "มั่นคง", "พิทักษ์", "สมบูรณ์", "ประเสริฐ", "วิเศษ", "กล้าหาญ", "ภักดี", "รักษา", "บุญส่ง", "งามตา", "สิงห์โต", "พูนสวัสดิ์", "สุขสวัสดิ์", "รุ่งเรือง"];
+
+        const generateTrainees = (count, startIndex, isReserve = false) => {
+            return Array.from({ length: count }, (_, i) => {
+                const index = startIndex + i;
+                const gender = index % 2 === 0 ? 'นาย' : 'นางสาว';
+                return {
+                    id: `TR-${isReserve ? 'RES' : 'MAIN'}-${index}`,
+                    name: `${gender}${firstNames[index % firstNames.length]} ${lastNames[(index + 3) % lastNames.length]}`,
+                    status: isReserve ? 'reserve' : 'main',
+                };
+            });
+        };
+
+        const mockBatches = [
+            { id: 1, name: "รุ่นที่ 1", date: "1 - 5 มิถุนายน 2026", location: "ห้องประชุม A ชั้น 2", trainees: generateTrainees(20, 0, false) },
+            { id: 2, name: "รุ่นที่ 2", date: "8 - 12 มิถุนายน 2026", location: "ห้องประชุม B ชั้น 3", trainees: generateTrainees(20, 20, false) },
+            { id: 3, name: "รุ่นที่ 3", date: "15 - 19 มิถุนายน 2026", location: "ห้องสัมมนาใหญ่ ชั้น 1", trainees: generateTrainees(20, 40, false) }
+        ];
+
+        const reserveBatch = {
+            id: 'reserve', name: "รายชื่อสำรอง (รวม)", date: "รอการประกาศเรียกตัว", location: "-", trainees: generateTrainees(15, 100, true)
+        };
+
+        const allBatches = [...mockBatches, reserveBatch];
+
+        // --- State ---
+        let selectedBatchId = 1;
+        let searchQuery = '';
+
+        // --- DOM Elements ---
+        const searchInput = document.getElementById('searchInput');
+        const batchList = document.getElementById('batchList');
+        const reserveList = document.getElementById('reserveList');
+        const batchTitle = document.getElementById('batchTitle');
+        const batchDate = document.getElementById('batchDate');
+        const batchLocation = document.getElementById('batchLocation');
+        const searchMessageContainer = document.getElementById('searchMessageContainer');
+        const searchMessageText = document.getElementById('searchMessageText');
+        const listHeader = document.getElementById('listHeader');
+        const traineeCount = document.getElementById('traineeCount');
+        const traineeGrid = document.getElementById('traineeGrid');
+
+        // --- Functions ---
+        function getSelectedBatch() {
+            return allBatches.find(b => b.id === selectedBatchId) || allBatches[0];
+        }
+
+        function getFilteredTrainees() {
+            const batch = getSelectedBatch();
+            if (!searchQuery) return batch.trainees;
+            return batch.trainees.filter(t => t.name.toLowerCase().includes(searchQuery.toLowerCase()));
+        }
+
+        function selectBatch(id) {
+            selectedBatchId = id;
+            searchQuery = '';
+            searchInput.value = '';
+            renderAll();
+        }
+
+        // --- Render Functions ---
+        function renderSidebar() {
+            // Render Main Batches
+            batchList.innerHTML = mockBatches.map(batch => `
+                <li>
+                    <button onclick="selectBatch(${batch.id})" class="w-full text-left px-4 py-4 flex items-center justify-between transition-colors ${selectedBatchId === batch.id ? 'bg-blue-50 border-l-4 border-blue-600' : 'hover:bg-gray-50 border-l-4 border-transparent'}">
+                        <div>
+                            <p class="font-semibold ${selectedBatchId === batch.id ? 'text-blue-700' : 'text-gray-900'}">${batch.name}</p>
+                            <p class="text-xs text-gray-500 mt-1 flex items-center gap-1">
+                                <i data-lucide="users" class="w-3 h-3"></i> ${batch.trainees.length} คน
+                            </p>
+                        </div>
+                        <i data-lucide="chevron-right" class="w-[18px] h-[18px] ${selectedBatchId === batch.id ? 'text-blue-600' : 'text-gray-400'}"></i>
+                    </button>
+                </li>
+            `).join('');
+
+            // Render Reserve Batch
+            reserveList.innerHTML = `
+                <li>
+                    <button onclick="selectBatch('reserve')" class="w-full text-left px-4 py-4 flex items-center justify-between transition-colors ${selectedBatchId === 'reserve' ? 'bg-orange-100 border-l-4 border-orange-500' : 'hover:bg-orange-50/50 border-l-4 border-transparent'}">
+                        <div>
+                            <p class="font-semibold ${selectedBatchId === 'reserve' ? 'text-orange-700' : 'text-gray-900'}">${reserveBatch.name}</p>
+                            <p class="text-xs text-orange-600/80 mt-1 flex items-center gap-1">
+                                <i data-lucide="users" class="w-3 h-3"></i> ${reserveBatch.trainees.length} คน
+                            </p>
+                        </div>
+                        <i data-lucide="chevron-right" class="w-[18px] h-[18px] ${selectedBatchId === 'reserve' ? 'text-orange-600' : 'text-gray-400'}"></i>
+                    </button>
+                </li>
+            `;
+        }
+
+        function renderMainContent() {
+            const batch = getSelectedBatch();
+            const filteredTrainees = getFilteredTrainees();
+
+            // Update Batch Info
+            batchTitle.textContent = batch.name;
+            batchDate.textContent = batch.date;
+            batchLocation.textContent = batch.location;
+
+            // Update Search Message
+            if (searchQuery) {
+                searchMessageContainer.classList.remove('hidden');
+                searchMessageText.innerHTML = `ผลการค้นหาสำหรับ <strong>"${searchQuery}"</strong> (พบ ${filteredTrainees.length} คน)`;
+            } else {
+                searchMessageContainer.classList.add('hidden');
+            }
+
+            // Update List Header
+            if (selectedBatchId === 'reserve') {
+                listHeader.innerHTML = `<i data-lucide="user-minus" class="w-6 h-6 text-orange-500"></i> รายชื่อสำรองทั้งหมด`;
+            } else {
+                listHeader.innerHTML = `<i data-lucide="user-check" class="w-6 h-6 text-green-600"></i> รายชื่อผู้เข้าอบรม (ตัวจริง)`;
+            }
+            traineeCount.textContent = `จำนวน ${batch.trainees.length} คน`;
+
+            // Update Trainee Grid
+            if (filteredTrainees.length > 0) {
+                traineeGrid.innerHTML = filteredTrainees.map(trainee => {
+                    // หา index เดิมใน Array หลัก
+                    const originalIndex = batch.trainees.findIndex(t => t.id === trainee.id);
+                    const isMain = trainee.status === 'main';
+                    
+                    const circleClass = isMain ? 'bg-blue-100 text-blue-700' : 'bg-orange-100 text-orange-700';
+                    const badgeClass = isMain ? 'bg-green-100 text-green-800' : 'bg-orange-100 text-orange-800';
+                    const badgeText = isMain ? 'ตัวจริง' : 'สำรอง';
+
+                    return `
+                        <div class="flex items-center p-4 bg-white border border-gray-100 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-200">
+                            <div class="flex-shrink-0 mr-4">
+                                <div class="w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold ${circleClass}">
+                                    ${originalIndex + 1}
+                                </div>
+                            </div>
+                            <div class="flex-grow">
+                                <h4 class="text-sm font-semibold text-gray-900">${trainee.name}</h4>
+                            </div>
+                            <div class="flex-shrink-0 ml-2">
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${badgeClass}">
+                                    ${badgeText}
+                                </span>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+                traineeGrid.className = "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4"; // คืนค่า grid ปกติ
+            } else {
+                traineeGrid.innerHTML = `<div class="bg-white p-8 rounded-xl border border-dashed border-gray-300 text-center text-gray-500 col-span-full">ไม่พบรายชื่อที่ตรงกับคำค้นหา</div>`;
+                traineeGrid.className = ""; // เอา grid ออกชั่วคราวเพื่อให้ข้อความอยู่ตรงกลางได้เต็มพื้นที่
+            }
+
+            // Refresh Lucide Icons after DOM updates
+            lucide.createIcons();
+        }
+
+        function renderAll() {
+            renderSidebar();
+            renderMainContent();
+        }
+
+        // --- Event Listeners ---
+        searchInput.addEventListener('input', (e) => {
+            searchQuery = e.target.value;
+            renderMainContent(); // อัปเดตเฉพาะส่วนเนื้อหา ไม่ต้อง render แถบเมนูด้านข้างใหม่
+        });
+
+        // --- Initial Render ---
+        renderAll();
+
+    </script>
+</body>
+</html>
