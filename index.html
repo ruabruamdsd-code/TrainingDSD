@@ -20,8 +20,8 @@
                         <i data-lucide="book-open" class="w-6 h-6"></i>
                     </div>
                     <div>
-                        <h1 class="text-xl font-bold text-gray-900 leading-tight">ระบบประกาศรายชื่อผู้เข้าอบรม</h1>
-                        <p class="text-sm text-gray-500">หลักสูตรพัฒนาศักยภาพบุคลากร ประจำปี 2026</p>
+                        <h1 class="text-xl font-bold text-gray-900 leading-tight">ประกาศรายชื่อผู้เข้าฝึกอบรม</h1>
+                        <p class="text-sm text-gray-500"> - </p>
                     </div>
                 </div>
                 
@@ -116,30 +116,71 @@
     </main>
 
     <script>
-        // --- ข้อมูลจำลอง (Mock Data) ---
-        const firstNames = ["สมชาย", "สมหญิง", "กิตติ", "มาลี", "ณัฐพล", "สุจิตรา", "ธนภูมิ", "วิภาวี", "อานนท์", "พรทิพย์", "ชัยวัฒน์", "นันทนา", "จักรพันธ์", "ศิริพร", "พงศกร", "รัตนา", "ธีรเทพ", "พิมพ์ชนก", "วรวุฒิ", "กมลวรรณ", "นพดล", "จิราพร", "วีระ", "สุภาภรณ์", "อดิศักดิ์"];
-        const lastNames = ["ใจดี", "รักดี", "มีสุข", "เจริญทรัพย์", "ทองคำ", "สว่างวงศ์", "มั่นคง", "พิทักษ์", "สมบูรณ์", "ประเสริฐ", "วิเศษ", "กล้าหาญ", "ภักดี", "รักษา", "บุญส่ง", "งามตา", "สิงห์โต", "พูนสวัสดิ์", "สุขสวัสดิ์", "รุ่งเรือง"];
-
-        const generateTrainees = (count, startIndex, isReserve = false) => {
-            return Array.from({ length: count }, (_, i) => {
-                const index = startIndex + i;
-                const gender = index % 2 === 0 ? 'นาย' : 'นางสาว';
-                return {
-                    id: `TR-${isReserve ? 'RES' : 'MAIN'}-${index}`,
-                    name: `${gender}${firstNames[index % firstNames.length]} ${lastNames[(index + 3) % lastNames.length]}`,
-                    status: isReserve ? 'reserve' : 'main',
-                };
-            });
-        };
-
+        // --- ข้อมูลรายชื่อที่ต้องการใส่ (ใส่ชื่อ 20 คนในแต่ละรุ่นตรงนี้) ---
+        
         const mockBatches = [
-            { id: 1, name: "รุ่นที่ 1", date: "1 - 5 มิถุนายน 2026", location: "ห้องประชุม A ชั้น 2", trainees: generateTrainees(20, 0, false) },
-            { id: 2, name: "รุ่นที่ 2", date: "8 - 12 มิถุนายน 2026", location: "ห้องประชุม B ชั้น 3", trainees: generateTrainees(20, 20, false) },
-            { id: 3, name: "รุ่นที่ 3", date: "15 - 19 มิถุนายน 2026", location: "ห้องสัมมนาใหญ่ ชั้น 1", trainees: generateTrainees(20, 40, false) }
+            { 
+                id: 1, 
+                name: "รุ่นที่ 1 หลักสูตรการทำเบเกอรี่ ", 
+                date: "18 - 22 มีนาคม 2026", 
+                location: "อาคารฝึกอบรม 3 ชั้น สำนักงานพัฒนาฝีมือแรงงานลพบุรี", 
+                trainees: [
+                    { id: '1-01', name: 'ใส่ชื่อคนที่ 1 ตรงนี้', status: 'main' },
+                    { id: '1-02', name: 'ใส่ชื่อคนที่ 2 ตรงนี้', status: 'main' },
+                    { id: '1-03', name: 'ใส่ชื่อคนที่ 3 ตรงนี้', status: 'main' },
+                    { id: '1-04', name: 'ใส่ชื่อคนที่ 4 ตรงนี้', status: 'main' },
+                    { id: '1-05', name: 'ใส่ชื่อคนที่ 5 ตรงนี้', status: 'main' },
+                    { id: '1-06', name: 'ใส่ชื่อคนที่ 6 ตรงนี้', status: 'main' },
+                    { id: '1-07', name: 'ใส่ชื่อคนที่ 7 ตรงนี้', status: 'main' },
+                    { id: '1-08', name: 'ใส่ชื่อคนที่ 8 ตรงนี้', status: 'main' },
+                    { id: '1-09', name: 'ใส่ชื่อคนที่ 9 ตรงนี้', status: 'main' },
+                    { id: '1-10', name: 'ใส่ชื่อคนที่ 10 ตรงนี้', status: 'main' },
+                    { id: '1-11', name: 'ใส่ชื่อคนที่ 11 ตรงนี้', status: 'main' },
+                    { id: '1-12', name: 'ใส่ชื่อคนที่ 12 ตรงนี้', status: 'main' },
+                    { id: '1-13', name: 'ใส่ชื่อคนที่ 13 ตรงนี้', status: 'main' },
+                    { id: '1-14', name: 'ใส่ชื่อคนที่ 14 ตรงนี้', status: 'main' },
+                    { id: '1-15', name: 'ใส่ชื่อคนที่ 15 ตรงนี้', status: 'main' },
+                    { id: '1-16', name: 'ใส่ชื่อคนที่ 16 ตรงนี้', status: 'main' },
+                    { id: '1-17', name: 'ใส่ชื่อคนที่ 17 ตรงนี้', status: 'main' },
+                    { id: '1-18', name: 'ใส่ชื่อคนที่ 18 ตรงนี้', status: 'main' },
+                    { id: '1-19', name: 'ใส่ชื่อคนที่ 19 ตรงนี้', status: 'main' },
+                    { id: '1-20', name: 'ใส่ชื่อคนที่ 20 ตรงนี้', status: 'main' }
+                ] 
+            },
+            { 
+                id: 2, 
+                name: "รุ่นที่ 2", 
+                date: "8 - 12 มิถุนายน 2026", 
+                location: "ห้องประชุม B ชั้น 3", 
+                trainees: [
+                    { id: '2-01', name: 'ใส่ชื่อคนที่ 1 ของรุ่นที่ 2', status: 'main' },
+                    { id: '2-02', name: 'ใส่ชื่อคนที่ 2 ของรุ่นที่ 2', status: 'main' },
+                    // ก๊อปปี้บรรทัดด้านบน มาวางเพิ่มให้ครบ 20 คน เหมือนรุ่นที่ 1 ได้เลยครับ
+                ] 
+            },
+            { 
+                id: 3, 
+                name: "รุ่นที่ 3", 
+                date: "15 - 19 มิถุนายน 2026", 
+                location: "ห้องสัมมนาใหญ่ ชั้น 1", 
+                trainees: [
+                    { id: '3-01', name: 'ใส่ชื่อคนที่ 1 ของรุ่นที่ 3', status: 'main' },
+                    // ก๊อปปี้บรรทัดด้านบน มาวางเพิ่มให้ครบ 20 คน เหมือนรุ่นที่ 1 ได้เลยครับ
+                ] 
+            }
         ];
 
         const reserveBatch = {
-            id: 'reserve', name: "รายชื่อสำรอง (รวม)", date: "รอการประกาศเรียกตัว", location: "-", trainees: generateTrainees(15, 100, true)
+            id: 'reserve', 
+            name: "รายชื่อสำรอง (รวม)", 
+            date: "รอการประกาศเรียกตัว", 
+            location: "-", 
+            trainees: [
+                { id: 'R-01', name: 'ใส่ชื่อสำรองคนที่ 1', status: 'reserve' },
+                { id: 'R-02', name: 'ใส่ชื่อสำรองคนที่ 2', status: 'reserve' },
+                { id: 'R-03', name: 'ใส่ชื่อสำรองคนที่ 3', status: 'reserve' }
+                // ก๊อปปี้เพิ่มสำหรับรายชื่อสำรองคนต่อๆ ไป
+            ]
         };
 
         const allBatches = [...mockBatches, reserveBatch];
@@ -233,7 +274,7 @@
             if (selectedBatchId === 'reserve') {
                 listHeader.innerHTML = `<i data-lucide="user-minus" class="w-6 h-6 text-orange-500"></i> รายชื่อสำรองทั้งหมด`;
             } else {
-                listHeader.innerHTML = `<i data-lucide="user-check" class="w-6 h-6 text-green-600"></i> รายชื่อผู้เข้าอบรม (ตัวจริง)`;
+                listHeader.innerHTML = `<i data-lucide="user-check" class="w-6 h-6 text-green-600"></i> รายชื่อผู้เข้าอบรม`;
             }
             traineeCount.textContent = `จำนวน ${batch.trainees.length} คน`;
 
