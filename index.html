@@ -3,44 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>รายชื่อฝึกอบรม หลักสูตรการใช้เทคโนโลยีเพื่อจัดการน้ำสำหรับโรงเรือนเกษตรอัจฉริยะ</title>
+    <title>รายชื่อฝึกอบรม การเพ้นท์เล็บเบื้องต้น</title>
     <!-- โหลด Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- โหลด Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        /* ตั้งค่าสีพื้นฐานให้เหมือนภาพตัวอย่าง */
+        /* โทนสีชมพูตุ่น/กะปิเข้ม (Dark Mauve) ช่วยถนอมสายตา ลดแสงสะท้อน */
         body {
-            background-color: #0f172a; /* bg-slate-900 */
-            color: #cbd5e1; /* text-slate-300 */
+            background-color: #2d222b; /* สีพื้นหลังมืด โทนม่วงอมชมพู */
+            color: #fce7f3; /* ตัวอักษรสีชมพูอ่อนมาก */
         }
         .card-bg {
-            background-color: #1e293b; /* bg-slate-800 */
+            background-color: #3e2f3b; /* สีการ์ดที่สว่างขึ้นมานิดหน่อย */
         }
         .card-border {
-            border-color: #334155; /* border-slate-700 */
+            border-color: #584454; /* สีขอบการ์ด */
         }
+        /* ปรับแต่ง Scrollbar ซ่อน */
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
-<body class="font-sans min-h-screen selection:bg-blue-500/30">
+<body class="font-sans min-h-screen selection:bg-pink-500/30">
 
     <!-- Top Navigation Bar -->
-    <nav class="card-bg border-b card-border sticky top-0 z-20">
+    <nav class="card-bg border-b card-border sticky top-0 z-20 shadow-md shadow-black/10">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
             <div class="flex items-center gap-3">
-                <div class="w-10 h-10 bg-blue-500 rounded-xl flex items-center justify-center text-white shadow-lg shadow-blue-500/20">
+                <div class="w-10 h-10 bg-[#d946ef]/80 rounded-xl flex items-center justify-center text-white shadow-lg shadow-[#d946ef]/20">
                     <i data-lucide="users" class="w-5 h-5"></i>
                 </div>
                 <div>
-                    <h1 class="text-lg font-bold text-white leading-tight">รายชื่อฝึกอบรม หลักสูตรการใช้เทคโนโลยีเพื่อจัดการน้ำสำหรับโรงเรือนเกษตรอัจฉริยะ</h1>
-                    <p class="text-xs text-slate-400">สำนักงานพัฒนาฝีมือแรงงานลพบุรี</p>
+                    <h1 class="text-lg font-bold text-pink-50 leading-tight">รายชื่อฝึกอบรม การเพ้นท์เล็บเบื้องต้น</h1>
+                    <p class="text-xs text-pink-300/70">สำนักงานพัฒนาฝีมือแรงงานลพบุรี</p>
                 </div>
             </div>
             <div class="flex gap-3">
-                <span class="bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs px-3 py-1.5 rounded-full font-medium" id="badgeTotalTrainees">
+                <span class="bg-pink-500/20 border border-pink-500/30 text-pink-300 text-xs px-3 py-1.5 rounded-full font-medium" id="badgeTotalTrainees">
                     10 ผู้เข้าอบรม
                 </span>
-                <span class="bg-orange-500/10 border border-orange-500/20 text-orange-400 text-xs px-3 py-1.5 rounded-full font-medium" id="badgeTotalReserves">
+                <span class="bg-orange-500/20 border border-orange-500/30 text-orange-300 text-xs px-3 py-1.5 rounded-full font-medium" id="badgeTotalReserves">
                     3 สำรอง
                 </span>
             </div>
@@ -52,43 +55,43 @@
         <!-- Stats Grid -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             <!-- Card 1 -->
-            <div class="card-bg rounded-xl p-5 border card-border flex items-center gap-4">
-                <div class="p-3 bg-slate-700/50 rounded-lg text-blue-400">
+            <div class="card-bg rounded-xl p-5 border card-border flex items-center gap-4 shadow-sm shadow-black/5">
+                <div class="p-3 bg-pink-500/10 rounded-lg text-pink-400">
                     <i data-lucide="layers" class="w-6 h-6"></i>
                 </div>
                 <div>
-                    <p class="text-xs text-slate-400 font-medium">จำนวนรุ่นทั้งหมด</p>
-                    <p class="text-xl font-bold text-blue-400 mt-0.5" id="statBatches">3 รุ่น</p>
+                    <p class="text-xs text-pink-300/70 font-medium">จำนวนรุ่นทั้งหมด</p>
+                    <p class="text-xl font-bold text-pink-300 mt-0.5" id="statBatches">3 รุ่น</p>
                 </div>
             </div>
             <!-- Card 2 -->
-            <div class="card-bg rounded-xl p-5 border card-border flex items-center gap-4">
-                <div class="p-3 bg-slate-700/50 rounded-lg text-indigo-400">
+            <div class="card-bg rounded-xl p-5 border card-border flex items-center gap-4 shadow-sm shadow-black/5">
+                <div class="p-3 bg-[#c084fc]/10 rounded-lg text-[#c084fc]">
                     <i data-lucide="users" class="w-6 h-6"></i>
                 </div>
                 <div>
-                    <p class="text-xs text-slate-400 font-medium">ผู้เข้าอบรมทั้งหมด</p>
-                    <p class="text-xl font-bold text-indigo-400 mt-0.5" id="statTrainees">10 คน</p>
+                    <p class="text-xs text-pink-300/70 font-medium">ผู้เข้าอบรมทั้งหมด</p>
+                    <p class="text-xl font-bold text-[#c084fc] mt-0.5" id="statTrainees">10 คน</p>
                 </div>
             </div>
             <!-- Card 3 -->
-            <div class="card-bg rounded-xl p-5 border card-border flex items-center gap-4">
-                <div class="p-3 bg-slate-700/50 rounded-lg text-orange-400">
+            <div class="card-bg rounded-xl p-5 border card-border flex items-center gap-4 shadow-sm shadow-black/5">
+                <div class="p-3 bg-orange-500/10 rounded-lg text-orange-400">
                     <i data-lucide="user-minus" class="w-6 h-6"></i>
                 </div>
                 <div>
-                    <p class="text-xs text-slate-400 font-medium">รายชื่อสำรอง</p>
+                    <p class="text-xs text-pink-300/70 font-medium">รายชื่อสำรอง</p>
                     <p class="text-xl font-bold text-orange-400 mt-0.5" id="statReserves">3 คน</p>
                 </div>
             </div>
             <!-- Card 4 -->
-            <div class="card-bg rounded-xl p-5 border card-border flex items-center gap-4">
-                <div class="p-3 bg-slate-700/50 rounded-lg text-emerald-400">
+            <div class="card-bg rounded-xl p-5 border card-border flex items-center gap-4 shadow-sm shadow-black/5">
+                <div class="p-3 bg-rose-500/10 rounded-lg text-rose-400">
                     <i data-lucide="bar-chart-2" class="w-6 h-6"></i>
                 </div>
                 <div>
-                    <p class="text-xs text-slate-400 font-medium">เฉลี่ยต่อรุ่น</p>
-                    <p class="text-xl font-bold text-emerald-400 mt-0.5" id="statAverage">3 คน</p>
+                    <p class="text-xs text-pink-300/70 font-medium">เฉลี่ยต่อรุ่น</p>
+                    <p class="text-xl font-bold text-rose-400 mt-0.5" id="statAverage">3 คน</p>
                 </div>
             </div>
         </div>
@@ -96,13 +99,13 @@
         <!-- Search Bar -->
         <div class="relative">
             <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                <i data-lucide="search" class="w-5 h-5 text-slate-400"></i>
+                <i data-lucide="search" class="w-5 h-5 text-pink-300/50"></i>
             </div>
             <input
                 type="text"
                 id="searchInput"
                 placeholder="ค้นหารายชื่อผู้เข้าอบรม..."
-                class="block w-full pl-11 pr-4 py-3 card-bg border card-border rounded-xl text-slate-200 placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
+                class="block w-full pl-11 pr-4 py-3 card-bg border card-border rounded-xl text-pink-100 placeholder-pink-300/50 focus:outline-none focus:border-pink-500 focus:ring-1 focus:ring-pink-500 transition-colors shadow-sm shadow-black/5"
             >
         </div>
 
@@ -125,30 +128,30 @@
         const batches = [
             {
                 id: 1,
-                name: "รุ่นที่ 1 หลักสูตรการใช้เทคโนโลยีเพื่อจัดการน้ำสำหรับโรงเรือนเกษตรอัจฉริยะ",
-                date: "27 เมษายน 2569 - 1 พฤษภาคม 2569",
+                name: "การเพ้นท์เล็บเบื้องต้น รุ่นที่ 1",
+                date: "27 พฤษภาคม 2569 - 31 พฤษภาคม 2569",
                 type: 'main',
                 trainees: [
-                    { id: '1-01', name: 'นายรัฐสิทธิ์ นิลนารถ', status: 'รอติดต่อกลับ' }, //'0635965459
-                    { id: '1-02', name: 'นางวรดาลักษณ์  แซ่อั๊ง', status: 'รอติดต่อกลับ' }, //'0819889859
-                    { id: '1-03', name: 'ปิยวิทย์ ปทุมานนท์', status: 'รอติดต่อกลับ' }, //'0818087853
-                    { id: '1-04', name: 'นายปองพล เขื่อนฟัก', status: 'รอติดต่อกลับ' }, //'0949368333
-                    { id: '1-05', name: 'นายบัญชา ศรีสวัสดิ์', status: 'รอติดต่อกลับ' }, //'0629566688
-                    { id: '1-06', name: 'เมธา พูลสวัสดิ์', status: 'รอติดต่อกลับ' },  //'0922978826
-                    { id: '1-07', name: 'นายอรุณ อัครวโรทัย', status: 'รอติดต่อกลับ' }, //'0845860432
-                    { id: '1-08', name: 'สุรักชาติ เกตุเนียม', status: 'รอติดต่อกลับ' }, //'0811909554
-                    { id: '1-09', name: 'ศิริทิพย์ ผกามาศ', status: 'รอติดต่อกลับ' }, //'0649788156
-                    { id: '1-10', name: 'พัชรา สังวาลย์ศรี', status: 'รอติดต่อกลับ' },  //'0819572662
-                    { id: '1-11', name: 'ชินวัฒน์ ณัชกิตติพลฤทธิ์', status: 'รอติดต่อกลับ' },  //'0855925997
-                    { id: '1-12', name: 'นางกมลฉัตร โล่ห์สุวรรณ', status: 'รอติดต่อกลับ' },  //'0632583336
-                    { id: '1-13', name: 'นายชัชวาล โล่ห์สุวรรณ', status: 'รอติดต่อกลับ' }, //'0822481354
-                    { id: '1-14', name: 'โชติ ถาวร', status: 'รอติดต่อกลับ' },  //'0809954020
-                    { id: '1-15', name: 'เกียรติสุดา  ไชยบุตร', status: 'รอติดต่อกลับ' }, //'0934820868
-                    { id: '1-16', name: 'หฤทัย ศิริจันทร์', status: 'รอติดต่อกลับ' },  //'0660461155
-                    { id: '1-17', name: 'สุรพงษ์​ โชคชัย​สวัสดี', status: 'รอติดต่อกลับ' },  //0639197954​
-                    { id: '1-18', name: 'สุมาลี​ ศรีสมบูรณ์สกุล', status: 'รอติดต่อกลับ' },  //'0891511005
-                    { id: '1-19', name: 'มาลี​ โพธิ์งาม', status: 'รอติดต่อกลับ' },  //'0615643499
-                    { id: '1-20', name: 'ศักดิ์สิน บุณยรัตพันธุ์', status: 'รอติดต่อกลับ' } //'0954292653
+                    { id: '1-01', name: 'สุภารัตน์ สายประสาท', status: 'รอติดต่อกลับ' }, //0843532526
+                    { id: '1-02', name: 'นริศรา  พฤฒากรณ์', status: 'รอติดต่อกลับ' }, //0928518073
+                    { id: '1-03', name: 'นางสิรินทรา จอห์นสัน', status: 'รอติดต่อกลับ' }, //0936468921
+                    { id: '1-04', name: 'อัจฉริยา คุณารักษ์', status: 'รอติดต่อกลับ' }, //0955399757
+                    { id: '1-05', name: 'พิชยา เดชขะรัตน์', status: 'รอติดต่อกลับ' }, //0968516696
+                    { id: '1-06', name: 'ณัฏฐกานต์ หันอาสา', status: 'รอติดต่อกลับ' }, //0980506924
+                    { id: '1-07', name: 'รักษิตา เขียวพุ่มพวง', status: 'รอติดต่อกลับ' }, //0641961461
+                    { id: '1-08', name: 'ภัทริกา พุฒติ', status: 'รอติดต่อกลับ' }, //0939839892
+                    { id: '1-09', name: 'เพ็ชรรัตน์ แว่วสอน', status: 'รอติดต่อกลับ' }, //0802872671
+                    { id: '1-10', name: 'ธัญทิพย์ ชูสกุลธนเศรษฐ์', status: 'รอติดต่อกลับ' }, //0628783054
+                    { id: '1-11', name: 'ณัฎฐณิชา วศินศิริกุล', status: 'รอติดต่อกลับ' }, //0972270526
+                    { id: '1-12', name: 'ภัณฑิรา ตาคำ', status: 'รอติดต่อกลับ' }, //0809326624
+                    { id: '1-13', name: 'นางสาวอาภัสรา  ขันตี', status: 'รอติดต่อกลับ' }, //0910131631
+                    { id: '1-14', name: 'ชิตวรรณ มีหวายหลึม', status: 'รอติดต่อกลับ' }, //0971239193
+                    { id: '1-15', name: 'วันวิสา  หนูจันทึก', status: 'รอติดต่อกลับ' },//0953303774
+                    { id: '1-16', name: 'อรณี ลิ้มสมบัติอนันต์', status: 'รอติดต่อกลับ' }, //0995928718
+                    { id: '1-17', name: 'นส.ชุติกานต์ วงษ์น้อย', status: 'รอติดต่อกลับ' }, //0982234386
+                    { id: '1-18', name: 'นางสาว กฤษกร เพิ่มธัญกรรม', status: 'รอติดต่อกลับ' }, //0928685516
+                    { id: '1-19', name: 'ภาณุมาศ อานุภาพภราดร', status: 'รอติดต่อกลับ' }, //0820892958
+                    { id: '1-20', name: 'นางสาวอินธุอร ค้าสม', status: 'รอติดต่อกลับ' } //0971972786
                 ]
             },
             {
@@ -157,12 +160,23 @@
                 date: "รอเรียกตัวเมื่อมีผู้สละสิทธิ์",
                 type: 'reserve',
                 trainees: [
-                    { id: 'R-01', name: 'ธนิษฐา พรหมปฏิมา', status: 'รอเรียกเข้าตัวจริง' }, //'0824534952
-                    { id: 'R-02', name: 'นายจิรวัฒน์ ช่วยพยุง', status: 'รอเรียกเข้าตัวจริง' }, //'0909745042
-                    { id: 'R-03', name: '', status: 'ว่าง' },
-                    { id: 'R-04', name: '', status: 'ว่าง' },
-                    { id: 'R-05', name: '', status: 'ว่าง' },
-                    { id: 'R-06', name: '', status: 'ว่าง' },
+                    { id: 'R-01', name: 'พฤฒิพร พยัคฆ์', status: '-' }, //0644790428
+                    { id: 'R-02', name: 'ชนิดาภา เศรษฐบุตร', status: '-' }, //0646149665
+                    { id: 'R-03', name: 'นส.ธนิกา สกุลเพชรอร่าม', status: '-' }, //0863914595
+                    { id: 'R-04', name: 'นางสาว ธนิกา สกุลเพชรอร่าม', status: '-' }, //0863914595
+                    { id: 'R-05', name: 'เสาวนีย์ ศรีกาญจนารักษ์', status: '-' }, //'0946632697
+					{ id: 'R-06', name: 'น.ส.ชนิดา เจริญศรี', status: '-' }, //0881800888
+                    { id: 'R-07', name: 'น.ส มาลัย  เผือกโสภา', status: '-' }, //0615974493
+                    { id: 'R-08', name: 'มาลินี โทรักษา', status: '-' }, //0902629553
+					{ id: 'R-09', name: 'พิมพ์พจี พงษ์ธรรม', status: '-' }, //0839418986
+                    { id: 'R-10', name: 'นิศารัตน์ เสาะแสวง', status: '-' }, //0917645719
+					{ id: 'R-11', name: 'อัญชุลี อุดหนุน', status: '-' }, //0818392961
+                    { id: 'R-12', name: 'ดำรัสสิริ ประเสริฐสิทธิ์', status: '-' }, //0953419615
+                    { id: 'R-13', name: 'พิไลวรรณ หอมเนียม', status: '-' }, //0846266914
+					{ id: 'R-14', name: 'สุปาณี บุญเส็ง', status: '-' }, //0623544799
+					{ id: 'R-15', name: 'นส นันทิชา แก้วแหวน', status: '-' }, //0917589125
+					{ id: 'R-16', name: 'ชุติมา คงเพียร', status: '-' }, //0648495888
+					{ id: 'R-17', name: 'น.ส.ธนันชณัฏฐ์ ธรรมมณี', status: '-' } //0924479236
                 ]
             }
         ];
@@ -205,7 +219,7 @@
             const reserveBatch = batches.find(b => b.type === 'reserve');
             
             let tabsHTML = `
-                <button onclick="setActiveTab('all')" class="pb-3 px-1 text-sm font-medium whitespace-nowrap transition-colors ${activeTab === 'all' ? 'text-blue-400 border-b-2 border-blue-400' : 'text-slate-400 hover:text-slate-200'}">
+                <button onclick="setActiveTab('all')" class="pb-3 px-1 text-sm font-medium whitespace-nowrap transition-colors ${activeTab === 'all' ? 'text-pink-400 border-b-2 border-pink-500' : 'text-pink-300/70 hover:text-pink-200'}">
                     ทั้งหมด
                 </button>
             `;
@@ -213,8 +227,8 @@
             batches.filter(b => b.type === 'main').forEach(batch => {
                 const isActive = activeTab === batch.id;
                 tabsHTML += `
-                    <button onclick="setActiveTab(${batch.id})" class="pb-3 px-1 text-sm font-medium whitespace-nowrap transition-colors flex items-center gap-2 ${isActive ? 'text-blue-400 border-b-2 border-blue-400' : 'text-slate-400 hover:text-slate-200'}">
-                        ${batch.name} <span class="text-xs ${isActive ? 'text-blue-500' : 'text-yellow-500'}">${batch.trainees.length}/${maxPerBatch}</span>
+                    <button onclick="setActiveTab(${batch.id})" class="pb-3 px-1 text-sm font-medium whitespace-nowrap transition-colors flex items-center gap-2 ${isActive ? 'text-pink-400 border-b-2 border-pink-500' : 'text-pink-300/70 hover:text-pink-200'}">
+                        ${batch.name} <span class="text-xs ${isActive ? 'text-pink-500' : 'text-pink-300/50'}">${batch.trainees.length}/${maxPerBatch}</span>
                     </button>
                 `;
             });
@@ -222,8 +236,8 @@
             if(reserveBatch) {
                 const isActive = activeTab === 'reserve';
                 tabsHTML += `
-                    <button onclick="setActiveTab('reserve')" class="pb-3 px-1 text-sm font-medium whitespace-nowrap transition-colors flex items-center gap-2 ${isActive ? 'text-blue-400 border-b-2 border-blue-400' : 'text-slate-400 hover:text-slate-200'}">
-                        <i data-lucide="clock" class="w-4 h-4"></i> รายชื่อสำรอง <span class="text-xs bg-yellow-500/10 text-yellow-500 px-1.5 py-0.5 rounded-full">${reserveBatch.trainees.length}</span>
+                    <button onclick="setActiveTab('reserve')" class="pb-3 px-1 text-sm font-medium whitespace-nowrap transition-colors flex items-center gap-2 ${isActive ? 'text-orange-400 border-b-2 border-orange-400' : 'text-pink-300/70 hover:text-orange-300'}">
+                        <i data-lucide="clock" class="w-4 h-4"></i> รายชื่อสำรอง <span class="text-xs bg-orange-500/20 text-orange-300 px-1.5 py-0.5 rounded-full">${reserveBatch.trainees.length}</span>
                     </button>
                 `;
             }
@@ -253,16 +267,16 @@
 
                 // หัวตาราง
                 html += `
-                <div class="card-bg rounded-2xl border card-border overflow-hidden">
+                <div class="card-bg rounded-2xl border card-border overflow-hidden shadow-sm shadow-black/5 mb-6">
                     <!-- Batch Header -->
-                    <div class="p-5 flex justify-between items-center border-b card-border">
+                    <div class="p-5 flex justify-between items-center border-b card-border bg-black/10">
                         <div class="flex items-center gap-4">
-                            <div class="w-10 h-10 bg-blue-500/10 rounded-lg flex items-center justify-center text-blue-400">
+                            <div class="w-10 h-10 bg-pink-500/20 rounded-lg flex items-center justify-center text-pink-400">
                                 <i data-lucide="bookmark" class="w-5 h-5"></i>
                             </div>
                             <div>
-                                <h2 class="text-lg font-bold text-white">${batch.name}</h2>
-                                <p class="text-xs text-slate-400 mt-0.5 flex items-center gap-1">
+                                <h2 class="text-lg font-bold text-pink-100">${batch.name}</h2>
+                                <p class="text-xs text-pink-300/70 mt-0.5 flex items-center gap-1">
                                     <i data-lucide="calendar" class="w-3 h-3"></i> ${batch.date}
                                 </p>
                             </div>
@@ -271,48 +285,50 @@
                         ${isMain ? `
                         <div class="text-right">
                             <div class="flex items-center justify-end gap-2 text-xs mb-2">
-                                <span class="text-slate-400">ผู้เข้าอบรม</span>
-                                <span class="font-bold text-blue-400">${count} <span class="text-slate-500 font-normal">/ ${maxPerBatch} คน</span></span>
-                                <span class="text-slate-500 ml-4">ว่าง ${avail} ที่</span>
-                                <span class="text-slate-400 ml-2">${percent}%</span>
+                                <span class="text-pink-300/70">ผู้เข้าอบรม</span>
+                                <span class="font-bold text-pink-300">${count} <span class="text-pink-300/50 font-normal">/ ${maxPerBatch} คน</span></span>
+                                <span class="text-pink-300/70 ml-4">ว่าง ${avail} ที่</span>
+                                <span class="text-pink-400 ml-2 font-medium">${percent}%</span>
                             </div>
-                            <div class="w-48 h-1.5 bg-slate-700 rounded-full overflow-hidden">
-                                <div class="bg-blue-500 h-full rounded-full" style="width: ${percent}%"></div>
+                            <div class="w-48 h-1.5 bg-black/20 rounded-full overflow-hidden">
+                                <div class="bg-pink-500 h-full rounded-full" style="width: ${percent}%"></div>
                             </div>
                         </div>
                         ` : `
                         <div class="text-right">
-                            <div class="text-xs text-slate-400 mb-1">จำนวนผู้รอเรียกตัว</div>
+                            <div class="text-xs text-pink-300/70 mb-1">จำนวนผู้รอเรียกตัว</div>
                             <div class="font-bold text-orange-400">${count} คน</div>
                         </div>
                         `}
                     </div>
 
                     <!-- Table Header -->
-                    <div class="px-5 py-3 grid grid-cols-12 text-xs font-semibold text-slate-400 border-b card-border">
+                    <div class="px-5 py-3 grid grid-cols-12 text-xs font-semibold text-pink-300/70 border-b card-border bg-transparent">
                         <div class="col-span-1 text-center">ลำดับ</div>
                         <div class="col-span-9">ชื่อ-นามสกุล</div>
                         <div class="col-span-2 text-right">สถานะ</div>
                     </div>
 
                     <!-- Table Body -->
-                    <div class="divide-y card-border">
+                    <div class="divide-y card-border bg-transparent">
                         ${filteredTrainees.map((trainee, index) => {
                             // หาเลขลำดับดั้งเดิม
                             const originalIndex = batch.trainees.findIndex(t => t.id === trainee.id);
                             const badgeColorClass = trainee.status === 'ยืนยัน' 
-                                ? 'bg-blue-500/20 text-blue-400 border-blue-500/30' 
-                                : 'bg-slate-700 text-slate-300 border-slate-600';
+                                ? 'bg-pink-500/20 text-pink-300 border-pink-500/30' 
+                                : trainee.status === 'รอติดต่อกลับ' 
+                                ? 'bg-orange-500/20 text-orange-300 border-orange-500/30'
+                                : 'bg-white/5 text-pink-300/40 border-white/10';
 
                             return `
-                            <div class="px-5 py-3 grid grid-cols-12 items-center hover:bg-slate-800/50 transition-colors">
+                            <div class="px-5 py-3 grid grid-cols-12 items-center hover:bg-white/5 transition-colors">
                                 <div class="col-span-1 flex justify-center">
-                                    <div class="w-6 h-6 rounded-full bg-slate-700/50 text-slate-300 flex items-center justify-center text-xs font-medium">
+                                    <div class="w-6 h-6 rounded-full bg-black/20 text-pink-400 flex items-center justify-center text-xs font-medium">
                                         ${originalIndex + 1}
                                     </div>
                                 </div>
-                                <div class="col-span-9 font-medium text-slate-200">
-                                    ${trainee.name}
+                                <div class="col-span-9 font-medium ${trainee.status === 'ว่าง' ? 'text-pink-300/40' : 'text-pink-100'}">
+                                    ${trainee.name || '-'}
                                 </div>
                                 <div class="col-span-2 text-right flex justify-end">
                                     <span class="border px-3 py-1 rounded-full text-xs font-medium ${badgeColorClass}">
@@ -329,12 +345,12 @@
 
             if (html === '') {
                 html = `
-                <div class="card-bg rounded-2xl border card-border p-12 text-center">
-                    <div class="w-16 h-16 bg-slate-800 rounded-full flex items-center justify-center mx-auto mb-4 text-slate-500">
+                <div class="card-bg rounded-2xl border card-border p-12 text-center shadow-sm shadow-black/5">
+                    <div class="w-16 h-16 bg-black/10 rounded-full flex items-center justify-center mx-auto mb-4 text-pink-500/50">
                         <i data-lucide="search-x" class="w-8 h-8"></i>
                     </div>
-                    <h3 class="text-slate-300 font-medium text-lg">ไม่พบข้อมูล</h3>
-                    <p class="text-slate-500 text-sm mt-1">ลองเปลี่ยนคำค้นหา หรือเลือกดูรุ่นอื่น</p>
+                    <h3 class="text-pink-100 font-medium text-lg">ไม่พบข้อมูล</h3>
+                    <p class="text-pink-300/70 text-sm mt-1">ลองเปลี่ยนคำค้นหา หรือเลือกดูรุ่นอื่น</p>
                 </div>`;
             }
 
