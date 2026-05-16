@@ -439,12 +439,12 @@
         // เพื่อให้ผู้ใช้อื่นที่เปิดผ่านลิ้งก์ GitHub สามารถเชื่อมต่อคลาวด์ได้ทันทีโดยไม่ต้องใส่คีย์เอง
         // =========================================================================
         const defaultFirebaseConfig = {
-            apiKey: "AIzaSyArERDuS3i0AHmLdrS68tMRvi1DYch1d90", // <--- แก้ไขวางค่าจริงตัวเต็มตรงนี้
+            apiKey: "AIzaSyArERDuS3i0AHmLdrS68tMRvi1DYch1d90", 
             authDomain: "edoblock-51e6c.firebaseapp.com",
             projectId: "edoblock-51e6c",
-            storageBucket: "edoblock-51e6c.appspot.com",
+            storageBucket: "edoblock-51e6c.firebasestorage.app",
             messagingSenderId: "426632152384",
-            appId: "1:426632152384:web:3196962baa6364fe06a6a5" // <--- แก้ไขวางค่าจริงตัวเต็มตรงนี้
+            appId: "1:426632152384:web:3196962baa6364fe06a6a5" 
         };
         // =========================================================================
 
@@ -699,10 +699,17 @@
                 if (cloudErrorBanner) cloudErrorBanner.classList.add('hidden'); // ซ่อนแบนเนอร์แจ้งเตือนข้อผิดพลาดเมื่อต่อติดสำเร็จ
 
                 if (snapshot.empty) {
-                    showToast("กำลังสร้างตารางประวัติตั้งต้นลงบนฐานข้อมูลคลาวด์ส่วนตัวของคุณ...", "info");
-                    for (const b of defaultBatches) {
-                        const docRef = doc(db, 'artifacts', finalAppId, 'public', 'data', 'batches', String(b.id));
-                        await setDoc(docRef, b);
+                    try {
+                        showToast("กำลังสร้างตารางประวัติตั้งต้นลงบนฐานข้อมูลคลาวด์ส่วนตัวของคุณ...", "info");
+                        for (const b of defaultBatches) {
+                            const docRef = doc(db, 'artifacts', finalAppId, 'public', 'data', 'batches', String(b.id));
+                            await setDoc(docRef, b);
+                        }
+                    } catch (writeError) {
+                        console.error("Error creating default batches in Firestore:", writeError);
+                        showToast("ไม่สามารถสร้างข้อมูลเริ่มต้นบนคลาวด์ได้เนื่องจากติดสิทธิ์ความปลอดภัย (Security Rules)", "error");
+                        // ดึงข้อมูลเครื่องมาใช้แทนชั่วคราวเพื่อกันแอปพลิเคชันค้าง
+                        switchToLocalMode();
                     }
                 } else {
                     const loadedBatches = [];
