@@ -89,6 +89,20 @@
             </div>
         </div>
 
+        <!-- แถบแจ้งเตือนเมื่อระบบต่อคลาวด์ล้มเหลว (แสดงให้เห็นเพื่อให้รู้ทันทีว่าเครื่องไม่ซิงก์กันเพราะอะไร) -->
+        <div id="cloudErrorBanner" class="hidden bg-amber-500/15 border border-amber-500/30 rounded-2xl p-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 shadow-lg">
+            <div class="flex items-center gap-3 text-amber-300 text-sm">
+                <i data-lucide="alert-triangle" class="w-5 h-5 flex-shrink-0 text-amber-400 animate-bounce"></i>
+                <div>
+                    <span class="font-bold text-amber-200">⚠️ ระบบไม่สามารถซิงก์ข้อมูลระหว่างเครื่องได้ (เชื่อมต่อคลาวด์ล้มเหลว)</span>
+                    <p class="text-xs text-amber-300/80 mt-1">คีย์ Firebase (API Key หรือ App ID) ที่ระบุในเครื่องไม่ถูกต้อง ส่งผลให้เครื่องนี้และเครื่องอื่นสลับไปใช้ 'โหมดออฟไลน์แยกกัน'</p>
+                </div>
+            </div>
+            <button onclick="openModal('loginModal')" class="bg-amber-500 hover:bg-amber-400 text-black text-xs font-bold px-4 py-2 rounded-xl transition-all flex items-center gap-1.5 flex-shrink-0">
+                <i data-lucide="lock" class="w-4 h-4"></i> ล็อกอิน Admin เพื่อแก้คีย์คลาวด์
+            </button>
+        </div>
+
         <!-- แถบเตือนผู้ใช้ทั่วไปเมื่อเข้าใช้งานเว็บครั้งแรกแบบไม่มี Cloud -->
         <div id="setupAlertBanner" class="hidden bg-orange-500/10 border border-orange-500/30 rounded-2xl p-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
             <div class="flex items-center gap-3 text-orange-300 text-sm">
@@ -351,8 +365,9 @@
 
             <div class="space-y-3">
                 <div>
-                    <label class="block text-xs text-pink-300/70 mb-1 font-medium">API Key</label>
+                    <label class="block text-xs text-pink-300/70 mb-1 font-medium">API Key *</label>
                     <input type="text" id="cfg_apiKey" placeholder="AIzaSy..." class="w-full px-3 py-2 bg-[#2d222b] border card-border rounded-xl text-pink-100 focus:outline-none focus:border-pink-500 text-xs font-mono">
+                    <p class="text-[10px] text-amber-400 mt-1">⚠️ ตรวจสอบให้มั่นใจว่ารหัสยาวครบถ้วน ไม่มีเครื่องหมาย '...' ติดมาที่ส่วนท้าย</p>
                 </div>
                 <div class="grid grid-cols-2 gap-3">
                     <div>
@@ -375,8 +390,9 @@
                     </div>
                 </div>
                 <div>
-                    <label class="block text-xs text-pink-300/70 mb-1 font-medium">App ID</label>
+                    <label class="block text-xs text-pink-300/70 mb-1 font-medium">App ID *</label>
                     <input type="text" id="cfg_appId" placeholder="1:1234..." class="w-full px-3 py-2 bg-[#2d222b] border card-border rounded-xl text-pink-100 focus:outline-none focus:border-pink-500 text-xs font-mono">
+                    <p class="text-[10px] text-amber-400 mt-1">⚠️ ตรวจสอบตัวเลขส่วนท้ายสุดของ App ID ให้สมบูรณ์และยาวครบ 24 ตัวหลัก</p>
                 </div>
                 <div>
                     <label class="block text-xs text-pink-300/70 mb-1 font-medium">Custom App Sync ID (ชื่อห้องของข้อมูล)</label>
@@ -386,13 +402,14 @@
 
                 <!-- วิธีตั้งค่าแบบรวบรัด -->
                 <div class="mt-4 bg-black/20 p-3 rounded-xl border card-border text-xs text-pink-300/80 space-y-1">
-                    <p class="font-bold text-pink-100 mb-1">🛠️ ขั้นตอนเปิดใช้งานคลาวด์ส่วนตัว:</p>
-                    <p>1. สมัครใช้งาน <a href="https://console.firebase.google.com/" target="_blank" class="text-pink-400 hover:underline">Firebase Console</a> และสร้าง Project ใหม่</p>
-                    <p>2. เปิดใช้งาน <strong>Firestore Database</strong> และเปิดใช้ <strong>Anonymous Sign-in</strong> ในแท็บ Authentication</p>
-                    <p>3. คัดลอกข้อมูลพารามิเตอร์ของ Web App ในโปรเจกต์คุณมาวางด้านบน</p>
+                    <p class="font-bold text-pink-100 mb-1">🛠️ วิธีคัดลอกค่าเชื่อมต่อให้ถูกต้อง 100%:</p>
+                    <p>1. ไปที่ <a href="https://console.firebase.google.com/" target="_blank" class="text-pink-400 hover:underline">Firebase Console</a> ของโปรเจกต์คุณ</p>
+                    <p>2. กดรูปเฟือง ⚙️ (Project Settings) ที่เมนูด้านซ้ายล่างสุด</p>
+                    <p>3. เลื่อนลงมาด้านล่างสุดตรงแท็บ <strong>"Your apps"</strong></p>
+                    <p>4. เลือกแท็บ <strong>"CDN"</strong> หรือคัดลอกวัตถุ <code class="text-yellow-300 font-mono">firebaseConfig</code> ทั้งหมดมาวาง (ห้ามมีอักขระพิเศษ ... ติดมาด้วยเด็ดขาด)</p>
                 </div>
 
-                <div class="flex gap-2 pt-4 border-t card-border">
+                <div class="flex gap-2 pt-4 border-t border-gray-700">
                     <button onclick="clearCustomFirebase()" class="py-2 px-4 border border-rose-500/30 text-rose-300 text-xs font-semibold rounded-xl hover:bg-rose-500/10 transition-colors">
                         ยกเลิกการใช้คลาวด์ (กลับสู่ Demo)
                     </button>
@@ -418,6 +435,7 @@
         import { getFirestore, doc, setDoc, getDoc, collection, onSnapshot, deleteDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         // --- คอนฟิกเริ่มต้นของโปรเจกต์คุณ (ฝังข้อมูลถาวรเพื่อแก้ปัญหาเรื่องเปลี่ยนเครื่องแล้วค่าหาย) ---
+        // ข้อสังเกต: หากรหัสยังคงล้มเหลวกรุณากดเปิดใช้งาน Anonymous Sign-in ที่หน้าหลัก Firebase Authentication ด้วยนะครับ
         const defaultFirebaseConfig = {
             apiKey: "AIzaSyArERDuS3i0AHmLdrS68tMRvi1DYch1d90",
             authDomain: "edoblock-51e6c.firebaseapp.com",
@@ -531,6 +549,7 @@
         let searchQuery = '';
         let isAdmin = sessionStorage.getItem('isAdminMode') === 'true';
         let connectionTimeout = null;
+        let firebaseAdminPassword = null; // เก็บค่ารหัสผ่าน Admin ที่ดึงมาจาก Cloud Firestore
 
         // --- DOM Elements ---
         const searchInput = document.getElementById('searchInput');
@@ -556,6 +575,7 @@
         const cloudStatusText = document.getElementById('cloudStatusText');
         const setupAlertBanner = document.getElementById('setupAlertBanner');
         const cloudConfigBtn = document.getElementById('cloudConfigBtn');
+        const cloudErrorBanner = document.getElementById('cloudErrorBanner');
 
         // --- เริ่มต้นระบบคลาวด์ หรือโหมดออฟไลน์ ---
         const startApp = async () => {
@@ -564,6 +584,8 @@
                 if (batches.length === 0) {
                     console.warn("Firebase connection timeout, falling back to local mode.");
                     showToast("การเชื่อมต่อฐานข้อมูลคลาวด์ล่าช้า ระบบเปลี่ยนไปใช้โหมดในเครื่องชั่วคราว", "warning");
+                    
+                    if (cloudErrorBanner) cloudErrorBanner.classList.remove('hidden');
                     switchToLocalMode();
                 }
             }, 4000);
@@ -593,6 +615,8 @@
                 } catch (error) {
                     console.error("Cloud Initialization Error:", error);
                     showToast("ไม่สามารถเปิดระบบเชื่อมคลาวด์ได้ คีย์ตั้งค่าอาจไม่ถูกต้องหรือหมดสิทธิ์เข้าถึง", "error");
+                    
+                    if (cloudErrorBanner) cloudErrorBanner.classList.remove('hidden');
                     clearTimeout(connectionTimeout);
                     switchToLocalMode();
                 }
@@ -639,20 +663,37 @@
                 }
             } catch (error) {
                 console.error("Firebase Auth Error:", error);
-                showToast("ระบบความปลอดภัยปฏิเสธสิทธิ์ (คีย์ API ไม่ถูกต้อง) สลับการทำงานไปใช้โหมดออฟไลน์เพื่อใช้งานต่อ...", "warning");
-                // หากคีย์คลาวด์หรือคีย์ API ที่แอดมินใส่ไว้ไม่ถูกต้อง ให้สลับเข้าสู่ Offline Demo อัตโนมัติป้องกันแอปค้างทันที
+                showToast("สิทธิ์คีย์ API ไม่ถูกต้องหรือถูกปฏิเสธ กำลังสลับการทำงานไปใช้โหมดออฟไลน์เพื่อใช้งานต่อ...", "warning");
+                
+                if (cloudErrorBanner) cloudErrorBanner.classList.remove('hidden');
                 switchToLocalMode();
             }
         };
 
         let unsubscribe = null;
+        let unsubscribeAdmin = null;
+
         function setupFirestoreSync() {
             if (!user || !db) return;
 
             const collectionRef = collection(db, 'artifacts', finalAppId, 'public', 'data', 'batches');
 
+            // ซิงก์รหัสผ่านแอดมินร่วมกันข้ามเครื่องผ่าน Firebase คลาวด์
+            const adminSettingsRef = doc(db, 'artifacts', finalAppId, 'public', 'data', 'settings', 'admin');
+            unsubscribeAdmin = onSnapshot(adminSettingsRef, (docSnap) => {
+                if (docSnap.exists()) {
+                    const adminData = docSnap.data();
+                    if (adminData && adminData.password) {
+                        firebaseAdminPassword = adminData.password;
+                    }
+                }
+            }, (err) => {
+                console.warn("ไม่สามารถซิงก์รหัสผ่านแอดมินจากคลาวด์ได้เนื่องจากสิทธิ์เข้าถึง:", err);
+            });
+
             unsubscribe = onSnapshot(collectionRef, async (snapshot) => {
                 if (connectionTimeout) clearTimeout(connectionTimeout); // ยกเลิกการนับเวลาถอยหลังเมื่อโหลดสำเร็จ
+                if (cloudErrorBanner) cloudErrorBanner.classList.add('hidden'); // ซ่อนแบนเนอร์แจ้งเตือนข้อผิดพลาดเมื่อต่อติดสำเร็จ
 
                 if (snapshot.empty) {
                     showToast("กำลังสร้างตารางประวัติตั้งต้นลงบนฐานข้อมูลคลาวด์ส่วนตัวของคุณ...", "info");
@@ -679,8 +720,10 @@
                 }
             }, (error) => {
                 console.error("Firestore Error:", error);
-                showToast("สิทธิ์การเข้าถึงข้อมูลคลาวด์ไม่สำเร็จ กรุณาแก้ไขกฎ Firebase Firestore Rules", "error");
-                switchToLocalMode(); // ล้มเหลวให้กลับไปใช้แบบ Local แทนที่จะเกิดค้าง
+                showToast("สิทธิ์การเข้าถึงข้อมูลคลาวด์ไม่สำเร็จ กรุณาตรวจสอบกฎของ Firestore Database Rules", "error");
+                
+                if (cloudErrorBanner) cloudErrorBanner.classList.remove('hidden');
+                switchToLocalMode(); 
             });
         }
 
@@ -1072,7 +1115,10 @@
 
         function submitLogin() {
             const passwordInput = document.getElementById('adminPassword');
-            const targetPassword = localStorage.getItem('custom_admin_password') || 'admin123';
+            const localPassword = localStorage.getItem('custom_admin_password') || 'admin123';
+            
+            // เลือกใช้รหัสผ่านที่ซิงก์จาก Firebase ก่อน หากไม่มีค่อยถอยกลับไปใช้ของเครื่องปัจจุบัน
+            const targetPassword = firebaseAdminPassword || localPassword;
             
             if (passwordInput && passwordInput.value === targetPassword) {
                 isAdmin = true;
@@ -1089,14 +1135,30 @@
         }
 
         // บันทึกเปลี่ยนรหัสผ่านใหม่
-        function saveAdminPassword() {
+        async function saveAdminPassword() {
             const newPwdInput = document.getElementById('newAdminPassword');
             const newPwd = newPwdInput ? newPwdInput.value.trim() : '';
             if (newPwd.length < 6) {
                 return showToast("รหัสผ่านต้องมีความยาวอย่างน้อย 6 ตัวอักษร", "warning");
             }
+
+            // 1. บันทึกลงหน่วยความจำเครื่องสำรอง
             localStorage.setItem('custom_admin_password', newPwd);
-            showToast("เปลี่ยนรหัสผ่าน Admin เรียบร้อยแล้ว", "success");
+
+            // 2. ซิงก์ขึ้น Firebase คลาวด์ เพื่อให้อุปกรณ์อื่นรับรู้รหัสผ่านใหม่เดียวกัน
+            if (usingCloud && db && user) {
+                try {
+                    const adminSettingsRef = doc(db, 'artifacts', finalAppId, 'public', 'data', 'settings', 'admin');
+                    await setDoc(adminSettingsRef, { password: newPwd });
+                    showToast("เปลี่ยนรหัสผ่าน Admin และอัปเดตขึ้นระบบคลาวด์สำเร็จ!", "success");
+                } catch (err) {
+                    console.error("Cloud password sync error:", err);
+                    showToast("เปลี่ยนรหัสผ่านในเครื่องสำเร็จ แต่ไม่สามารถซิงก์ขึ้นคลาวด์ได้", "warning");
+                }
+            } else {
+                showToast("เปลี่ยนรหัสผ่านในเครื่องเรียบร้อยแล้ว (กำลังใช้งานในโหมดออฟไลน์)", "success");
+            }
+            
             closeModal('adminPasswordModal');
             if (newPwdInput) newPwdInput.value = '';
         }
