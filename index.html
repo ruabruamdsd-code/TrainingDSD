@@ -36,15 +36,15 @@
                 </div>
                 <div>
                     <h1 class="text-lg font-bold text-pink-50 leading-tight">รายชื่อฝึกอบรม การเพ้นท์เล็บเบื้องต้น</h1>
-                    <p class="text-xs text-pink-300/70">สำนักงานพัฒนาฝีมือแรงงานลพบุรี (ระบบเชื่อมต่อคลาวด์)</p>
+                    <p class="text-xs text-pink-300/70">สำนักงานพัฒนาฝีมือแรงงานลพบุรี (ระบบเชื่อมต่อคลาวด์เรียลไทม์)</p>
                 </div>
             </div>
             
             <div class="flex flex-wrap items-center gap-2 sm:gap-3">
-                <!-- ตัวบอกสถานะเชื่อมต่อคลาวด์ (แสดงเฉพาะแอดมิน เพื่อความสะอาดตาของผู้ใช้ทั่วไป) -->
-                <button onclick="openModal('cloudConfigModal')" id="cloudStatusBadge" class="hidden flex items-center gap-1.5 bg-orange-500/10 hover:bg-orange-500/20 border border-orange-500/30 text-orange-300 text-xs px-3 py-1.5 rounded-full font-medium transition-all">
-                    <span class="w-2 h-2 rounded-full bg-orange-500 animate-pulse"></span>
-                    <span id="cloudStatusText">Offline Demo</span>
+                <!-- ตัวบอกสถานะเชื่อมต่อคลาวด์เรียลไทม์ -->
+                <button onclick="openModal('cloudConfigModal')" id="cloudStatusBadge" class="flex items-center gap-1.5 bg-yellow-500/10 border border-yellow-500/30 text-yellow-300 text-xs px-3 py-1.5 rounded-full font-medium transition-all">
+                    <span class="w-2 h-2 rounded-full bg-yellow-500 animate-pulse"></span>
+                    <span id="cloudStatusText">กำลังเชื่อมต่อ...</span>
                 </button>
                 
                 <!-- คืนค่า Badge บอกจำนวนผู้เข้าอบรมหลัก -->
@@ -63,8 +63,8 @@
                     <span id="adminBtnText">เข้าสู่ระบบ Admin</span>
                 </button>
                 
-                <!-- ปุ่มตั้งค่าคลาวด์หลัก (ซ่อนไว้เริ่มต้น จะแสดงเฉพาะแอดมิน) -->
-                <button id="cloudConfigBtn" onclick="openModal('cloudConfigModal')" class="hidden p-2 bg-pink-500/10 hover:bg-pink-500/20 border border-pink-500/20 text-pink-300 rounded-xl transition-all" title="ตั้งค่าการเชื่อมต่อ Firebase">
+                <!-- ปุ่มตั้งค่าคลาวด์หลัก -->
+                <button id="cloudConfigBtn" onclick="openModal('cloudConfigModal')" class="p-2 bg-pink-500/10 hover:bg-pink-500/20 border border-pink-500/20 text-pink-300 rounded-xl transition-all" title="ตั้งค่าการเชื่อมต่อ Firebase">
                     <i data-lucide="settings" class="w-4 h-4"></i>
                 </button>
             </div>
@@ -77,7 +77,7 @@
         <div id="adminBanner" class="hidden bg-pink-500/10 border border-pink-500/30 rounded-2xl p-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
             <div class="flex items-center gap-3 text-pink-300 text-sm">
                 <span class="w-2.5 h-2.5 rounded-full bg-green-500 animate-pulse"></span>
-                <span>คุณกำลังเปิดใช้งานใน <strong>โหมดผู้ดูแลระบบ (Admin Mode)</strong> คุณสามารถทำการเพิ่ม แก้ไข หรือลบข้อมูลได้ตามต้องการ</span>
+                <span>คุณกำลังเปิดใช้งานใน <strong>โหมดผู้ดูแลระบบ (Admin Mode)</strong> ข้อมูลจะถูกบันทึกขึ้นระบบคลาวด์โดยตรงแบบเรียลไทม์</span>
             </div>
             <div class="flex items-center gap-3">
                 <button onclick="openModal('adminPasswordModal')" class="text-xs text-yellow-400 hover:text-yellow-300 underline font-medium">
@@ -87,31 +87,6 @@
                     ออกจากโหมดนี้
                 </button>
             </div>
-        </div>
-
-        <!-- แถบแจ้งเตือนเมื่อระบบต่อคลาวด์ล้มเหลว (แสดงให้เห็นเฉพาะเมื่อผู้ใช้ล็อกอินแอดมิน เพื่อความสวยงาม) -->
-        <div id="cloudErrorBanner" class="hidden bg-amber-500/15 border border-amber-500/30 rounded-2xl p-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 shadow-lg">
-            <div class="flex items-center gap-3 text-amber-300 text-sm">
-                <i data-lucide="alert-triangle" class="w-5 h-5 flex-shrink-0 text-amber-400 animate-bounce"></i>
-                <div>
-                    <span class="font-bold text-amber-200">⚠️ ระบบไม่สามารถซิงก์ข้อมูลระหว่างเครื่องได้ (เชื่อมต่อคลาวด์ล้มเหลว)</span>
-                    <p class="text-xs text-amber-300/80 mt-1">คีย์ Firebase ที่ฝังอยู่ในโค้ดยังไม่ถูกต้อง หรือยังไม่ได้เปิดใช้งาน Firestore/Anonymous login ส่งผลให้เครื่องนี้สลับไปใช้ 'โหมดออฟไลน์แยกกัน'</p>
-                </div>
-            </div>
-            <button onclick="openModal('cloudConfigModal')" class="bg-amber-500 hover:bg-amber-400 text-black text-xs font-bold px-4 py-2 rounded-xl transition-all flex items-center gap-1.5 flex-shrink-0">
-                <i data-lucide="settings" class="w-4 h-4"></i> ตั้งค่าแก้ไขคีย์คลาวด์
-            </button>
-        </div>
-
-        <!-- แถบเตือนผู้ใช้ทั่วไปเมื่อเข้าใช้งานเว็บครั้งแรกแบบไม่มี Cloud -->
-        <div id="setupAlertBanner" class="hidden bg-orange-500/10 border border-orange-500/30 rounded-2xl p-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-            <div class="flex items-center gap-3 text-orange-300 text-sm">
-                <i data-lucide="cloud-off" class="w-5 h-5 flex-shrink-0"></i>
-                <span><strong>ระบบทำงานในโหมดออฟไลน์ (Demo):</strong> ข้อมูลทั้งหมดจะถูกเซฟในเครื่องคุณเท่านั้น หากต้องการเปิดใช้งานฐานข้อมูลร่วมกันแบบเรียลไทม์ กรุณาตั้งค่าเชื่อมต่อ Firebase</span>
-            </div>
-            <button onclick="openModal('cloudConfigModal')" class="bg-orange-500 hover:bg-orange-400 text-white text-xs font-bold px-4 py-2 rounded-xl transition-all flex items-center gap-1.5">
-                <i data-lucide="cloud-lightning" class="w-4 h-4"></i> ตั้งค่าเชื่อมต่อ Firebase
-            </button>
         </div>
 
         <!-- Stats Grid -->
@@ -190,7 +165,7 @@
         <div id="listsContainer" class="space-y-6">
             <div class="flex flex-col items-center justify-center py-20 text-pink-400">
                 <div class="w-12 h-12 border-4 border-pink-500/25 border-t-pink-500 rounded-full animate-spin mb-4"></div>
-                <p class="text-pink-300/70 text-sm">กำลังเชื่อมต่อฐานข้อมูล...</p>
+                <p class="text-pink-300/70 text-sm">กำลังเชื่อมต่อฐานข้อมูลคลาวด์...</p>
             </div>
         </div>
 
@@ -411,7 +386,7 @@
 
                 <div class="flex gap-2 pt-4 border-t border-gray-700">
                     <button onclick="clearCustomFirebase()" class="py-2 px-4 border border-rose-500/30 text-rose-300 text-xs font-semibold rounded-xl hover:bg-rose-500/10 transition-colors">
-                        ยกเลิกการใช้คลาวด์ (กลับสู่ Demo)
+                        ยกเลิกการใช้คลาวด์
                     </button>
                     <div class="flex-1"></div>
                     <button onclick="closeModal('cloudConfigModal')" class="py-2 px-4 border card-border text-pink-300 text-xs font-semibold rounded-xl hover:bg-white/5 transition-colors">
@@ -430,21 +405,20 @@
 
     <!-- ==================== FIREBASE & LOGIC IMPORTS ==================== -->
     <script type="module">
-        import { initializeApp, getApp, getApps } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInWithCustomToken, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, doc, setDoc, getDoc, collection, onSnapshot, deleteDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         // =========================================================================
-        // 🚨 สำคัญที่สุด! คัดลอกค่า Firebase Config ของคุณแบบ "สมบูรณ์ (ห้ามมีจุดไข่ปลา ...)" มาวางตรงนี้
-        // เพื่อให้ผู้ใช้อื่นที่เปิดผ่านลิ้งก์ GitHub สามารถเชื่อมต่อคลาวด์ได้ทันทีโดยไม่ต้องใส่คีย์เอง
+        // 🚨 ค่าเชื่อมต่อ Firebase คลาวด์จริงของคุณแบบสมบูรณ์
         // =========================================================================
         const defaultFirebaseConfig = {
-            apiKey: "AIzaSyArERDuS3i0AHmLdrS68tMRvi1DYch1d90", 
+            apiKey: "AIzaSyAWXcS3UGqNLzFsNk0PgCTIveeLIkSOYTs", 
             authDomain: "edoblock-51e6c.firebaseapp.com",
             projectId: "edoblock-51e6c",
             storageBucket: "edoblock-51e6c.firebasestorage.app",
             messagingSenderId: "426632152384",
-            appId: "1:426632152384:web:3196962baa6364fe06a6a5" 
+            appId: "1:426632152384:web:73d4c59491c289f206a6a5" 
         };
         // =========================================================================
 
@@ -461,13 +435,12 @@
             }
         }
 
-        // --- ตัดสินใจใช้ Firebase Config ตัวไหน (จัดสิทธิ์ให้ระบบ Sandbox รันได้ไม่ติด API Key Error) ---
+        // --- ตัดสินใจเลือกใช้ Config ---
         let usingCloud = false;
         let finalConfig = null;
         let finalAppId = localAppId || 'nail-art-training-lobpuri';
 
         if (typeof __firebase_config !== 'undefined' && __firebase_config) {
-            // 1. ทำงานบน Sandbox สภาพแวดล้อมจำลอง (Preview Environment) - ให้สิทธิ์สูงสุดเพื่อรองรับการพรีวิวแบบเรียลไทม์
             try {
                 finalConfig = JSON.parse(__firebase_config);
                 finalAppId = typeof __app_id !== 'undefined' ? __app_id : 'nail-art-training-lobpuri';
@@ -476,16 +449,14 @@
                 console.error("Sandbox config parse error", e);
             }
         } else if (customConfig && customConfig.apiKey) {
-            // 2. โหลด Config ส่วนตัวที่แอดมินเซฟไว้ในเครื่อง
             finalConfig = customConfig;
             usingCloud = true;
-        } else if (defaultFirebaseConfig && defaultFirebaseConfig.apiKey && !defaultFirebaseConfig.apiKey.includes("แก้ไขวางค่าจริง")) {
-            // 3. ใช้คีย์โครงการเริ่มต้นที่ฝังไว้
+        } else if (defaultFirebaseConfig && defaultFirebaseConfig.apiKey) {
             finalConfig = defaultFirebaseConfig;
             usingCloud = true;
         }
 
-        // --- ข้อมูลจำลองตั้งต้น (เมื่อทำงานออฟไลน์/เปิดใช้งานครั้งแรก) ---
+        // --- ข้อมูลจำลองตั้งต้น (ใช้เฉพาะตอนเริ่มฐานข้อมูลคลาวด์เป็นครั้งแรก) ---
         const maxPerBatch = 20;
         const defaultBatches = [
             {
@@ -552,7 +523,7 @@
         let searchQuery = '';
         let isAdmin = sessionStorage.getItem('isAdminMode') === 'true';
         let connectionTimeout = null;
-        let firebaseAdminPassword = null; // เก็บค่ารหัสผ่าน Admin ที่ดึงมาจาก Cloud Firestore
+        let firebaseAdminPassword = null; 
 
         // --- DOM Elements ---
         const searchInput = document.getElementById('searchInput');
@@ -576,22 +547,20 @@
         // Cloud Info
         const cloudStatusBadge = document.getElementById('cloudStatusBadge');
         const cloudStatusText = document.getElementById('cloudStatusText');
-        const setupAlertBanner = document.getElementById('setupAlertBanner');
         const cloudConfigBtn = document.getElementById('cloudConfigBtn');
-        const cloudErrorBanner = document.getElementById('cloudErrorBanner');
 
-        // --- เริ่มต้นระบบคลาวด์ หรือโหมดออฟไลน์ ---
+        // --- เริ่มต้นสถาปัตยกรรมคลาวด์ ---
         const startApp = async () => {
-            // ตั้งเวลาตรวจสอบความล่าช้า 4 วินาที ป้องกันหน้าจอโหลดค้างหากอินเทอร์เน็ตมีปัญหาหรือตั้งค่าผิดพลาด
+            showLoadingIndicator();
+            setCloudStatus('connecting');
+
             connectionTimeout = setTimeout(() => {
                 if (batches.length === 0) {
-                    console.warn("Firebase connection timeout, falling back to local mode.");
-                    showToast("การเชื่อมต่อฐานข้อมูลคลาวด์ล่าช้า ระบบเปลี่ยนไปใช้โหมดในเครื่องชั่วคราว", "warning");
-                    
-                    if (cloudErrorBanner && isAdmin) cloudErrorBanner.classList.remove('hidden');
-                    switchToLocalMode();
+                    console.warn("Firestore connection slow...");
+                    setCloudStatus('slow');
+                    showToast("⏳ การเชื่อมต่อคลาวด์ล่าช้า กรุณาตรวจสอบอินเทอร์เน็ตหรือความถูกต้องของคีย์ Firebase", "warning");
                 }
-            }, 4000);
+            }, 6000);
 
             if (usingCloud) {
                 try {
@@ -599,14 +568,7 @@
                     auth = getAuth(appInstance);
                     db = getFirestore(appInstance);
 
-                    // อัปเดตสถานะ Badge หน้าจอ
-                    if (cloudStatusBadge && isAdmin) {
-                        cloudStatusBadge.className = "flex items-center gap-1.5 bg-green-500/10 hover:bg-green-500/20 border border-green-500/30 text-green-300 text-xs px-3 py-1.5 rounded-full font-medium transition-all";
-                    }
-                    if (cloudStatusText) cloudStatusText.textContent = "Cloud Connected";
-                    if (setupAlertBanner) setupAlertBanner.classList.add('hidden');
-
-                    // ติดตาม Auth State
+                    // ตรวจจับล็อกอินเรียลไทม์
                     onAuthStateChanged(auth, (currentUser) => {
                         user = currentUser;
                         if (user) {
@@ -616,47 +578,39 @@
 
                     await initAuthAndSync();
                 } catch (error) {
-                    console.error("Cloud Initialization Error:", error);
-                    showToast("ไม่สามารถเปิดระบบเชื่อมคลาวด์ได้ คีย์ตั้งค่าอาจไม่ถูกต้องหรือหมดสิทธิ์เข้าถึง", "error");
-                    
-                    if (cloudErrorBanner && isAdmin) cloudErrorBanner.classList.remove('hidden');
                     clearTimeout(connectionTimeout);
-                    switchToLocalMode();
+                    console.error("Cloud Init Fail:", error);
+                    setCloudStatus('error');
+                    showErrorScreen("เกิดข้อผิดพลาดในการเริ่มต้น SDK คลาวด์", error.message);
                 }
             } else {
                 clearTimeout(connectionTimeout);
-                switchToLocalMode();
+                setCloudStatus('error');
+                showErrorScreen("ไม่มีคีย์ตั้งค่าเชื่อมต่อ Firebase", "กรุณากดปุ่มเครื่องหมายฟันเฟือง ⚙️ ด้านขวาบนเพื่อกรอกข้อมูลเชื่อมต่อ Firebase ของคุณ");
             }
         };
 
-        function switchToLocalMode() {
-            if (connectionTimeout) clearTimeout(connectionTimeout);
-            
-            if (cloudStatusBadge && isAdmin) {
+        // แสดงสถานะการเชื่อมต่อ
+        function setCloudStatus(status) {
+            if (!cloudStatusBadge || !cloudStatusText) return;
+            cloudStatusBadge.classList.remove('hidden');
+
+            if (status === 'connected') {
+                cloudStatusBadge.className = "flex items-center gap-1.5 bg-green-500/10 hover:bg-green-500/20 border border-green-500/30 text-green-300 text-xs px-3 py-1.5 rounded-full font-medium transition-all";
+                cloudStatusText.textContent = "เชื่อมต่อคลาวด์เรียบร้อย";
+            } else if (status === 'connecting') {
+                cloudStatusBadge.className = "flex items-center gap-1.5 bg-yellow-500/10 hover:bg-yellow-500/20 border border-yellow-500/30 text-yellow-300 text-xs px-3 py-1.5 rounded-full font-medium transition-all";
+                cloudStatusText.textContent = "กำลังเชื่อมต่อ...";
+            } else if (status === 'slow') {
                 cloudStatusBadge.className = "flex items-center gap-1.5 bg-orange-500/10 hover:bg-orange-500/20 border border-orange-500/30 text-orange-300 text-xs px-3 py-1.5 rounded-full font-medium transition-all";
+                cloudStatusText.textContent = "การเชื่อมต่อล่าช้า";
+            } else if (status === 'error') {
+                cloudStatusBadge.className = "flex items-center gap-1.5 bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/30 text-rose-300 text-xs px-3 py-1.5 rounded-full font-medium transition-all";
+                cloudStatusText.textContent = "ไม่ได้เชื่อมต่อคลาวด์";
             }
-            if (cloudStatusText) cloudStatusText.textContent = "Offline Demo Mode";
-            if (setupAlertBanner && !usingCloud) setupAlertBanner.classList.remove('hidden');
-
-            // ใช้ข้อมูลจาก LocalStorage
-            const savedData = localStorage.getItem('local_training_batches');
-            if (savedData) {
-                try {
-                    batches = JSON.parse(savedData);
-                } catch(e) {
-                    batches = defaultBatches;
-                }
-            } else {
-                batches = defaultBatches;
-                localStorage.setItem('local_training_batches', JSON.stringify(batches));
-            }
-
-            updateStats();
-            renderTabs();
-            renderLists();
         }
 
-        // --- ซิงก์ข้อมูล Firebase (เมื่ออยู่ในโหมด Cloud) ---
+        // --- ล็อกอินนิรนามส่ง Firebase ---
         const initAuthAndSync = async () => {
             try {
                 if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
@@ -665,23 +619,23 @@
                     await signInAnonymously(auth);
                 }
             } catch (error) {
-                console.error("Firebase Auth Error:", error);
-                showToast("สิทธิ์คีย์ API ไม่ถูกต้องหรือถูกปฏิเสธ กำลังสลับการทำงานไปใช้โหมดออฟไลน์เพื่อใช้งานต่อ...", "warning");
-                
-                if (cloudErrorBanner && isAdmin) cloudErrorBanner.classList.remove('hidden');
-                switchToLocalMode();
+                clearTimeout(connectionTimeout);
+                console.error("Auth Fail:", error);
+                setCloudStatus('error');
+                showErrorScreen("สิทธิ์เข้าใช้งานเซิร์ฟเวอร์คลาวด์ไม่สำเร็จ (Authentication Failed)", error.message);
             }
         };
 
         let unsubscribe = null;
         let unsubscribeAdmin = null;
 
+        // --- ซิงค์ดึงข้อมูลแบบ Real-Time จากคลาวด์ ---
         function setupFirestoreSync() {
             if (!user || !db) return;
 
             const collectionRef = collection(db, 'artifacts', finalAppId, 'public', 'data', 'batches');
 
-            // ซิงก์รหัสผ่านแอดมินร่วมกันข้ามเครื่องผ่าน Firebase คลาวด์
+            // ติดตามการตั้งค่ารหัสผ่าน Admin จากคลาวด์ส่วนกลาง
             const adminSettingsRef = doc(db, 'artifacts', finalAppId, 'public', 'data', 'settings', 'admin');
             unsubscribeAdmin = onSnapshot(adminSettingsRef, (docSnap) => {
                 if (docSnap.exists()) {
@@ -691,25 +645,25 @@
                     }
                 }
             }, (err) => {
-                console.warn("ไม่สามารถซิงก์รหัสผ่านแอดมินจากคลาวด์ได้เนื่องจากสิทธิ์เข้าถึง:", err);
+                console.warn("สิทธิ์เข้าถึงพาสเวิร์ดแอดมินถูกปิดกั้น:", err);
             });
 
+            // ซิงค์ตารางรุ่นผู้ฝึกอบรม
             unsubscribe = onSnapshot(collectionRef, async (snapshot) => {
-                if (connectionTimeout) clearTimeout(connectionTimeout); // ยกเลิกการนับเวลาถอยหลังเมื่อโหลดสำเร็จ
-                if (cloudErrorBanner) cloudErrorBanner.classList.add('hidden'); // ซ่อนแบนเนอร์แจ้งเตือนข้อผิดพลาดเมื่อต่อติดสำเร็จ
+                if (connectionTimeout) clearTimeout(connectionTimeout);
+                setCloudStatus('connected');
 
+                // กรณีฐานข้อมูลคลาวด์ว่างเปล่า (เข้าใช้ครั้งแรก) ให้ระบบปั๊มข้อมูลตั้งต้นให้อัตโนมัติ
                 if (snapshot.empty) {
                     try {
-                        showToast("กำลังสร้างตารางประวัติตั้งต้นลงบนฐานข้อมูลคลาวด์ส่วนตัวของคุณ...", "info");
+                        showToast("☁️ กำลังเตรียมข้อมูลเริ่มต้นลงบนระบบคลาวด์เป็นครั้งแรก...", "info");
                         for (const b of defaultBatches) {
                             const docRef = doc(db, 'artifacts', finalAppId, 'public', 'data', 'batches', String(b.id));
                             await setDoc(docRef, b);
                         }
                     } catch (writeError) {
-                        console.error("Error creating default batches in Firestore:", writeError);
-                        showToast("ไม่สามารถสร้างข้อมูลเริ่มต้นบนคลาวด์ได้เนื่องจากติดสิทธิ์ความปลอดภัย (Security Rules)", "error");
-                        // ดึงข้อมูลเครื่องมาใช้แทนชั่วคราวเพื่อกันแอปพลิเคชันค้าง
-                        switchToLocalMode();
+                        console.error("Initial Populate Error:", writeError);
+                        showErrorScreen("ติดกฎความปลอดภัย: ไม่สามารถเขียนข้อมูลเริ่มต้นลงคลาวด์ได้", writeError.message);
                     }
                 } else {
                     const loadedBatches = [];
@@ -717,6 +671,7 @@
                         loadedBatches.push(docSnap.data());
                     });
 
+                    // เรียงสลับตารางให้รายชื่อปกติอยู่ก่อน และรายชื่อสำรองอยู่ท้าย
                     loadedBatches.sort((a, b) => {
                         if (a.id === 'reserve') return 1;
                         if (b.id === 'reserve') return -1;
@@ -729,15 +684,81 @@
                     renderLists();
                 }
             }, (error) => {
+                if (connectionTimeout) clearTimeout(connectionTimeout);
+                setCloudStatus('error');
                 console.error("Firestore Error:", error);
-                showToast("สิทธิ์การเข้าถึงข้อมูลคลาวด์ไม่สำเร็จ กรุณาตรวจสอบกฎของ Firestore Database Rules", "error");
-                
-                if (cloudErrorBanner && isAdmin) cloudErrorBanner.classList.remove('hidden');
-                switchToLocalMode(); 
+                showErrorScreen("ติดสิทธิ์ความปลอดภัยคลาวด์ (Security Rules Blocked)", error.message);
             });
         }
 
-        // --- บันทึกข้อมูล (รองรับทั้ง คลาวด์ และ ออฟไลน์) ---
+        // --- แสดงกล่องช่วยเหลือภาษาไทย แนะนำแอดมินให้แก้ปัญหา Firebase ใน 2 คลิก ---
+        function showErrorScreen(title, message) {
+            let guideHTML = '';
+
+            // ตรวจหาอาการ Rules บล็อก
+            if (message.includes('permission-denied') || title.includes('Rules') || title.includes('ความปลอดภัย')) {
+                guideHTML = `
+                    <div class="mt-4 bg-rose-500/10 border border-rose-500/20 p-4 rounded-xl text-left text-xs text-rose-300 space-y-2">
+                        <p class="font-bold text-rose-200">🛠| วิธีอัปเดตสิทธิ์ให้หน้าเว็บเขียนขึ้นคลาวด์ได้ทันที:</p>
+                        <p>1. ไปที่ <a href="https://console.firebase.google.com/" target="_blank" class="text-pink-400 underline font-semibold">Firebase Console</a> ของโครงการคุณ</p>
+                        <p>2. เข้าเมนู <b>Firestore Database</b> ที่แถบด้านซ้าย -> เลือกแท็บ <b>Rules</b> ด้านบน</p>
+                        <p>3. เขียนกฎอนุญาตให้อ่านและเขียนสาธารณะโดยวางทับของเก่าดังนี้:</p>
+                        <pre class="bg-black/40 p-2.5 rounded text-[10px] font-mono select-all text-pink-100">rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /artifacts/{appId}/public/data/{document=**} {
+      allow read, write: if true;
+    }
+  }
+}</pre>
+                        <p>4. กดปุ่ม <b>Publish</b> สีน้ำเงินที่มุมขวาบน แล้วทำการรีเฟรชหน้าเว็บรายชื่อนี้ใหม่อีกครั้งครับ</p>
+                    </div>
+                `;
+            } 
+            // ตรวจหาอาการ Anonymous ล็อกอินโดนปิด
+            else if (message.includes('auth/operation-not-allowed') || message.includes('Anonymous')) {
+                guideHTML = `
+                    <div class="mt-4 bg-rose-500/10 border border-rose-500/20 p-4 rounded-xl text-left text-xs text-rose-300 space-y-2">
+                        <p class="font-bold text-rose-200">🛠| วิธีเปิดสิทธิ์ระบบ Authentication (Anonymous Login):</p>
+                        <p>1. ไปที่ <a href="https://console.firebase.google.com/" target="_blank" class="text-pink-400 underline font-semibold">Firebase Console</a></p>
+                        <p>2. เข้าเมนู <b>Authentication</b> ด้านซ้าย -> กดแท็บ <b>Sign-in method</b> ด้านบน</p>
+                        <p>3. เลื่อนลงมาเปิดสิทธิ์ผู้ให้บริการที่ชื่อว่า <b>Anonymous</b> สับสวิตช์เปิดใช้ (Enable) แล้วกด <b>Save</b></p>
+                        <p>4. กลับมาที่หน้าเว็บนี้แล้วกดรีเฟรชอีกครั้งเพื่อเริ่มใช้งานคลาวด์</p>
+                    </div>
+                `;
+            }
+
+            listsContainer.innerHTML = `
+                <div class="card-bg max-w-xl mx-auto rounded-2xl border border-rose-500/30 p-8 text-center shadow-2xl">
+                    <div class="w-16 h-16 bg-rose-500/10 rounded-full flex items-center justify-center mx-auto mb-4 text-rose-400">
+                        <i data-lucide="cloud-off" class="w-8 h-8"></i>
+                    </div>
+                    <h3 class="text-rose-200 font-bold text-lg">${title}</h3>
+                    <p class="text-rose-300/70 text-sm mt-2 leading-relaxed">${message}</p>
+                    
+                    ${guideHTML}
+
+                    <div class="flex justify-center mt-6">
+                        <button onclick="window.location.reload()" class="px-5 py-2.5 bg-pink-600 hover:bg-pink-500 text-white rounded-xl text-xs font-bold transition-all shadow-md shadow-pink-600/20 flex items-center justify-center gap-1.5">
+                            <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i> เชื่อมต่อใหม่อีกครั้ง
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            try { if (typeof lucide !== 'undefined') lucide.createIcons(); } catch(e) {}
+        }
+
+        function showLoadingIndicator() {
+            listsContainer.innerHTML = `
+                <div class="flex flex-col items-center justify-center py-20 text-pink-400">
+                    <div class="w-12 h-12 border-4 border-pink-500/25 border-t-pink-500 rounded-full animate-spin mb-4"></div>
+                    <p class="text-pink-300/70 text-sm">กำลังเชื่อมต่อฐานข้อมูลคลาวด์เรียบลไทม์...</p>
+                </div>
+            `;
+        }
+
+        // --- ฟังก์ชันบันทึกข้อมูล (ส่งขึ้น Firebase คลาวด์ตรงๆ) ---
         async function commitBatchData(batchId, batchData) {
             if (usingCloud && db && user) {
                 try {
@@ -745,26 +766,15 @@
                     await setDoc(docRef, batchData);
                     return true;
                 } catch (err) {
-                    console.error("Cloud Save Error:", err);
-                    showToast("ไม่สามารถเขียนข้อมูลคลาวด์ได้ ตรวจสอบสิทธิ์ฐานข้อมูลของคุณ", "error");
+                    console.error("Cloud Save Fail:", err);
+                    showToast("❌ ไม่สามารถบันทึกข้อมูลได้ เนื่องจากสิทธิ์ของฐานข้อมูลจำกัด", "error");
                     return false;
                 }
-            } else {
-                // อัปเดตในเครื่อง
-                const bIndex = batches.findIndex(b => String(b.id) === String(batchId));
-                if (bIndex !== -1) {
-                    batches[bIndex] = batchData;
-                } else {
-                    batches.push(batchData);
-                }
-                localStorage.setItem('local_training_batches', JSON.stringify(batches));
-                updateStats();
-                renderTabs();
-                renderLists();
-                return true;
             }
+            return false;
         }
 
+        // --- ฟังก์ชันลบข้อมูล ---
         async function commitDeleteBatch(batchId) {
             if (usingCloud && db && user) {
                 try {
@@ -772,22 +782,15 @@
                     await deleteDoc(docRef);
                     return true;
                 } catch (err) {
-                    console.error("Cloud Delete Error:", err);
-                    showToast("ไม่สามารถลบข้อมูลคลาวด์ได้", "error");
+                    console.error("Cloud Delete Fail:", err);
+                    showToast("❌ ลบข้อมูลไม่สำเร็จ ตรวจสอบความเชื่อมต่ออินเทอร์เน็ต", "error");
                     return false;
                 }
-            } else {
-                batches = batches.filter(b => String(b.id) !== String(batchId));
-                localStorage.setItem('local_training_batches', JSON.stringify(batches));
-                if (activeTab === batchId) activeTab = 'all';
-                updateStats();
-                renderTabs();
-                renderLists();
-                return true;
             }
+            return false;
         }
 
-        // --- ฟังก์ชันช่วยเหลือเกี่ยวกับ UI ---
+        // --- ตัวช่วยคำนวณและแสดงผล UI ---
         function updateStats() {
             const mainBatches = batches.filter(b => b.type === 'main');
             const reserveBatch = batches.find(b => b.type === 'reserve');
@@ -809,9 +812,6 @@
                 if (adminBtn) adminBtn.className = "flex items-center gap-1.5 bg-green-500/10 hover:bg-green-500/20 border border-green-500/30 text-green-300 text-xs px-3.5 py-1.5 rounded-xl font-bold transition-all duration-200";
                 if (adminBtnText) adminBtnText.textContent = "ออกจาก Admin";
                 if (searchInput) searchInput.placeholder = "ค้นหารายชื่อผู้เข้าอบรม หรือเบอร์โทรศัพท์...";
-                
-                // แสดงแถบข้อมูลตั้งค่าคลาวด์เฉพาะเมื่อเป็น Admin ล็อกอินสำเร็จเท่านั้น
-                if (cloudStatusBadge) cloudStatusBadge.classList.remove('hidden');
                 if (cloudConfigBtn) cloudConfigBtn.classList.remove('hidden');
             } else {
                 if (adminBanner) adminBanner.classList.add('hidden');
@@ -819,9 +819,6 @@
                 if (adminBtn) adminBtn.className = "flex items-center gap-1.5 bg-pink-500/10 hover:bg-pink-500/20 border border-pink-500/20 text-pink-300 text-xs px-3.5 py-1.5 rounded-xl font-bold transition-all duration-200";
                 if (adminBtnText) adminBtnText.textContent = "เข้าสู่ระบบ Admin";
                 if (searchInput) searchInput.placeholder = "ค้นหารายชื่อผู้เข้าอบรม...";
-                
-                // ซ่อนแถบข้อมูลคลาวด์จากผู้ใช้ทั่วไปเพื่อความปลอดภัยและสะอาดตา
-                if (cloudStatusBadge) cloudStatusBadge.classList.add('hidden');
                 if (cloudConfigBtn) cloudConfigBtn.classList.add('hidden');
             }
         }
@@ -857,7 +854,6 @@
 
             if (tabsContainer) tabsContainer.innerHTML = tabsHTML;
             
-            // ป้องกันการแครชหากอินเทอร์เน็ตของผู้ใช้ออฟไลน์
             try {
                 if (typeof lucide !== 'undefined') lucide.createIcons();
             } catch (e) {
@@ -977,7 +973,6 @@
                                 </div>
                                 <div class="${isAdmin ? 'col-span-6' : 'col-span-9'} font-medium ${trainee.status === 'ว่าง' ? 'text-pink-300/40' : 'text-pink-100'}">
                                     <div class="text-sm sm:text-base font-semibold leading-normal">${trainee.name || '-'}</div>
-                                    <!-- เบอร์โทรศัพท์จะถูกป้องกันให้มองเห็นเฉพาะ Admin เท่านั้น -->
                                     ${isAdmin && trainee.phone ? `
                                     <div class="text-[11px] text-pink-300/50 flex items-center gap-1 mt-0.5">
                                         <i data-lucide="phone" class="w-3 h-3"></i> <span>${trainee.phone}</span>
@@ -985,7 +980,6 @@
                                     ` : ''}
                                 </div>
                                 <div class="${isAdmin ? 'col-span-3 flex justify-center' : 'col-span-2 flex justify-end'}">
-                                    <!-- หากเป็น Admin จะแสดง Dropdown ให้แก้ไขสถานะได้แบบเรียลไทม์ทันที -->
                                     ${isAdmin ? `
                                     <select onchange="changeTraineeStatusDirectly('${batch.id}', '${trainee.id}', this.value)" class="bg-[#2d222b] text-xs font-medium rounded-full border px-3 py-1 text-pink-100 focus:outline-none focus:ring-1 focus:ring-pink-500 cursor-pointer ${
                                         trainee.status === 'ยืนยัน' ? 'border-green-500/50 text-green-300 bg-green-950/20' :
@@ -1127,7 +1121,7 @@
             const passwordInput = document.getElementById('adminPassword');
             const localPassword = localStorage.getItem('custom_admin_password') || 'admin123';
             
-            // เลือกใช้รหัสผ่านที่ซิงก์จาก Firebase ก่อน หากไม่มีค่อยถอยกลับไปใช้ของเครื่องปัจจุบัน
+            // เลือกใช้รหัสผ่านที่ซิงก์จาก Firebase ก่อน
             const targetPassword = firebaseAdminPassword || localPassword;
             
             if (passwordInput && passwordInput.value === targetPassword) {
@@ -1155,7 +1149,7 @@
             // 1. บันทึกลงหน่วยความจำเครื่องสำรอง
             localStorage.setItem('custom_admin_password', newPwd);
 
-            // 2. ซิงก์ขึ้น Firebase คลาวด์ เพื่อให้อุปกรณ์อื่นรับรู้รหัสผ่านใหม่เดียวกัน
+            // 2. ซิงก์ขึ้น Firebase คลาวด์
             if (usingCloud && db && user) {
                 try {
                     const adminSettingsRef = doc(db, 'artifacts', finalAppId, 'public', 'data', 'settings', 'admin');
@@ -1210,7 +1204,6 @@
             localStorage.setItem('custom_firebase_config', JSON.stringify(configObject));
             localStorage.setItem('custom_app_id', customAppId);
 
-            // เซฟค่ากล่องข้อความแยกไว้เพื่อดึงมาแสดงผลครั้งต่อไป
             localStorage.setItem('cfg_apiKey', apiKey);
             localStorage.setItem('cfg_authDomain', authDomain);
             localStorage.setItem('cfg_projectId', projectId);
@@ -1235,7 +1228,7 @@
             localStorage.removeItem('cfg_messagingSenderId');
             localStorage.removeItem('cfg_appId');
             
-            showToast("รีเซ็ตระบบกลับสู่โหมดคลาวด์ตั้งต้น (Default) แล้ว! กำลังรีโหลด...", "info");
+            showToast("รีเซ็ตระบบคลาวด์แล้ว! กำลังรีโหลด...", "info");
             setTimeout(() => {
                 window.location.reload();
             }, 1200);
@@ -1432,7 +1425,7 @@
             }
         }
 
-        // เพิ่มฟังก์ชันให้แอดมินแก้ไขสถานะผู้สมัครแบบ Direct Inline เปลี่ยนค่าปุ๊บบันทึกขึ้นคลาวด์ปั๊บ
+        // แก้ไขสถานะ Inline บันทึกตรงเข้าคลาวด์แบบเรียลไทม์ทันที
         async function changeTraineeStatusDirectly(batchId, traineeId, newStatus) {
             const batch = batches.find(b => String(b.id) === String(batchId));
             if (!batch) return;
@@ -1468,7 +1461,7 @@
             });
         }
 
-        // --- ส่งออกตัวแปรและฟังก์ชันให้หน้าต่างเว็บหลักเรียกใช้ ---
+        // --- ส่งออกตัวแปรและฟังก์ชัน ---
         window.setActiveTab = (tab) => {
             activeTab = tab;
             renderTabs();
@@ -1495,7 +1488,7 @@
             });
         }
 
-        // เริ่มสตาร์ทแอปพลิเคชัน
+        // เริ่มสตาร์ทระบบ
         startApp();
 
     </script>
