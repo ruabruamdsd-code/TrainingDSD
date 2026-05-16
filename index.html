@@ -41,7 +41,7 @@
             </div>
             
             <div class="flex flex-wrap items-center gap-2 sm:gap-3">
-                <!-- ตัวบอกสถานะเชื่อมต่อคลาวด์ (ซ่อนไว้เริ่มต้น จะแสดงเฉพาะแอดมิน) -->
+                <!-- ตัวบอกสถานะเชื่อมต่อคลาวด์ (แสดงเฉพาะแอดมิน เพื่อความสะอาดตาของผู้ใช้ทั่วไป) -->
                 <button onclick="openModal('cloudConfigModal')" id="cloudStatusBadge" class="hidden flex items-center gap-1.5 bg-orange-500/10 hover:bg-orange-500/20 border border-orange-500/30 text-orange-300 text-xs px-3 py-1.5 rounded-full font-medium transition-all">
                     <span class="w-2 h-2 rounded-full bg-orange-500 animate-pulse"></span>
                     <span id="cloudStatusText">Offline Demo</span>
@@ -89,17 +89,17 @@
             </div>
         </div>
 
-        <!-- แถบแจ้งเตือนเมื่อระบบต่อคลาวด์ล้มเหลว (แสดงให้เห็นเพื่อให้รู้ทันทีว่าเครื่องไม่ซิงก์กันเพราะอะไร) -->
+        <!-- แถบแจ้งเตือนเมื่อระบบต่อคลาวด์ล้มเหลว (แสดงให้เห็นเฉพาะเมื่อผู้ใช้ล็อกอินแอดมิน เพื่อความสวยงาม) -->
         <div id="cloudErrorBanner" class="hidden bg-amber-500/15 border border-amber-500/30 rounded-2xl p-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 shadow-lg">
             <div class="flex items-center gap-3 text-amber-300 text-sm">
                 <i data-lucide="alert-triangle" class="w-5 h-5 flex-shrink-0 text-amber-400 animate-bounce"></i>
                 <div>
                     <span class="font-bold text-amber-200">⚠️ ระบบไม่สามารถซิงก์ข้อมูลระหว่างเครื่องได้ (เชื่อมต่อคลาวด์ล้มเหลว)</span>
-                    <p class="text-xs text-amber-300/80 mt-1">คีย์ Firebase (API Key หรือ App ID) ที่ระบุในเครื่องไม่ถูกต้อง ส่งผลให้เครื่องนี้และเครื่องอื่นสลับไปใช้ 'โหมดออฟไลน์แยกกัน'</p>
+                    <p class="text-xs text-amber-300/80 mt-1">คีย์ Firebase ที่ฝังอยู่ในโค้ดยังไม่ถูกต้อง หรือยังไม่ได้เปิดใช้งาน Firestore/Anonymous login ส่งผลให้เครื่องนี้สลับไปใช้ 'โหมดออฟไลน์แยกกัน'</p>
                 </div>
             </div>
-            <button onclick="openModal('loginModal')" class="bg-amber-500 hover:bg-amber-400 text-black text-xs font-bold px-4 py-2 rounded-xl transition-all flex items-center gap-1.5 flex-shrink-0">
-                <i data-lucide="lock" class="w-4 h-4"></i> ล็อกอิน Admin เพื่อแก้คีย์คลาวด์
+            <button onclick="openModal('cloudConfigModal')" class="bg-amber-500 hover:bg-amber-400 text-black text-xs font-bold px-4 py-2 rounded-xl transition-all flex items-center gap-1.5 flex-shrink-0">
+                <i data-lucide="settings" class="w-4 h-4"></i> ตั้งค่าแก้ไขคีย์คลาวด์
             </button>
         </div>
 
@@ -434,16 +434,19 @@
         import { getAuth, signInWithCustomToken, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, doc, setDoc, getDoc, collection, onSnapshot, deleteDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // --- คอนฟิกเริ่มต้นของโปรเจกต์คุณ (ฝังข้อมูลถาวรเพื่อแก้ปัญหาเรื่องเปลี่ยนเครื่องแล้วค่าหาย) ---
-        // ข้อสังเกต: หากรหัสยังคงล้มเหลวกรุณากดเปิดใช้งาน Anonymous Sign-in ที่หน้าหลัก Firebase Authentication ด้วยนะครับ
+        // =========================================================================
+        // 🚨 สำคัญที่สุด! คัดลอกค่า Firebase Config ของคุณแบบ "สมบูรณ์ (ห้ามมีจุดไข่ปลา ...)" มาวางตรงนี้
+        // เพื่อให้ผู้ใช้อื่นที่เปิดผ่านลิ้งก์ GitHub สามารถเชื่อมต่อคลาวด์ได้ทันทีโดยไม่ต้องใส่คีย์เอง
+        // =========================================================================
         const defaultFirebaseConfig = {
-            apiKey: "AIzaSyArERDuS3i0AHmLdrS68tMRvi1DYch1d90",
+            apiKey: "AIzaSyArERDuS3i0AHmLdrS68tMRvi1DYch1d90", // <--- แก้ไขวางค่าจริงตัวเต็มตรงนี้
             authDomain: "edoblock-51e6c.firebaseapp.com",
             projectId: "edoblock-51e6c",
             storageBucket: "edoblock-51e6c.appspot.com",
             messagingSenderId: "426632152384",
-            appId: "1:426632152384:web:3196962baa6364fe06a6a5"
+            appId: "1:426632152384:web:3196962baa6364fe06a6a5" // <--- แก้ไขวางค่าจริงตัวเต็มตรงนี้
         };
+        // =========================================================================
 
         // --- โหลดข้อมูลตั้งค่าจาก LocalStorage (ถ้ามี) ---
         const localFirebaseConfigStr = localStorage.getItem('custom_firebase_config');
@@ -476,8 +479,8 @@
             // 2. โหลด Config ส่วนตัวที่แอดมินเซฟไว้ในเครื่อง
             finalConfig = customConfig;
             usingCloud = true;
-        } else if (defaultFirebaseConfig && defaultFirebaseConfig.apiKey) {
-            // 3. ใช้คีย์โครงการ edoblock-51e6c ดั้งเดิมที่ฝังไว้
+        } else if (defaultFirebaseConfig && defaultFirebaseConfig.apiKey && !defaultFirebaseConfig.apiKey.includes("แก้ไขวางค่าจริง")) {
+            // 3. ใช้คีย์โครงการเริ่มต้นที่ฝังไว้
             finalConfig = defaultFirebaseConfig;
             usingCloud = true;
         }
@@ -585,7 +588,7 @@
                     console.warn("Firebase connection timeout, falling back to local mode.");
                     showToast("การเชื่อมต่อฐานข้อมูลคลาวด์ล่าช้า ระบบเปลี่ยนไปใช้โหมดในเครื่องชั่วคราว", "warning");
                     
-                    if (cloudErrorBanner) cloudErrorBanner.classList.remove('hidden');
+                    if (cloudErrorBanner && isAdmin) cloudErrorBanner.classList.remove('hidden');
                     switchToLocalMode();
                 }
             }, 4000);
@@ -603,7 +606,7 @@
                     if (cloudStatusText) cloudStatusText.textContent = "Cloud Connected";
                     if (setupAlertBanner) setupAlertBanner.classList.add('hidden');
 
-                    // ติดตาม Auth State (ย้ายมาดักฟังภายในโปรเซสหลังจากสร้างแอปสำเร็จแล้ว เพื่อป้องกันข้อผิดพลาด No Firebase App)
+                    // ติดตาม Auth State
                     onAuthStateChanged(auth, (currentUser) => {
                         user = currentUser;
                         if (user) {
@@ -616,7 +619,7 @@
                     console.error("Cloud Initialization Error:", error);
                     showToast("ไม่สามารถเปิดระบบเชื่อมคลาวด์ได้ คีย์ตั้งค่าอาจไม่ถูกต้องหรือหมดสิทธิ์เข้าถึง", "error");
                     
-                    if (cloudErrorBanner) cloudErrorBanner.classList.remove('hidden');
+                    if (cloudErrorBanner && isAdmin) cloudErrorBanner.classList.remove('hidden');
                     clearTimeout(connectionTimeout);
                     switchToLocalMode();
                 }
@@ -665,7 +668,7 @@
                 console.error("Firebase Auth Error:", error);
                 showToast("สิทธิ์คีย์ API ไม่ถูกต้องหรือถูกปฏิเสธ กำลังสลับการทำงานไปใช้โหมดออฟไลน์เพื่อใช้งานต่อ...", "warning");
                 
-                if (cloudErrorBanner) cloudErrorBanner.classList.remove('hidden');
+                if (cloudErrorBanner && isAdmin) cloudErrorBanner.classList.remove('hidden');
                 switchToLocalMode();
             }
         };
@@ -722,7 +725,7 @@
                 console.error("Firestore Error:", error);
                 showToast("สิทธิ์การเข้าถึงข้อมูลคลาวด์ไม่สำเร็จ กรุณาตรวจสอบกฎของ Firestore Database Rules", "error");
                 
-                if (cloudErrorBanner) cloudErrorBanner.classList.remove('hidden');
+                if (cloudErrorBanner && isAdmin) cloudErrorBanner.classList.remove('hidden');
                 switchToLocalMode(); 
             });
         }
