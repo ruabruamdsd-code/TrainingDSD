@@ -417,6 +417,16 @@
         import { getAuth, signInWithCustomToken, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, doc, setDoc, getDoc, collection, onSnapshot, deleteDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
+        // --- คอนฟิกเริ่มต้นของโปรเจกต์คุณ (ฝังข้อมูลถาวรเพื่อแก้ปัญหาเรื่องเปลี่ยนเครื่องแล้วค่าหาย) ---
+        const defaultFirebaseConfig = {
+            apiKey: "AIzaSyArERDuS3i0AHmLdrS68tMRvi1DYch1d90",
+            authDomain: "edoblock-51e6c.firebaseapp.com",
+            projectId: "edoblock-51e6c",
+            storageBucket: "edoblock-51e6c.appspot.com",
+            messagingSenderId: "426632152384",
+            appId: "1:426632152384:web:3196962baa6364fe06a6a5"
+        };
+
         // --- โหลดข้อมูลตั้งค่าจาก LocalStorage (ถ้ามี) ---
         const localFirebaseConfigStr = localStorage.getItem('custom_firebase_config');
         const localAppId = localStorage.getItem('custom_app_id');
@@ -430,18 +440,27 @@
             }
         }
 
-        // --- ตัดสินใจใช้ Firebase Config ตัวไหน ---
+        // --- ตัดสินใจใช้ Firebase Config ตัวไหน (จัดสิทธิ์ให้ระบบ Sandbox รันได้ไม่ติด API Key Error) ---
         let usingCloud = false;
         let finalConfig = null;
         let finalAppId = localAppId || 'nail-art-training-lobpuri';
 
-        if (customConfig && customConfig.apiKey) {
+        if (typeof __firebase_config !== 'undefined' && __firebase_config) {
+            // 1. ทำงานบน Sandbox สภาพแวดล้อมจำลอง (Preview Environment) - ให้สิทธิ์สูงสุดเพื่อรองรับการพรีวิวแบบเรียลไทม์
+            try {
+                finalConfig = JSON.parse(__firebase_config);
+                finalAppId = typeof __app_id !== 'undefined' ? __app_id : 'nail-art-training-lobpuri';
+                usingCloud = true;
+            } catch(e) {
+                console.error("Sandbox config parse error", e);
+            }
+        } else if (customConfig && customConfig.apiKey) {
+            // 2. โหลด Config ส่วนตัวที่แอดมินเซฟไว้ในเครื่อง
             finalConfig = customConfig;
             usingCloud = true;
-        } else if (typeof __firebase_config !== 'undefined') {
-            // ทำงานบน Sandbox สภาพแวดล้อมจำลอง (Preview Environment)
-            finalConfig = JSON.parse(__firebase_config);
-            finalAppId = typeof __app_id !== 'undefined' ? __app_id : 'nail-art-training-lobpuri';
+        } else if (defaultFirebaseConfig && defaultFirebaseConfig.apiKey) {
+            // 3. ใช้คีย์โครงการ edoblock-51e6c ดั้งเดิมที่ฝังไว้
+            finalConfig = defaultFirebaseConfig;
             usingCloud = true;
         }
 
@@ -570,10 +589,10 @@
                         }
                     });
 
-                    initAuthAndSync();
+                    await initAuthAndSync();
                 } catch (error) {
                     console.error("Cloud Initialization Error:", error);
-                    showToast("ไม่สามารถเปิดระบบเชื่อมคลาวด์ได้ อาจเกิดจากค่า Config ไม่ถูกต้อง", "error");
+                    showToast("ไม่สามารถเปิดระบบเชื่อมคลาวด์ได้ คีย์ตั้งค่าอาจไม่ถูกต้องหรือหมดสิทธิ์เข้าถึง", "error");
                     clearTimeout(connectionTimeout);
                     switchToLocalMode();
                 }
@@ -620,7 +639,9 @@
                 }
             } catch (error) {
                 console.error("Firebase Auth Error:", error);
-                showToast("ระบบความปลอดภัยปฏิเสธการเข้าถึงอัตโนมัติ กำลังปรับโหมดการเข้าถึง...", "warning");
+                showToast("ระบบความปลอดภัยปฏิเสธสิทธิ์ (คีย์ API ไม่ถูกต้อง) สลับการทำงานไปใช้โหมดออฟไลน์เพื่อใช้งานต่อ...", "warning");
+                // หากคีย์คลาวด์หรือคีย์ API ที่แอดมินใส่ไว้ไม่ถูกต้อง ให้สลับเข้าสู่ Offline Demo อัตโนมัติป้องกันแอปค้างทันที
+                switchToLocalMode();
             }
         };
 
@@ -736,7 +757,7 @@
                 if (adminBtnText) adminBtnText.textContent = "ออกจาก Admin";
                 if (searchInput) searchInput.placeholder = "ค้นหารายชื่อผู้เข้าอบรม หรือเบอร์โทรศัพท์...";
                 
-                // แก้ไขความต้องการ: แสดงแถบข้อมูลตั้งค่าคลาวด์เฉพาะเมื่อเป็น Admin ล็อกอินสำเร็จเท่านั้น
+                // แสดงแถบข้อมูลตั้งค่าคลาวด์เฉพาะเมื่อเป็น Admin ล็อกอินสำเร็จเท่านั้น
                 if (cloudStatusBadge) cloudStatusBadge.classList.remove('hidden');
                 if (cloudConfigBtn) cloudConfigBtn.classList.remove('hidden');
             } else {
@@ -746,7 +767,7 @@
                 if (adminBtnText) adminBtnText.textContent = "เข้าสู่ระบบ Admin";
                 if (searchInput) searchInput.placeholder = "ค้นหารายชื่อผู้เข้าอบรม...";
                 
-                // แก้ไขความต้องการ: ซ่อนแถบข้อมูลคลาวด์จากผู้ใช้ทั่วไปเพื่อความปลอดภัยและสะอาดตา
+                // ซ่อนแถบข้อมูลคลาวด์จากผู้ใช้ทั่วไปเพื่อความปลอดภัยและสะอาดตา
                 if (cloudStatusBadge) cloudStatusBadge.classList.add('hidden');
                 if (cloudConfigBtn) cloudConfigBtn.classList.add('hidden');
             }
@@ -911,7 +932,7 @@
                                     ` : ''}
                                 </div>
                                 <div class="${isAdmin ? 'col-span-3 flex justify-center' : 'col-span-2 flex justify-end'}">
-                                    <!-- แก้ไขความต้องการ: หากเป็น Admin จะแสดง Dropdown ให้แก้ไขสถานะได้แบบเรียลไทม์ทันที -->
+                                    <!-- หากเป็น Admin จะแสดง Dropdown ให้แก้ไขสถานะได้แบบเรียลไทม์ทันที -->
                                     ${isAdmin ? `
                                     <select onchange="changeTraineeStatusDirectly('${batch.id}', '${trainee.id}', this.value)" class="bg-[#2d222b] text-xs font-medium rounded-full border px-3 py-1 text-pink-100 focus:outline-none focus:ring-1 focus:ring-pink-500 cursor-pointer ${
                                         trainee.status === 'ยืนยัน' ? 'border-green-500/50 text-green-300 bg-green-950/20' :
@@ -1090,12 +1111,12 @@
             const elAppId = document.getElementById('cfg_appId');
             const elCustomId = document.getElementById('cfg_customAppId');
 
-            if (elApiKey) elApiKey.value = localStorage.getItem('cfg_apiKey') || '';
-            if (elAuthDomain) elAuthDomain.value = localStorage.getItem('cfg_authDomain') || '';
-            if (elProjectId) elProjectId.value = localStorage.getItem('cfg_projectId') || '';
-            if (elStorageBucket) elStorageBucket.value = localStorage.getItem('cfg_storageBucket') || '';
-            if (elMsgId) elMsgId.value = localStorage.getItem('cfg_messagingSenderId') || '';
-            if (elAppId) elAppId.value = localStorage.getItem('cfg_appId') || '';
+            if (elApiKey) elApiKey.value = localStorage.getItem('cfg_apiKey') || defaultFirebaseConfig.apiKey || '';
+            if (elAuthDomain) elAuthDomain.value = localStorage.getItem('cfg_authDomain') || defaultFirebaseConfig.authDomain || '';
+            if (elProjectId) elProjectId.value = localStorage.getItem('cfg_projectId') || defaultFirebaseConfig.projectId || '';
+            if (elStorageBucket) elStorageBucket.value = localStorage.getItem('cfg_storageBucket') || defaultFirebaseConfig.storageBucket || '';
+            if (elMsgId) elMsgId.value = localStorage.getItem('cfg_messagingSenderId') || defaultFirebaseConfig.messagingSenderId || '';
+            if (elAppId) elAppId.value = localStorage.getItem('cfg_appId') || defaultFirebaseConfig.appId || '';
             if (elCustomId) elCustomId.value = localStorage.getItem('custom_app_id') || 'nail-art-training-lobpuri';
         }
 
@@ -1142,7 +1163,7 @@
             localStorage.removeItem('cfg_messagingSenderId');
             localStorage.removeItem('cfg_appId');
             
-            showToast("รีเซ็ตระบบกลับสู่โหมดออฟไลน์แล้ว! กำลังรีโหลด...", "info");
+            showToast("รีเซ็ตระบบกลับสู่โหมดคลาวด์ตั้งต้น (Default) แล้ว! กำลังรีโหลด...", "info");
             setTimeout(() => {
                 window.location.reload();
             }, 1200);
@@ -1339,7 +1360,7 @@
             }
         }
 
-        // แก้ไขความต้องการ: เพิ่มฟังก์ชันให้แอดมินแก้ไขสถานะผู้สมัครแบบ Direct Inline เปลี่ยนค่าปุ๊บบันทึกขึ้นคลาวด์ปั๊บ
+        // เพิ่มฟังก์ชันให้แอดมินแก้ไขสถานะผู้สมัครแบบ Direct Inline เปลี่ยนค่าปุ๊บบันทึกขึ้นคลาวด์ปั๊บ
         async function changeTraineeStatusDirectly(batchId, traineeId, newStatus) {
             const batch = batches.find(b => String(b.id) === String(batchId));
             if (!batch) return;
