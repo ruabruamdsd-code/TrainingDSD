@@ -11,66 +11,78 @@
     <style>
         /* กำหนดตัวแปรสำหรับระบบไดนามิกธีมเริ่มต้นเป็น โทนชมพูกะปิ/แต่งเล็บ */
         :root {
-            --bg-body: #2d222b;
-            --bg-card: #3e2f3b;
-            --border-card: #584454;
-            --text-primary: #fce7f3;
-            --color-primary: #d946ef;
-            --color-primary-hover: #c026d3;
-            --color-primary-light: rgba(217, 70, 239, 0.15);
-            --color-primary-border: rgba(217, 70, 239, 0.3);
+            --bg-body: #1e161c;
+            --bg-card: #2d1f2a;
+            --border-card: #453140;
+            --text-primary: #fdf2f8;
+            --color-primary: #ec4899;
+            --color-primary-hover: #db2777;
+            --color-primary-light: rgba(236, 72, 153, 0.1);
+            --color-primary-border: rgba(236, 72, 153, 0.25);
             --color-primary-text: #f472b6;
         }
 
         body {
             background-color: var(--bg-body);
             color: var(--text-primary);
-            transition: background-color 0.3s ease, color 0.3s ease;
+            transition: background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1), color 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
         .card-bg {
             background-color: var(--bg-card);
-            transition: background-color 0.3s ease;
+            transition: background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
         .card-border {
             border-color: var(--border-card);
-            transition: border-color 0.3s ease;
+            transition: border-color 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
         /* ปรับแต่ง Scrollbar ซ่อน */
         .hide-scrollbar::-webkit-scrollbar { display: none; }
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        /* แอนิเมชันปุ่มสั่นไหวและกล่องข้อความ */
+        @keyframes pulse-glowing {
+            0%, 100% { opacity: 0.6; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.15); }
+        }
+        .pulse-dot {
+            animation: pulse-glowing 2s infinite ease-in-out;
+        }
     </style>
 </head>
 <body class="font-sans min-h-screen selection:bg-pink-500/30">
 
     <!-- Top Navigation Bar -->
-    <nav class="card-bg border-b card-border sticky top-0 z-20 shadow-md shadow-black/10">
+    <nav class="card-bg border-b card-border sticky top-0 z-20 shadow-lg shadow-black/25 backdrop-blur-md bg-opacity-95">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col sm:flex-row gap-4 justify-between items-center">
-            <div class="flex items-center gap-3">
-                <div class="w-10 h-10 bg-[var(--color-primary)] rounded-xl flex items-center justify-center text-white shadow-lg shadow-black/20">
-                    <i data-lucide="users" class="w-5 h-5"></i>
+            <div class="flex items-center gap-3.5">
+                <div class="w-11 h-11 bg-[var(--color-primary)] rounded-2xl flex items-center justify-center text-white shadow-lg shadow-pink-500/20 transition-all duration-300 transform hover:scale-105">
+                    <i data-lucide="users" class="w-5.5 h-5.5"></i>
                 </div>
                 <div>
-                    <h1 class="text-lg font-bold text-pink-50 leading-tight">รายชื่อฝึกอบรม สำนักงานพัฒนาฝีมือแรงงานลพบุรี</h1>
-                    <p class="text-xs text-pink-300/70">สำนักงานพัฒนาฝีมือแรงงานลพบุรี (ระบบเชื่อมต่อคลาวด์เรียลไทม์)</p>
+                    <h1 class="text-base sm:text-lg font-extrabold text-[var(--text-primary)] leading-tight tracking-wide">สำนักงานพัฒนาฝีมือแรงงานลพบุรี</h1>
+                    <p class="text-xs text-[var(--color-primary-text)] font-semibold flex items-center gap-1.5 mt-0.5">
+                        <span class="inline-block w-1.5 h-1.5 rounded-full bg-green-400 animate-ping"></span>
+                        ระบบรายงานผู้เข้าอบรมเชื่อมต่อคลาวด์เรียลไทม์
+                    </p>
                 </div>
             </div>
             
-            <div class="flex flex-wrap items-center gap-2 sm:gap-3">
+            <div class="flex flex-wrap items-center gap-2 sm:gap-3 justify-end w-full sm:w-auto">
                 <!-- ตัวบอกสถานะเชื่อมต่อคลาวด์เรียลไทม์ (ซ่อนไว้เป็นเริ่มต้นด้วยคลาส hidden จะแสดงเฉพาะเมื่อ Admin ล็อกอินสำเร็จ) -->
-                <button onclick="openModal('cloudConfigModal')" id="cloudStatusBadge" class="hidden flex items-center gap-1.5 bg-yellow-500/10 border border-yellow-500/30 text-yellow-300 text-xs px-3 py-1.5 rounded-full font-medium transition-all">
-                    <span class="w-2 h-2 rounded-full bg-yellow-500 animate-pulse"></span>
-                    <span id="cloudStatusText">กำลังเชื่อมต่อ...</span>
+                <button onclick="openModal('cloudConfigModal')" id="cloudStatusBadge" class="hidden flex items-center gap-2 bg-yellow-500/10 border border-yellow-500/30 text-yellow-300 text-xs px-3.5 py-2 rounded-xl font-medium transition-all hover:bg-yellow-500/25">
+                    <span class="w-2 h-2 rounded-full bg-yellow-400 pulse-dot"></span>
+                    <span id="cloudStatusText">กำลังซิงก์...</span>
                 </button>
                 
                 <!-- ตัวเลือกเปลี่ยนธีมไดนามิกตามกลุ่มวิชา/หลักสูตร (ปรับค่าเริ่มต้นเป็นคลาส hidden เพื่อจำกัดให้ใช้งานได้เฉพาะแอดมิน) -->
                 <div class="relative hidden" id="themeDropdownWrapper">
-                    <button onclick="toggleThemeDropdown(event)" class="p-2 bg-[var(--color-primary-light)] hover:bg-[var(--color-primary)]/20 border border-[var(--color-primary-border)] text-[var(--color-primary-text)] rounded-xl transition-all flex items-center gap-1.5" title="เปลี่ยนโทนสีหลักสูตร">
+                    <button onclick="toggleThemeDropdown(event)" class="p-2.5 bg-[var(--color-primary-light)] hover:bg-[var(--color-primary)]/20 border border-[var(--color-primary-border)] text-[var(--color-primary-text)] rounded-xl transition-all flex items-center gap-2 shadow-sm" title="เปลี่ยนโทนสีตามหลักสูตร">
                         <i data-lucide="palette" class="w-4 h-4"></i>
-                        <span class="text-xs font-semibold hidden md:inline">เปลี่ยนธีม</span>
+                        <span class="text-xs font-bold hidden md:inline">เปลี่ยนธีมวิชา</span>
                     </button>
                     <!-- แผงหน้าต่างเลือกโทนสี -->
-                    <div id="themeDropdown" class="hidden absolute right-0 mt-2 w-64 rounded-2xl bg-[var(--bg-card)] border border-[var(--border-card)] shadow-2xl z-30 p-2 space-y-1 transform scale-95 transition-all duration-150">
-                        <div class="px-3 py-2 text-xs font-bold text-[var(--text-primary)]/50 border-b border-[var(--border-card)] mb-1">
+                    <div id="themeDropdown" class="hidden absolute right-0 mt-2.5 w-64 rounded-2xl bg-[var(--bg-card)] border border-[var(--border-card)] shadow-2xl z-30 p-2.5 space-y-1 transform scale-95 transition-all duration-150">
+                        <div class="px-3 py-2 text-[10px] font-bold text-[var(--text-primary)]/40 uppercase tracking-widest border-b border-[var(--border-card)] mb-2">
                             เลือกสีตามกลุ่มหลักสูตร
                         </div>
                         <div id="themeDropdownList" class="space-y-1">
@@ -80,124 +92,124 @@
                 </div>
 
                 <!-- คืนค่า Badge บอกจำนวนผู้เข้าอบรมหลัก -->
-                <span class="bg-[var(--color-primary-light)] border border-[var(--color-primary-border)] text-[var(--color-primary-text)] text-xs px-3 py-1.5 rounded-full font-medium" id="badgeTotalTrainees">
+                <span class="bg-[var(--color-primary-light)] border border-[var(--color-primary-border)] text-[var(--color-primary-text)] text-xs px-3.5 py-2 rounded-xl font-bold shadow-sm" id="badgeTotalTrainees">
                     0 ผู้เข้าอบรม
                 </span>
 
                 <!-- ดึงปุ่มระบุรายชื่อสำรองกลับคืนสู่แถบ HTML เพื่อไม่ให้สคริปต์ทำงานขัดข้อง -->
-                <span class="bg-orange-500/20 border border-orange-500/30 text-orange-300 text-xs px-3 py-1.5 rounded-full font-medium" id="badgeTotalReserves">
+                <span class="bg-orange-500/10 border border-orange-500/25 text-orange-300 text-xs px-3.5 py-2 rounded-xl font-bold shadow-sm" id="badgeTotalReserves">
                     0 สำรอง
                 </span>
 
                 <!-- ปุ่ม Admin Login/Logout -->
-                <button id="adminBtn" onclick="toggleAdminState()" class="flex items-center gap-1.5 bg-[var(--color-primary-light)] hover:opacity-90 border border-[var(--color-primary-border)] text-[var(--color-primary-text)] text-xs px-3.5 py-1.5 rounded-xl font-bold transition-all duration-200">
+                <button id="adminBtn" onclick="toggleAdminState()" class="flex items-center gap-1.5 bg-[var(--color-primary-light)] hover:bg-[var(--color-primary)]/15 border border-[var(--color-primary-border)] text-[var(--color-primary-text)] text-xs px-4 py-2 rounded-xl font-bold transition-all duration-200">
                     <i data-lucide="lock" class="w-3.5 h-3.5"></i>
-                    <span id="adminBtnText">เข้าสู่ระบบ Admin</span>
+                    <span id="adminBtnText">โหมดเจ้าหน้าที่</span>
                 </button>
                 
                 <!-- ปุ่มตั้งค่าคลาวด์หลัก -->
-                <button id="cloudConfigBtn" onclick="openModal('cloudConfigModal')" class="p-2 bg-[var(--color-primary-light)] hover:opacity-90 border border-[var(--color-primary-border)] text-[var(--color-primary-text)] rounded-xl transition-all" title="ตั้งค่าการเชื่อมต่อ Firebase">
+                <button id="cloudConfigBtn" onclick="openModal('cloudConfigModal')" class="p-2 bg-[var(--color-primary-light)] hover:bg-[var(--color-primary)]/15 border border-[var(--color-primary-border)] text-[var(--color-primary-text)] rounded-xl transition-all" title="ตั้งค่าการเชื่อมต่อ Firebase">
                     <i data-lucide="settings" class="w-4 h-4"></i>
                 </button>
             </div>
         </div>
     </nav>
 
-    <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+    <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
         
         <!-- แถบแจ้งเตือนสถานะ Admin -->
-        <div id="adminBanner" class="hidden bg-[var(--color-primary-light)] border border-[var(--color-primary-border)] rounded-2xl p-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+        <div id="adminBanner" class="hidden bg-emerald-500/10 border border-emerald-500/20 rounded-2xl p-4.5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 shadow-md shadow-black/10">
             <div class="flex items-center gap-3 text-[var(--text-primary)] text-sm">
-                <span class="w-2.5 h-2.5 rounded-full bg-green-500 animate-pulse"></span>
-                <span>คุณกำลังเปิดใช้งานใน <strong>โหมดผู้ดูแลระบบ (Admin Mode)</strong> ข้อมูลจะถูกบันทึกขึ้นระบบคลาวด์โดยตรงแบบเรียลไทม์</span>
+                <span class="w-3 h-3 rounded-full bg-emerald-400 animate-pulse"></span>
+                <span>คุณเข้าใช้ด้วยสิทธิ์ <strong>ผู้ดูแลระบบ (Admin Mode)</strong> ข้อมูลจะถูกจัดเก็บบนระบบคลาวด์เรียลไทม์</span>
             </div>
-            <div class="flex items-center gap-3">
-                <button onclick="openModal('adminPasswordModal')" class="text-xs text-yellow-400 hover:text-yellow-300 underline font-medium">
-                    เปลี่ยนรหัสผ่านแอดมิน
+            <div class="flex items-center gap-4 text-xs font-semibold">
+                <button onclick="openModal('adminPasswordModal')" class="text-yellow-400 hover:text-yellow-300 underline transition-colors">
+                    เปลี่ยนรหัสแอดมิน
                 </button>
-                <button onclick="toggleAdminState()" class="text-xs text-pink-400 hover:text-pink-300 underline font-medium">
-                    ออกจากโหมดนี้
+                <button onclick="toggleAdminState()" class="text-rose-400 hover:text-rose-300 underline transition-colors font-bold">
+                    ออกจากโหมดควบคุม
                 </button>
             </div>
         </div>
 
-        <!-- Stats Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <!-- Stats Grid (ดูง่ายขึ้น ปรับขยายและลดความแแออัดของเนื้อหา) -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <!-- Card 1 -->
-            <div class="card-bg rounded-xl p-5 border card-border flex items-center gap-4 shadow-sm shadow-black/5">
-                <div class="p-3 bg-[var(--color-primary-light)] rounded-lg text-[var(--color-primary-text)]">
-                    <i data-lucide="layers" class="w-6 h-6"></i>
+            <div class="card-bg rounded-2xl p-6 border card-border flex items-center gap-4.5 shadow-md shadow-black/10 hover:border-[var(--color-primary-border)] transition-all">
+                <div class="p-3.5 bg-[var(--color-primary-light)] rounded-xl text-[var(--color-primary-text)]">
+                    <i data-lucide="layers" class="w-6.5 h-6.5"></i>
                 </div>
                 <div>
-                    <p class="text-xs text-[var(--text-primary)]/70 font-medium">จำนวนรุ่นทั้งหมด</p>
-                    <p class="text-xl font-bold text-[var(--text-primary)] mt-0.5" id="statBatches">0 รุ่น</p>
+                    <p class="text-xs text-[var(--text-primary)]/50 font-bold uppercase tracking-wider">จำนวนรุ่นทั้งหมด</p>
+                    <p class="text-2xl font-black text-[var(--text-primary)] mt-1" id="statBatches">0 รุ่น</p>
                 </div>
             </div>
             <!-- Card 2 -->
-            <div class="card-bg rounded-xl p-5 border card-border flex items-center gap-4 shadow-sm shadow-black/5">
-                <div class="p-3 bg-[#c084fc]/10 rounded-lg text-[#c084fc]">
-                    <i data-lucide="users" class="w-6 h-6"></i>
+            <div class="card-bg rounded-2xl p-6 border card-border flex items-center gap-4.5 shadow-md shadow-black/10 hover:border-purple-500/20 transition-all">
+                <div class="p-3.5 bg-purple-500/10 rounded-xl text-purple-400">
+                    <i data-lucide="users" class="w-6.5 h-6.5"></i>
                 </div>
                 <div>
-                    <p class="text-xs text-[var(--text-primary)]/70 font-medium">ผู้เข้าอบรมทั้งหมด</p>
-                    <p class="text-xl font-bold text-[#c084fc] mt-0.5" id="statTrainees">0 คน</p>
+                    <p class="text-xs text-[var(--text-primary)]/50 font-bold uppercase tracking-wider">ผู้เข้าอบรมทั้งหมด</p>
+                    <p class="text-2xl font-black text-purple-300 mt-1" id="statTrainees">0 คน</p>
                 </div>
             </div>
             <!-- Card 3 -->
-            <div class="card-bg rounded-xl p-5 border card-border flex items-center gap-4 shadow-sm shadow-black/5">
-                <div class="p-3 bg-orange-500/10 rounded-lg text-orange-400">
-                    <i data-lucide="user-minus" class="w-6 h-6"></i>
+            <div class="card-bg rounded-2xl p-6 border card-border flex items-center gap-4.5 shadow-md shadow-black/10 hover:border-orange-500/20 transition-all">
+                <div class="p-3.5 bg-orange-500/10 rounded-xl text-orange-400">
+                    <i data-lucide="user-minus" class="w-6.5 h-6.5"></i>
                 </div>
                 <div>
-                    <p class="text-xs text-[var(--text-primary)]/70 font-medium">รายชื่อสำรอง</p>
-                    <p class="text-xl font-bold text-orange-400 mt-0.5" id="statReserves">0 คน</p>
+                    <p class="text-xs text-[var(--text-primary)]/50 font-bold uppercase tracking-wider">รายชื่อสำรอง</p>
+                    <p class="text-2xl font-black text-orange-400 mt-1" id="statReserves">0 คน</p>
                 </div>
             </div>
             <!-- Card 4 -->
-            <div class="card-bg rounded-xl p-5 border card-border flex items-center gap-4 shadow-sm shadow-black/5">
-                <div class="p-3 bg-rose-500/10 rounded-lg text-rose-400">
-                    <i data-lucide="bar-chart-2" class="w-6 h-6"></i>
+            <div class="card-bg rounded-2xl p-6 border card-border flex items-center gap-4.5 shadow-md shadow-black/10 hover:border-teal-500/20 transition-all">
+                <div class="p-3.5 bg-teal-500/10 rounded-xl text-teal-400">
+                    <i data-lucide="bar-chart-2" class="w-6.5 h-6.5"></i>
                 </div>
                 <div>
-                    <p class="text-xs text-[var(--text-primary)]/70 font-medium">เฉลี่ยต่อรุ่น</p>
-                    <p class="text-xl font-bold text-rose-400 mt-0.5" id="statAverage">0 คน</p>
+                    <p class="text-xs text-[var(--text-primary)]/50 font-bold uppercase tracking-wider">เฉลี่ยต่อรุ่น</p>
+                    <p class="text-2xl font-black text-teal-300 mt-1" id="statAverage">0 คน</p>
                 </div>
             </div>
         </div>
 
-        <!-- Search & Control Actions Bar -->
+        <!-- Search & Control Actions Bar (ยืดขยายและเน้นความสวยงามอ่านง่าย) -->
         <div class="flex flex-col sm:flex-row gap-4 items-stretch">
             <div class="relative flex-1">
-                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                    <i data-lucide="search" class="w-5 h-5 text-[var(--text-primary)]/50"></i>
+                <div class="absolute inset-y-0 left-0 pl-4.5 flex items-center pointer-events-none">
+                    <i data-lucide="search" class="w-5.5 h-5.5 text-[var(--text-primary)]/40"></i>
                 </div>
                 <input
                     type="text"
                     id="searchInput"
-                    placeholder="ค้นหารายชื่อผู้เข้าอบรม..."
-                    class="block w-full pl-11 pr-4 py-3 card-bg border card-border rounded-xl text-[var(--text-primary)] placeholder-[var(--text-primary)]/50 focus:outline-none focus:border-[var(--color-primary)] focus:ring-1 focus:ring-[var(--color-primary)] transition-colors shadow-sm shadow-black/5"
+                    placeholder="พิมพ์ชื่อ นามสกุล หรือเบอร์โทรศัพท์เพื่อค้นหารายชื่ออย่างรวดเร็ว..."
+                    class="block w-full pl-12 pr-4.5 py-4 card-bg border card-border rounded-2xl text-[var(--text-primary)] placeholder-[var(--text-primary)]/40 focus:outline-none focus:border-[var(--color-primary)] focus:ring-1 focus:ring-[var(--color-primary)] transition-all shadow-md shadow-black/10 text-sm"
                 >
             </div>
             
             <!-- ปุ่มเพิ่มรุ่นฝึกอบรม (แสดงเฉพาะ Admin) -->
             <div id="adminBatchAction" class="hidden">
-                <button onclick="openBatchModal()" class="w-full sm:w-auto h-full flex items-center justify-center gap-2 bg-[var(--color-primary)] hover:bg-[var(--color-primary-hover)] text-white px-5 py-3 rounded-xl font-bold transition-all duration-200 shadow-md shadow-black/20">
+                <button onclick="openBatchModal()" class="w-full sm:w-auto h-full flex items-center justify-center gap-2 bg-[var(--color-primary)] hover:bg-[var(--color-primary-hover)] text-white px-6 py-4 rounded-2xl font-black transition-all duration-300 shadow-lg shadow-pink-500/10 hover:shadow-pink-500/20 transform hover:-translate-y-0.5">
                     <i data-lucide="plus" class="w-5 h-5"></i>
-                    <span>เพิ่มรุ่นฝึกอบรม</span>
+                    <span>เพิ่มรุ่นหลักสูตร</span>
                 </button>
             </div>
         </div>
 
-        <!-- Tabs -->
-        <div class="border-b card-border flex gap-6 overflow-x-auto hide-scrollbar" id="tabsContainer">
+        <!-- Tabs (จัดเรียงแบบ Segmented Control ห่างสะดุดตาและเลือกง่าย) -->
+        <div class="flex gap-2.5 overflow-x-auto hide-scrollbar p-1.5 bg-black/15 border border-[var(--border-card)] rounded-2xl" id="tabsContainer">
             <!-- สร้างผ่าน JS -->
         </div>
 
-        <!-- Lists Container -->
+        <!-- Lists Container (ปรับระยะความสวยงามแยกการ์ดรายตัวบุคคล) -->
         <div id="listsContainer" class="space-y-6">
             <div class="flex flex-col items-center justify-center py-20 text-pink-400">
                 <div class="w-12 h-12 border-4 border-[var(--color-primary-border)] border-t-[var(--color-primary)] rounded-full animate-spin mb-4"></div>
-                <p class="text-pink-300/70 text-sm">กำลังเชื่อมต่อฐานข้อมูลคลาวด์...</p>
+                <p class="text-pink-300/70 text-sm font-semibold">กำลังซิงค์และจัดโครงสร้างข้อมูลคลาวด์...</p>
             </div>
         </div>
 
@@ -206,92 +218,92 @@
     <!-- ==================== CUSTOM MODALS (โมดอลป๊อปอัป) ==================== -->
 
     <!-- 1. โมดอล ล็อกอิน Admin -->
-    <div id="loginModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm hidden items-center justify-center z-50 p-4 transition-all duration-300">
-        <div class="card-bg w-full max-w-md rounded-2xl border card-border shadow-2xl p-6 transform scale-95 transition-transform duration-300">
+    <div id="loginModal" class="fixed inset-0 bg-black/85 backdrop-blur-md hidden items-center justify-center z-50 p-4 transition-all duration-300">
+        <div class="card-bg w-full max-w-md rounded-3xl border card-border shadow-2xl p-7 transform scale-95 transition-transform duration-300">
             <div class="flex justify-between items-center mb-6">
-                <h3 class="text-lg font-bold text-[var(--text-primary)] flex items-center gap-2">
-                    <i data-lucide="lock" class="w-5 h-5 text-[var(--color-primary-text)]"></i> เข้าสู่ระบบ Admin
+                <h3 class="text-lg font-black text-[var(--text-primary)] flex items-center gap-2">
+                    <i data-lucide="lock" class="w-5 h-5 text-[var(--color-primary-text)]"></i> สิทธิ์ผู้เข้าควบคุมระบบ
                 </h3>
-                <button onclick="closeModal('loginModal')" class="text-[var(--text-primary)]/50 hover:text-[var(--text-primary)]">
-                    <i data-lucide="x" class="w-5 h-5"></i>
+                <button onclick="closeModal('loginModal')" class="text-[var(--text-primary)]/40 hover:text-[var(--text-primary)]">
+                    <i data-lucide="x" class="w-5.5 h-5.5"></i>
                 </button>
             </div>
-            <div class="space-y-4">
+            <div class="space-y-5">
                 <div>
-                    <label class="block text-xs text-[var(--text-primary)]/70 mb-1.5 font-medium">ระบุรหัสผ่านเข้าสู่ระบบ</label>
-                    <input type="password" id="adminPassword" placeholder="ระบุรหัสผ่าน..." class="w-full px-4 py-2.5 bg-black/20 border card-border rounded-xl text-[var(--text-primary)] focus:outline-none focus:border-[var(--color-primary)] text-sm">
+                    <label class="block text-xs text-[var(--text-primary)]/60 mb-2 font-bold uppercase tracking-wider">รหัสผ่านแอดมินสำหรับใช้งาน</label>
+                    <input type="password" id="adminPassword" placeholder="ระบุรหัสผ่านแอดมินเพื่อควบคุม..." class="w-full px-4 py-3 bg-black/20 border card-border rounded-2xl text-[var(--text-primary)] focus:outline-none focus:border-[var(--color-primary)] text-sm font-mono">
                 </div>
-                <div class="flex gap-2 pt-2">
-                    <button onclick="closeModal('loginModal')" class="flex-1 py-2.5 border card-border text-[var(--text-primary)] text-sm font-semibold rounded-xl hover:bg-white/5 transition-colors">ยกเลิก</button>
-                    <button onclick="submitLogin()" class="flex-1 py-2.5 bg-[var(--color-primary)] hover:bg-[var(--color-primary-hover)] text-white text-sm font-semibold rounded-xl transition-colors shadow-lg shadow-black/10">ยืนยัน</button>
+                <div class="flex gap-3 pt-2">
+                    <button onclick="closeModal('loginModal')" class="flex-1 py-3 border card-border text-[var(--text-primary)]/80 text-sm font-semibold rounded-2xl hover:bg-white/5 transition-colors">ยกเลิก</button>
+                    <button onclick="submitLogin()" class="flex-1 py-3 bg-[var(--color-primary)] hover:bg-[var(--color-primary-hover)] text-white text-sm font-extrabold rounded-2xl transition-all shadow-lg shadow-pink-500/10">เข้าสู่ระบบ</button>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- 1.2 โมดอล เปลี่ยนรหัสผ่าน Admin -->
-    <div id="adminPasswordModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm hidden items-center justify-center z-50 p-4 transition-all duration-300">
-        <div class="card-bg w-full max-w-md rounded-2xl border card-border shadow-2xl p-6 transform scale-95 transition-transform duration-300">
+    <div id="adminPasswordModal" class="fixed inset-0 bg-black/85 backdrop-blur-md hidden items-center justify-center z-50 p-4 transition-all duration-300">
+        <div class="card-bg w-full max-w-md rounded-3xl border card-border shadow-2xl p-7 transform scale-95 transition-transform duration-300">
             <div class="flex justify-between items-center mb-6">
-                <h3 class="text-lg font-bold text-[var(--text-primary)] flex items-center gap-2">
-                    <i data-lucide="key-round" class="w-5 h-5 text-yellow-400"></i> เปลี่ยนรหัสผ่านแอดมิน
+                <h3 class="text-lg font-black text-[var(--text-primary)] flex items-center gap-2">
+                    <i data-lucide="key-round" class="w-5 h-5 text-yellow-400"></i> ปรับตั้งรหัสผ่านแอดมินใหม่
                 </h3>
-                <button onclick="closeModal('adminPasswordModal')" class="text-[var(--text-primary)]/50 hover:text-[var(--text-primary)]">
-                    <i data-lucide="x" class="w-5 h-5"></i>
+                <button onclick="closeModal('adminPasswordModal')" class="text-[var(--text-primary)]/40 hover:text-[var(--text-primary)]">
+                    <i data-lucide="x" class="w-5.5 h-5.5"></i>
                 </button>
             </div>
-            <div class="space-y-4">
+            <div class="space-y-5">
                 <div>
-                    <label class="block text-xs text-[var(--text-primary)]/70 mb-1.5 font-medium">รหัสผ่านใหม่ที่ต้องการตั้งค่า</label>
-                    <input type="password" id="newAdminPassword" placeholder="ความยาวขั้นต่ำ 6 ตัวอักษร..." class="w-full px-4 py-2.5 bg-black/20 border card-border rounded-xl text-[var(--text-primary)] focus:outline-none focus:border-[var(--color-primary)] text-sm">
+                    <label class="block text-xs text-[var(--text-primary)]/60 mb-2 font-bold uppercase tracking-wider">รหัสผ่านใหม่ (ไม่ต่ำกว่า 6 ตัวอักษร)</label>
+                    <input type="password" id="newAdminPassword" placeholder="ความยาวขั้นต่ำ 6 ตัวอักษรขึ้นไป..." class="w-full px-4 py-3 bg-black/20 border card-border rounded-2xl text-[var(--text-primary)] focus:outline-none focus:border-[var(--color-primary)] text-sm font-mono">
                 </div>
-                <div class="flex gap-2 pt-2">
-                    <button onclick="closeModal('adminPasswordModal')" class="flex-1 py-2.5 border card-border text-[var(--text-primary)] text-sm font-semibold rounded-xl hover:bg-white/5 transition-colors">ยกเลิก</button>
-                    <button onclick="saveAdminPassword()" class="flex-1 py-2.5 bg-yellow-600 hover:bg-yellow-500 text-white text-sm font-semibold rounded-xl transition-colors">บันทึกรหัสใหม่</button>
+                <div class="flex gap-3 pt-2">
+                    <button onclick="closeModal('adminPasswordModal')" class="flex-1 py-3 border card-border text-[var(--text-primary)]/80 text-sm font-semibold rounded-2xl hover:bg-white/5 transition-colors">ยกเลิก</button>
+                    <button onclick="saveAdminPassword()" class="flex-1 py-3 bg-yellow-600 hover:bg-yellow-500 text-white text-sm font-extrabold rounded-2xl transition-colors">บันทึกรหัสใหม่</button>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- 2. โมดอล จัดการรุ่นฝึกอบรม (เพิ่ม/แก้ไข) -->
-    <div id="batchModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm hidden items-center justify-center z-50 p-4 transition-all duration-300">
-        <div class="card-bg w-full max-w-lg rounded-2xl border card-border shadow-2xl p-6 transform scale-95 transition-transform duration-300">
+    <div id="batchModal" class="fixed inset-0 bg-black/85 backdrop-blur-md hidden items-center justify-center z-50 p-4 transition-all duration-300">
+        <div class="card-bg w-full max-w-lg rounded-3xl border card-border shadow-2xl p-7 transform scale-95 transition-transform duration-300">
             <div class="flex justify-between items-center mb-6">
-                <h3 id="batchModalTitle" class="text-lg font-bold text-[var(--text-primary)] flex items-center gap-2">
-                    <i data-lucide="folder-plus" class="w-5 h-5 text-[var(--color-primary-text)]"></i> เพิ่มรุ่นฝึกอบรม
+                <h3 id="batchModalTitle" class="text-lg font-black text-[var(--text-primary)] flex items-center gap-2">
+                    <i data-lucide="folder-plus" class="w-5 h-5 text-[var(--color-primary-text)]"></i> เพิ่มรุ่นหลักสูตร
                 </h3>
-                <button onclick="closeModal('batchModal')" class="text-[var(--text-primary)]/50 hover:text-[var(--text-primary)]">
-                    <i data-lucide="x" class="w-5 h-5"></i>
+                <button onclick="closeModal('batchModal')" class="text-[var(--text-primary)]/40 hover:text-[var(--text-primary)]">
+                    <i data-lucide="x" class="w-5.5 h-5.5"></i>
                 </button>
             </div>
             <input type="hidden" id="editBatchId">
-            <div class="space-y-4">
+            <div class="space-y-5">
                 <div>
-                    <label class="block text-xs text-[var(--text-primary)]/70 mb-1.5 font-medium">ชื่อหลักสูตรรุ่นฝึกอบรม *</label>
-                    <input type="text" id="batchName" placeholder="เช่น การเพ้นท์เล็บเบื้องต้น รุ่นที่ 2" class="w-full px-4 py-2.5 bg-black/20 border card-border rounded-xl text-[var(--text-primary)] focus:outline-none focus:border-[var(--color-primary)] text-sm">
+                    <label class="block text-xs text-[var(--text-primary)]/60 mb-2 font-bold uppercase tracking-wider">ชื่อหลักสูตรรุ่นฝึกอบรม *</label>
+                    <input type="text" id="batchName" placeholder="เช่น การเพ้นท์เล็บมืออาชีพ รุ่นที่ 1" class="w-full px-4 py-3 bg-black/20 border card-border rounded-2xl text-[var(--text-primary)] focus:outline-none focus:border-[var(--color-primary)] text-sm">
                 </div>
                 <div>
-                    <label class="block text-xs text-[var(--text-primary)]/70 mb-1.5 font-medium">ช่วงวันเวลาจัดงานฝึกอบรม *</label>
-                    <input type="text" id="batchDate" placeholder="เช่น 27 พฤษภาคม 2569 - 31 พฤษภาคม 2569" class="w-full px-4 py-2.5 bg-black/20 border card-border rounded-xl text-[var(--text-primary)] focus:outline-none focus:border-[var(--color-primary)] text-sm">
+                    <label class="block text-xs text-[var(--text-primary)]/60 mb-2 font-bold uppercase tracking-wider">ระยะเวลาการจัดฝึกอบรม *</label>
+                    <input type="text" id="batchDate" placeholder="เช่น 27 พฤษภาคม 2569 - 31 พฤษภาคม 2569" class="w-full px-4 py-3 bg-black/20 border card-border rounded-2xl text-[var(--text-primary)] focus:outline-none focus:border-[var(--color-primary)] text-sm">
                 </div>
                 <div>
-                    <label class="block text-xs text-[var(--text-primary)]/70 mb-1.5 font-medium">ประเภทสิทธิ์การรับสมัคร</label>
-                    <select id="batchType" class="w-full px-4 py-2.5 bg-black/20 border card-border rounded-xl text-[var(--text-primary)] focus:outline-none focus:border-[var(--color-primary)] text-sm">
-                        <option value="main">รุ่นปกติ (ผู้เข้าอบรมหลัก)</option>
-                        <option value="reserve">รายชื่อสำรอง</option>
+                    <label class="block text-xs text-[var(--text-primary)]/60 mb-2 font-bold uppercase tracking-wider">ประเภทสิทธิ์การรับสมัคร</label>
+                    <select id="batchType" class="w-full px-4 py-3 bg-black/20 border card-border rounded-2xl text-[var(--text-primary)] focus:outline-none focus:border-[var(--color-primary)] text-sm cursor-pointer">
+                        <option value="main">รุ่นปกติ (ผู้สมัครหลัก)</option>
+                        <option value="reserve">รายชื่อสำรองประจำหลักสูตร</option>
                     </select>
                 </div>
                 <!-- แถบปุ่มจัดการรุ่น: เพิ่มปุ่ม ลบรุ่นนี้ สีแดง (แสดงเฉพาะเมื่อกดเข้ามาแก้ไขรุ่น) -->
-                <div class="flex justify-between items-center pt-4 border-t card-border">
-                    <button id="btnDeleteBatchInModal" class="hidden px-4 py-2.5 bg-rose-600/20 hover:bg-rose-600/30 border border-rose-500/30 text-rose-300 rounded-xl text-sm font-semibold transition-colors flex items-center gap-1.5">
-                        <i data-lucide="trash-2" class="w-4 h-4"></i> ลบรุ่นนี้
+                <div class="flex justify-between items-center pt-5 border-t card-border">
+                    <button id="btnDeleteBatchInModal" class="hidden px-4.5 py-3 bg-rose-600/10 hover:bg-rose-600/20 border border-rose-500/20 text-rose-300 rounded-2xl text-sm font-bold transition-colors flex items-center gap-1.5">
+                        <i data-lucide="trash-2" class="w-4 h-4"></i> ลบรุ่นนี้ออก
                     </button>
                     <div class="flex gap-3 ml-auto">
-                        <button onclick="closeModal('batchModal')" class="px-4 py-2.5 border card-border text-pink-300 hover:bg-white/5 rounded-xl text-sm font-medium transition-colors">
+                        <button onclick="closeModal('batchModal')" class="px-5 py-3 border card-border text-pink-300 hover:bg-white/5 rounded-2xl text-sm font-semibold transition-colors">
                             ยกเลิก
                         </button>
-                        <button onclick="saveBatch()" class="px-5 py-2.5 bg-[var(--color-primary)] hover:bg-[var(--color-primary-hover)] text-white rounded-xl text-sm font-semibold transition-colors shadow-lg shadow-black/10">
-                            บันทึกรุ่น
+                        <button onclick="saveBatch()" class="px-6 py-3 bg-[var(--color-primary)] hover:bg-[var(--color-primary-hover)] text-white rounded-2xl text-sm font-extrabold transition-colors shadow-lg">
+                            บันทึกรุ่นหลักสูตร
                         </button>
                     </div>
                 </div>
@@ -300,42 +312,42 @@
     </div>
 
     <!-- 3. โมดอล จัดการรายชื่อผู้เข้าอบรม (เพิ่ม/แก้ไข) -->
-    <div id="traineeModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm hidden items-center justify-center z-50 p-4 transition-all duration-300">
-        <div class="card-bg w-full max-w-lg rounded-2xl border card-border shadow-2xl p-6 transform scale-95 transition-transform duration-300">
+    <div id="traineeModal" class="fixed inset-0 bg-black/85 backdrop-blur-md hidden items-center justify-center z-50 p-4 transition-all duration-300">
+        <div class="card-bg w-full max-w-lg rounded-3xl border card-border shadow-2xl p-7 transform scale-95 transition-transform duration-300">
             <div class="flex justify-between items-center mb-6">
-                <h3 id="traineeModalTitle" class="text-lg font-bold text-[var(--text-primary)] flex items-center gap-2">
-                    <i data-lucide="user-plus" class="w-5 h-5 text-[var(--color-primary-text)]"></i> เพิ่มรายชื่อผู้สมัคร
+                <h3 id="traineeModalTitle" class="text-lg font-black text-[var(--text-primary)] flex items-center gap-2">
+                    <i data-lucide="user-plus" class="w-5 h-5 text-[var(--color-primary-text)]"></i> เพิ่มรายชื่อผู้สมัครอบรม
                 </h3>
-                <button onclick="closeModal('traineeModal')" class="text-[var(--text-primary)]/50 hover:text-[var(--text-primary)]">
-                    <i data-lucide="x" class="w-5 h-5"></i>
+                <button onclick="closeModal('traineeModal')" class="text-[var(--text-primary)]/40 hover:text-[var(--text-primary)]">
+                    <i data-lucide="x" class="w-5.5 h-5.5"></i>
                 </button>
             </div>
             <input type="hidden" id="traineeBatchId">
             <input type="hidden" id="editTraineeId">
-            <div class="space-y-4">
+            <div class="space-y-5">
                 <div>
-                    <label class="block text-xs text-[var(--text-primary)]/70 mb-1.5 font-medium">ชื่อ - นามสกุลจริง *</label>
-                    <input type="text" id="traineeName" placeholder="ระบุชื่อ-นามสกุล..." class="w-full px-4 py-2.5 bg-black/20 border card-border rounded-xl text-[var(--text-primary)] focus:outline-none focus:border-[var(--color-primary)] text-sm">
+                    <label class="block text-xs text-[var(--text-primary)]/60 mb-2 font-bold uppercase tracking-wider">ชื่อ - นามสกุลจริงผู้สมัคร *</label>
+                    <input type="text" id="traineeName" placeholder="ระบุชื่อ-นามสกุล..." class="w-full px-4 py-3 bg-black/20 border card-border rounded-2xl text-[var(--text-primary)] focus:outline-none focus:border-[var(--color-primary)] text-sm">
                 </div>
                 <div>
-                    <label class="block text-xs text-[var(--text-primary)]/70 mb-1.5 font-medium">เบอร์โทรศัพท์เพื่อการติดต่อกลับ</label>
-                    <input type="text" id="traineePhone" placeholder="เช่น 084-3532526" class="w-full px-4 py-2.5 bg-black/20 border card-border rounded-xl text-[var(--text-primary)] focus:outline-none focus:border-[var(--color-primary)] text-sm">
+                    <label class="block text-xs text-[var(--text-primary)]/60 mb-2 font-bold uppercase tracking-wider">เบอร์โทรศัพท์ติดต่อกลับ</label>
+                    <input type="text" id="traineePhone" placeholder="เช่น 084-353-2526" class="w-full px-4 py-3 bg-black/20 border card-border rounded-2xl text-[var(--text-primary)] focus:outline-none focus:border-[var(--color-primary)] text-sm">
                 </div>
                 <div>
-                    <label class="block text-xs text-[var(--text-primary)]/70 mb-1.5 font-medium">สถานะสิทธิ์ในระบบ</label>
-                    <select id="traineeStatus" class="w-full px-4 py-2.5 bg-black/20 border card-border rounded-xl text-[var(--text-primary)] focus:outline-none focus:border-[var(--color-primary)] text-sm">
-                        <option value="รอติดต่อกลับ">รอติดต่อกลับ</option>
-                        <option value="ยืนยัน">ยืนยัน</option>
-                        <option value="สละสิทธิ์">สละสิทธิ์</option>
-                        <option value="-">- (ไม่มีสถานะ)</option>
+                    <label class="block text-xs text-[var(--text-primary)]/60 mb-2 font-bold uppercase tracking-wider">สถานะสิทธิ์ในระบบข้อมูล</label>
+                    <select id="traineeStatus" class="w-full px-4 py-3 bg-black/20 border card-border rounded-2xl text-[var(--text-primary)] focus:outline-none focus:border-[var(--color-primary)] text-sm cursor-pointer">
+                        <option value="รอติดต่อกลับ">⏳ รอติดต่อกลับ</option>
+                        <option value="ยืนยัน">✅ ยืนยันเข้าร่วม</option>
+                        <option value="สละสิทธิ์">❌ สละสิทธิ์</option>
+                        <option value="-">- ไม่มีสถานะ</option>
                     </select>
                 </div>
                 <div class="flex justify-end gap-3 pt-4 border-t card-border">
-                    <button onclick="closeModal('traineeModal')" class="px-4 py-2.5 border card-border text-pink-300 hover:bg-white/5 rounded-xl text-sm font-medium transition-colors">
+                    <button onclick="closeModal('traineeModal')" class="px-5 py-3 border card-border text-pink-300 hover:bg-white/5 rounded-2xl text-sm font-semibold transition-colors">
                         ยกเลิก
                     </button>
-                    <button onclick="saveTrainee()" class="px-5 py-2.5 bg-[var(--color-primary)] hover:bg-[var(--color-primary-hover)] text-white rounded-xl text-sm font-semibold transition-colors shadow-lg shadow-black/10">
-                        บันทึกรายชื่อ
+                    <button onclick="saveTrainee()" class="px-6 py-3 bg-[var(--color-primary)] hover:bg-[var(--color-primary-hover)] text-white rounded-2xl text-sm font-extrabold transition-colors shadow-lg">
+                        บันทึกรายชื่อผู้สมัคร
                     </button>
                 </div>
             </div>
@@ -343,92 +355,91 @@
     </div>
 
     <!-- 4. โมดอลยืนยันการลบแบบสวยงาม -->
-    <div id="confirmModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden items-center justify-center z-50 p-4 transition-all duration-300">
-        <div class="card-bg w-full max-w-sm rounded-2xl border card-border shadow-2xl p-6 transform scale-95 transition-transform duration-300">
-            <div class="flex items-center gap-3 mb-4 text-rose-400">
-                <i data-lucide="alert-triangle" class="w-6 h-6"></i>
-                <h3 class="text-lg font-bold text-[var(--text-primary)]">ยืนยันการลบ</h3>
+    <div id="confirmModal" class="fixed inset-0 bg-black/90 backdrop-blur-md hidden items-center justify-center z-50 p-4 transition-all duration-300">
+        <div class="card-bg w-full max-w-sm rounded-3xl border card-border shadow-2xl p-6.5 transform scale-95 transition-transform duration-300">
+            <div class="flex items-center gap-3.5 mb-4 text-rose-400">
+                <div class="w-10 h-10 bg-rose-500/10 rounded-xl flex items-center justify-center">
+                    <i data-lucide="alert-triangle" class="w-5.5 h-5.5"></i>
+                </div>
+                <h3 class="text-lg font-black text-[var(--text-primary)]">ยืนยันการลบข้อมูล</h3>
             </div>
-            <p id="confirmMessage" class="text-sm text-[var(--text-primary)]/80 mb-6 leading-relaxed">คุณแน่ใจหรือไม่ว่าจะลบรายการนี้? การลบนี้จะไม่สามารถเรียกคืนข้อมูลภายหลังได้</p>
-            <div class="flex gap-2">
-                <button onclick="closeModal('confirmModal')" class="flex-1 py-2.5 border card-border text-pink-300 text-sm font-semibold rounded-xl hover:bg-white/5 transition-colors">ยกเลิก</button>
-                <button id="confirmBtn" class="flex-1 py-2.5 bg-rose-600 hover:bg-rose-500 text-white text-sm font-semibold rounded-xl transition-colors shadow-lg shadow-rose-600/10">ยืนยันการลบ</button>
+            <p id="confirmMessage" class="text-sm text-[var(--text-primary)]/70 mb-6.5 leading-relaxed">คุณแน่ใจหรือไม่ว่าจะลบรายการนี้? การลบจะเขียนลงระบบคลาวด์และไม่สามารถกู้คืนได้ภายหลัง</p>
+            <div class="flex gap-3">
+                <button onclick="closeModal('confirmModal')" class="flex-1 py-3 border card-border text-pink-300 text-sm font-semibold rounded-2xl hover:bg-white/5 transition-colors">ยกเลิก</button>
+                <button id="confirmBtn" class="flex-1 py-3 bg-rose-600 hover:bg-rose-500 text-white text-sm font-extrabold rounded-2xl transition-colors shadow-lg shadow-rose-600/20">ยืนยันลบข้อมูล</button>
             </div>
         </div>
     </div>
 
     <!-- 5. โมดอล ตั้งค่าเชื่อมต่อ Firebase (Cloud Configuration) -->
-    <div id="cloudConfigModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden items-center justify-center z-50 p-4 transition-all duration-300">
-        <div class="card-bg w-full max-w-xl rounded-2xl border card-border shadow-2xl p-6 transform scale-95 transition-transform duration-300 max-h-[90vh] overflow-y-auto">
+    <div id="cloudConfigModal" class="fixed inset-0 bg-black/90 backdrop-blur-md hidden items-center justify-center z-50 p-4 transition-all duration-300">
+        <div class="card-bg w-full max-w-xl rounded-3xl border card-border shadow-2xl p-7 transform scale-95 transition-transform duration-300 max-h-[90vh] overflow-y-auto">
             <div class="flex justify-between items-center mb-6">
-                <h3 class="text-lg font-bold text-[var(--text-primary)] flex items-center gap-2">
-                    <i data-lucide="cloud-lightning" class="w-5 h-5 text-[var(--color-primary-text)]"></i> ตั้งค่าเชื่อมต่อระบบคลาวด์ Firebase
+                <h3 class="text-lg font-black text-[var(--text-primary)] flex items-center gap-2">
+                    <i data-lucide="cloud-lightning" class="w-5 h-5 text-[var(--color-primary-text)]"></i> ตั้งค่าเชื่อมต่อฐานข้อมูล Firebase ของคุณ
                 </h3>
-                <button onclick="closeModal('cloudConfigModal')" class="text-[var(--text-primary)]/50 hover:text-[var(--text-primary)]">
-                    <i data-lucide="x" class="w-5 h-5"></i>
+                <button onclick="closeModal('cloudConfigModal')" class="text-[var(--text-primary)]/40 hover:text-[var(--text-primary)]">
+                    <i data-lucide="x" class="w-5.5 h-5.5"></i>
                 </button>
             </div>
             
-            <p class="text-xs text-[var(--text-primary)]/70 mb-4 leading-relaxed">
-                การตั้งค่าข้อมูลนี้จะจัดเก็บไว้ที่คอมพิวเตอร์ของคุณเท่านั้น (ไม่แสดงในโค้ดต้นฉบับบน GitHub) ข้อมูลผู้สมัครจะเก็บแบบเรียลไทม์ไว้บนคลาวด์โปรเจกต์ของคุณเอง 
+            <p class="text-xs text-[var(--text-primary)]/60 mb-5 leading-relaxed">
+                ข้อมูลการเชื่อมต่อจะปลอดภัยจากการนำไปรันที่อื่น โดยจะจัดเก็บลงหน่วยความจำของบราวเซอร์บนอุปกรณ์เครื่องนี้โดยตรงเท่านั้น (ข้อมูลบน GitHub จะไม่ได้รับผลกระทบ)
             </p>
 
-            <div class="space-y-3">
+            <div class="space-y-4">
                 <div>
-                    <label class="block text-xs text-[var(--text-primary)]/70 mb-1 font-medium">API Key *</label>
-                    <input type="text" id="cfg_apiKey" placeholder="AIzaSy..." class="w-full px-3 py-2 bg-black/20 border card-border rounded-xl text-[var(--text-primary)] focus:outline-none focus:border-[var(--color-primary)] text-xs font-mono">
-                    <p class="text-[10px] text-amber-400 mt-1">⚠️ ตรวจสอบให้มั่นใจว่ารหัสยาวครบถ้วน ไม่มีเครื่องหมาย '...' ติดมาที่ส่วนท้าย</p>
+                    <label class="block text-xs text-[var(--text-primary)]/60 mb-1.5 font-bold uppercase tracking-wider">API Key *</label>
+                    <input type="text" id="cfg_apiKey" placeholder="AIzaSy..." class="w-full px-4 py-2.5 bg-black/20 border card-border rounded-2xl text-[var(--text-primary)] focus:outline-none focus:border-[var(--color-primary)] text-xs font-mono">
                 </div>
-                <div class="grid grid-cols-2 gap-3">
+                <div class="grid grid-cols-2 gap-3.5">
                     <div>
-                        <label class="block text-xs text-[var(--text-primary)]/70 mb-1 font-medium">Auth Domain</label>
-                        <input type="text" id="cfg_authDomain" placeholder="xxx.firebaseapp.com" class="w-full px-3 py-2 bg-black/20 border card-border rounded-xl text-[var(--text-primary)] focus:outline-none focus:border-[var(--color-primary)] text-xs font-mono">
+                        <label class="block text-xs text-[var(--text-primary)]/60 mb-1.5 font-bold uppercase tracking-wider">Auth Domain</label>
+                        <input type="text" id="cfg_authDomain" placeholder="xxx.firebaseapp.com" class="w-full px-4 py-2.5 bg-black/20 border card-border rounded-2xl text-[var(--text-primary)] focus:outline-none focus:border-[var(--color-primary)] text-xs font-mono">
                     </div>
                     <div>
-                        <label class="block text-xs text-[var(--text-primary)]/70 mb-1 font-medium">Project ID</label>
-                        <input type="text" id="cfg_projectId" placeholder="xxx" class="w-full px-3 py-2 bg-black/20 border card-border rounded-xl text-[var(--text-primary)] focus:outline-none focus:border-[var(--color-primary)] text-xs font-mono">
-                    </div>
-                </div>
-                <div class="grid grid-cols-2 gap-3">
-                    <div>
-                        <label class="block text-xs text-[var(--text-primary)]/70 mb-1 font-medium">Storage Bucket</label>
-                        <input type="text" id="cfg_storageBucket" placeholder="xxx.appspot.com" class="w-full px-3 py-2 bg-black/20 border card-border rounded-xl text-[var(--text-primary)] focus:outline-none focus:border-[var(--color-primary)] text-xs font-mono">
-                    </div>
-                    <div>
-                        <label class="block text-xs text-[var(--text-primary)]/70 mb-1 font-medium">Messaging Sender ID</label>
-                        <input type="text" id="cfg_messagingSenderId" placeholder="1234567..." class="w-full px-3 py-2 bg-black/20 border card-border rounded-xl text-[var(--text-primary)] focus:outline-none focus:border-[var(--color-primary)] text-xs font-mono">
+                        <label class="block text-xs text-[var(--text-primary)]/60 mb-1.5 font-bold uppercase tracking-wider">Project ID</label>
+                        <input type="text" id="cfg_projectId" placeholder="xxx" class="w-full px-4 py-2.5 bg-black/20 border card-border rounded-2xl text-[var(--text-primary)] focus:outline-none focus:border-[var(--color-primary)] text-xs font-mono">
                     </div>
                 </div>
-                <div>
-                    <label class="block text-xs text-[var(--text-primary)]/70 mb-1 font-medium">App ID *</label>
-                    <input type="text" id="cfg_appId" placeholder="1:1234..." class="w-full px-3 py-2 bg-black/20 border card-border rounded-xl text-[var(--text-primary)] focus:outline-none focus:border-[var(--color-primary)] text-xs font-mono">
-                    <p class="text-[10px] text-amber-400 mt-1">⚠️ ตรวจสอบตัวเลขส่วนท้ายสุดของ App ID ให้สมบูรณ์และยาวครบ 24 ตัวหลัก</p>
+                <div class="grid grid-cols-2 gap-3.5">
+                    <div>
+                        <label class="block text-xs text-[var(--text-primary)]/60 mb-1.5 font-bold uppercase tracking-wider">Storage Bucket</label>
+                        <input type="text" id="cfg_storageBucket" placeholder="xxx.appspot.com" class="w-full px-4 py-2.5 bg-black/20 border card-border rounded-2xl text-[var(--text-primary)] focus:outline-none focus:border-[var(--color-primary)] text-xs font-mono">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-[var(--text-primary)]/60 mb-1.5 font-bold uppercase tracking-wider">Messaging Sender ID</label>
+                        <input type="text" id="cfg_messagingSenderId" placeholder="1234567..." class="w-full px-4 py-2.5 bg-black/20 border card-border rounded-2xl text-[var(--text-primary)] focus:outline-none focus:border-[var(--color-primary)] text-xs font-mono">
+                    </div>
                 </div>
                 <div>
-                    <label class="block text-xs text-[var(--text-primary)]/70 mb-1 font-medium">Custom App Sync ID (ชื่อห้องของข้อมูล)</label>
-                    <input type="text" id="cfg_customAppId" placeholder="nail-art-training-lobpuri" class="w-full px-3 py-2 bg-black/20 border card-border rounded-xl text-[var(--text-primary)] focus:outline-none focus:border-[var(--color-primary)] text-xs font-mono">
-                    <p class="text-[10px] text-pink-300/50 mt-1">ตั้งค่าคำที่คุณต้องการ เพื่อจำแนกกลุ่มข้อมูลบนคลาวด์ไม่ให้ซ้ำกับเว็บอื่น</p>
+                    <label class="block text-xs text-[var(--text-primary)]/60 mb-1.5 font-bold uppercase tracking-wider">App ID *</label>
+                    <input type="text" id="cfg_appId" placeholder="1:1234..." class="w-full px-4 py-2.5 bg-black/20 border card-border rounded-2xl text-[var(--text-primary)] focus:outline-none focus:border-[var(--color-primary)] text-xs font-mono">
+                </div>
+                <div>
+                    <label class="block text-xs text-[var(--text-primary)]/60 mb-1.5 font-bold uppercase tracking-wider">Custom App Sync ID (ชื่อห้องฐานข้อมูลสำหรับโครงการ)</label>
+                    <input type="text" id="cfg_customAppId" placeholder="nail-art-training-lobpuri" class="w-full px-4 py-2.5 bg-black/20 border card-border rounded-2xl text-[var(--text-primary)] focus:outline-none focus:border-[var(--color-primary)] text-xs font-mono">
+                    <p class="text-[10px] text-pink-400 mt-1">ตั้งค่าชื่อโปรเจกต์ของคุณเอง เพื่อไม่ให้ผู้ใช้งานภายนอกเข้ามาทับข้อมูลชุดนี้ได้</p>
                 </div>
 
                 <!-- วิธีตั้งค่าแบบรวบรัด -->
-                <div class="mt-4 bg-black/20 p-3 rounded-xl border card-border text-xs text-[var(--text-primary)]/80 space-y-1">
-                    <p class="font-bold text-[var(--text-primary)] mb-1">🛠️ วิธีคัดลอกค่าเชื่อมต่อให้ถูกต้อง 100%:</p>
-                    <p>1. ไปที่ <a href="https://console.firebase.google.com/" target="_blank" class="text-pink-400 hover:underline">Firebase Console</a> ของโปรเจกต์คุณ</p>
-                    <p>2. กดรูปเฟือง ⚙️ (Project Settings) ที่เมนูด้านซ้ายล่างสุด</p>
-                    <p>3. เลื่อนลงมาด้านล่างสุดตรงแท็บ <strong>"Your apps"</strong></p>
-                    <p>4. เลือกแท็บ <strong>"CDN"</strong> หรือคัดลอกวัตถุ <code class="text-yellow-300 font-mono">firebaseConfig</code> ทั้งหมดมาวาง (ห้ามมีอักขระพิเศษ ... ติดมาด้วยเด็ดขาด)</p>
+                <div class="mt-4 bg-black/25 p-4 rounded-2xl border card-border text-xs text-[var(--text-primary)]/75 space-y-1.5 leading-relaxed">
+                    <p class="font-bold text-[var(--text-primary)] mb-1">🛠️ คัดลอกจาก Firebase Console ดังนี้:</p>
+                    <p>1. ไปที่โครงการ <a href="https://console.firebase.google.com/" target="_blank" class="text-pink-400 hover:underline">Firebase Console</a> ของคุณ</p>
+                    <p>2. กดสัญลักษณ์เฟืองเกียร์ ⚙️ (Project Settings) ด้านซ้ายบน</p>
+                    <p>3. เลื่อนลงมามองหาหัวข้อ <strong>"Your apps"</strong> ด้านล่างแล้วทำการก็อปปี้ config มากรอก</p>
                 </div>
 
-                <div class="flex gap-2 pt-4 border-t border-gray-700">
-                    <button onclick="clearCustomFirebase()" class="py-2 px-4 border border-rose-500/30 text-rose-300 text-xs font-semibold rounded-xl hover:bg-rose-500/10 transition-colors">
-                        ยกเลิกการใช้คลาวด์
+                <div class="flex gap-2 pt-4 border-t border-gray-700/60">
+                    <button onclick="clearCustomFirebase()" class="py-2.5 px-4 border border-rose-500/20 text-rose-300 text-xs font-bold rounded-xl hover:bg-rose-500/10 transition-colors">
+                        ยกเลิกใช้คลาวด์กำหนดเอง
                     </button>
                     <div class="flex-1"></div>
-                    <button onclick="closeModal('cloudConfigModal')" class="py-2 px-4 border card-border text-[var(--text-primary)] text-xs font-semibold rounded-xl hover:bg-white/5 transition-colors">
-                        ปิดหน้าต่าง
+                    <button onclick="closeModal('cloudConfigModal')" class="py-2.5 px-4.5 border card-border text-[var(--text-primary)] text-xs font-bold rounded-xl hover:bg-white/5 transition-colors">
+                        ปิด
                     </button>
-                    <button onclick="saveCustomFirebase()" class="py-2 px-5 bg-[var(--color-primary)] hover:bg-[var(--color-primary-hover)] text-white text-xs font-bold rounded-xl transition-all shadow-md shadow-black/10">
-                        บันทึกเชื่อมคลาวด์
+                    <button onclick="saveCustomFirebase()" class="py-2.5 px-5.5 bg-[var(--color-primary)] hover:bg-[var(--color-primary-hover)] text-white text-xs font-extrabold rounded-xl transition-all shadow-md">
+                        บันทึกการซิงก์
                     </button>
                 </div>
             </div>
@@ -436,7 +447,7 @@
     </div>
 
     <!-- แหล่งรวม Toast Notifications -->
-    <div id="toastContainer" class="fixed bottom-5 right-5 z-50 space-y-2 pointer-events-none"></div>
+    <div id="toastContainer" class="fixed bottom-5 right-5 z-50 space-y-2.5 pointer-events-none"></div>
 
     <!-- ==================== FIREBASE & LOGIC IMPORTS ==================== -->
     <script type="module">
@@ -457,66 +468,66 @@
         };
         // =========================================================================
 
-        // --- ชุดข้อมูลธีมสีแบ่งตามกลุ่มหลักสูตรวิชา ---
+        // --- ชุดข้อมูลธีมสีแบ่งตามกลุ่มหลักสูตรวิชา (ปรับปรุงเฉดสีให้อ่านง่ายขึ้น) ---
         const themes = {
             nail: {
                 name: "💅 เสริมสวย & เพ้นท์เล็บ",
-                bgBody: "#2d222b",
-                bgCard: "#3e2f3b",
-                borderCard: "#584454",
-                textPrimary: "#fce7f3",
-                primary: "#d946ef",
-                primaryHover: "#c026d3",
-                primaryLight: "rgba(217, 70, 239, 0.15)",
-                primaryBorder: "rgba(217, 70, 239, 0.3)",
+                bgBody: "#1a1318",
+                bgCard: "#281b24",
+                borderCard: "#3d2837",
+                textPrimary: "#fdf2f8",
+                primary: "#ec4899",
+                primaryHover: "#db2777",
+                primaryLight: "rgba(236, 72, 153, 0.1)",
+                primaryBorder: "rgba(236, 72, 153, 0.25)",
                 primaryText: "#f472b6"
             },
             tech: {
                 name: "💻 ไอที & ดิจิทัล",
-                bgBody: "#0a1329",
-                bgCard: "#132247",
-                borderCard: "#20376e",
-                textPrimary: "#f1f5f9",
-                primary: "#0ea5e9",
-                primaryHover: "#0284c7",
-                primaryLight: "rgba(14, 165, 233, 0.15)",
-                primaryBorder: "rgba(14, 165, 233, 0.3)",
-                primaryText: "#38bdf8"
+                bgBody: "#090d16",
+                bgCard: "#111827",
+                borderCard: "#1f2937",
+                textPrimary: "#f9fafb",
+                primary: "#3b82f6",
+                primaryHover: "#2563eb",
+                primaryLight: "rgba(59, 130, 246, 0.1)",
+                primaryBorder: "rgba(59, 130, 246, 0.25)",
+                primaryText: "#60a5fa"
             },
             massage: {
                 name: "🌿 นวดแผนไทย & สปา",
-                bgBody: "#0d1a15",
-                bgCard: "#172b22",
-                borderCard: "#274a3b",
+                bgBody: "#08100d",
+                bgCard: "#111c17",
+                borderCard: "#1e2e27",
                 textPrimary: "#f0fdf4",
                 primary: "#10b981",
                 primaryHover: "#059669",
-                primaryLight: "rgba(16, 185, 129, 0.15)",
-                primaryBorder: "rgba(16, 185, 129, 0.3)",
+                primaryLight: "rgba(16, 185, 129, 0.1)",
+                primaryBorder: "rgba(16, 185, 129, 0.25)",
                 primaryText: "#34d399"
             },
             cooking: {
                 name: "☕ คหกรรม & เบเกอรี่",
-                bgBody: "#241812",
-                bgCard: "#38251b",
-                borderCard: "#523627",
-                textPrimary: "#fdf8f5",
+                bgBody: "#150f0c",
+                bgCard: "#231815",
+                borderCard: "#352420",
+                textPrimary: "#fafaf9",
                 primary: "#f97316",
                 primaryHover: "#ea580c",
-                primaryLight: "rgba(249, 115, 22, 0.15)",
-                primaryBorder: "rgba(249, 115, 22, 0.3)",
+                primaryLight: "rgba(249, 115, 22, 0.1)",
+                primaryBorder: "rgba(249, 115, 22, 0.25)",
                 primaryText: "#fb923c"
             },
             luxury: {
                 name: "🟣 ธุรกิจหรู & บริการ",
-                bgBody: "#1c122c",
-                bgCard: "#2b1c44",
-                borderCard: "#422b68",
+                bgBody: "#110b1a",
+                bgCard: "#1e132c",
+                borderCard: "#2f1c44",
                 textPrimary: "#faf5ff",
                 primary: "#a855f7",
                 primaryHover: "#9333ea",
-                primaryLight: "rgba(168, 85, 247, 0.15)",
-                primaryBorder: "rgba(168, 85, 247, 0.3)",
+                primaryLight: "rgba(168, 85, 247, 0.1)",
+                primaryBorder: "rgba(168, 85, 247, 0.25)",
                 primaryText: "#c084fc"
             }
         };
@@ -557,8 +568,8 @@
             listEl.innerHTML = Object.entries(themes).map(([key, t]) => {
                 const isSelected = key === currentTheme;
                 return `
-                    <button onclick="changeTheme('${key}')" class="w-full text-left px-3 py-2 text-xs rounded-xl hover:bg-white/5 flex items-center gap-2.5 transition-all ${isSelected ? 'bg-white/5 font-bold text-[var(--color-primary-text)]' : 'text-gray-300' }">
-                        <span class="w-3.5 h-3.5 rounded-full border border-white/20 flex-shrink-0" style="background-color: ${t.primary}"></span>
+                    <button onclick="changeTheme('${key}')" class="w-full text-left px-3.5 py-2.5 text-xs rounded-xl hover:bg-white/5 flex items-center gap-2.5 transition-all ${isSelected ? 'bg-white/5 font-extrabold text-[var(--color-primary-text)]' : 'text-gray-300' }">
+                        <span class="w-4 h-4 rounded-full border border-white/10 flex-shrink-0" style="background-color: ${t.primary}"></span>
                         <span class="flex-1">${t.name}</span>
                         ${isSelected ? `<span class="w-1.5 h-1.5 rounded-full bg-[var(--color-primary)]"></span>` : ''}
                     </button>
@@ -653,55 +664,55 @@
         const defaultBatches = [
             {
                 id: "1",
-                name: "การเพ้นท์เล็บเบื้องต้น รุ่นที่ 1",
+                name: "การเพ้นท์เล็บมืออาชีพ รุ่นที่ 1",
                 date: "27 พฤษภาคม 2569 - 31 พฤษภาคม 2569",
                 type: 'main',
                 trainees: [
-                    { id: '1-01', name: 'สุภารัตน์ สายประสาท', phone: '084-3532526', status: 'รอติดต่อกลับ' },
-                    { id: '1-02', name: 'นริศรา พฤฒากรณ์', phone: '092-8518073', status: 'รอติดต่อกลับ' },
-                    { id: '1-03', name: 'นางสิรินทรา จอห์นสัน', phone: '093-6468921', status: 'รอติดต่อกลับ' },
-                    { id: '1-04', name: 'อัจฉริยา คุณารักษ์', phone: '095-5399757', status: 'รอติดต่อกลับ' },
-                    { id: '1-05', name: 'พิชยา เดชขะรัตน์', phone: '096-8516696', status: 'รอติดต่อกลับ' },
-                    { id: '1-06', name: 'ณัฏฐกานต์ หันอาสา', phone: '098-0506924', status: 'รอติดต่อกลับ' },
-                    { id: '1-07', name: 'รักษิตา เขียวพุ่มพวง', phone: '064-1961461', status: 'รอติดต่อกลับ' },
-                    { id: '1-08', name: 'ภัทริกา พุฒติ', phone: '093-9839892', status: 'รอติดต่อกลับ' },
-                    { id: '1-09', name: 'เพ็ชรรัตน์ แว่วสอน', phone: '080-2872671', status: 'รอติดต่อกลับ' },
-                    { id: '1-10', name: 'ธัญทิพย์ ชูสกุลธนเศรษฐ์', phone: '062-8783054', status: 'รอติดต่อกลับ' },
-                    { id: '1-11', name: 'ณัฎฐณิชา วศินศิริกุล', phone: '097-2270526', status: 'รอติดต่อกลับ' },
-                    { id: '1-12', name: 'ภัณฑิรา ตาคำ', phone: '080-9326624', status: 'รอติดต่อกลับ' },
-                    { id: '1-13', name: 'นางสาวอาภัสรา ขันตี', phone: '091-0131631', status: 'รอติดต่อกลับ' },
-                    { id: '1-14', name: 'ชิตวรรณ มีหวายหลึม', phone: '097-1239193', status: 'รอติดต่อกลับ' },
-                    { id: '1-15', name: 'วันวิสา หนูจันทึก', phone: '095-3303774', status: 'รอติดต่อกลับ' },
-                    { id: '1-16', name: 'อรณี ลิ้มสมบัติอนันต์', phone: '099-5928718', status: 'รอติดต่อกลับ' },
-                    { id: '1-17', name: 'นส.ชุติกานต์ วงษ์น้อย', phone: '098-2234386', status: 'รอติดต่อกลับ' },
-                    { id: '1-18', name: 'นางสาว กฤษกร เพิ่มธัญกรรม', phone: '092-8685516', status: 'รอติดต่อกลับ' },
-                    { id: '1-19', name: 'ภาณุมาศ อานุภาพภราดร', phone: '082-0892958', status: 'รอติดต่อกลับ' },
-                    { id: '1-20', name: 'นางสาวอินธุอร ค้าสม', phone: '097-1972786', status: 'รอติดต่อกลับ' }
+                    { id: '1-01', name: 'สุภารัตน์ สายประสาท', phone: '084-353-2526', status: 'รอติดต่อกลับ' },
+                    { id: '1-02', name: 'นริศรา พฤฒากรณ์', phone: '092-851-8073', status: 'รอติดต่อกลับ' },
+                    { id: '1-03', name: 'นางสิรินทรา จอห์นสัน', phone: '093-646-8921', status: 'รอติดต่อกลับ' },
+                    { id: '1-04', name: 'อัจฉริยา คุณารักษ์', phone: '095-539-9757', status: 'รอติดต่อกลับ' },
+                    { id: '1-05', name: 'พิชยา เดชขะรัตน์', phone: '096-851-6696', status: 'รอติดต่อกลับ' },
+                    { id: '1-06', name: 'ณัฏฐกานต์ หันอาสา', phone: '098-050-6924', status: 'รอติดต่อกลับ' },
+                    { id: '1-07', name: 'รักษิตา เขียวพุ่มพวง', phone: '064-196-1461', status: 'รอติดต่อกลับ' },
+                    { id: '1-08', name: 'ภัทริกา พุฒติ', phone: '093-983-9892', status: 'รอติดต่อกลับ' },
+                    { id: '1-09', name: 'เพ็ชรรัตน์ แว่วสอน', phone: '080-287-2671', status: 'รอติดต่อกลับ' },
+                    { id: '1-10', name: 'ธัญทิพย์ ชูสกุลธนเศรษฐ์', phone: '062-878-3054', status: 'รอติดต่อกลับ' },
+                    { id: '1-11', name: 'ณัฎฐณิชา วศินศิริกุล', phone: '097-227-0526', status: 'รอติดต่อกลับ' },
+                    { id: '1-12', name: 'ภัณฑิรา ตาคำ', phone: '080-932-6624', status: 'รอติดต่อกลับ' },
+                    { id: '1-13', name: 'นางสาวอาภัสรา ขันตี', phone: '091-013-1631', status: 'รอติดต่อกลับ' },
+                    { id: '1-14', name: 'ชิตวรรณ มีหวายหลึม', phone: '097-123-9193', status: 'รอติดต่อกลับ' },
+                    { id: '1-15', name: 'วันวิสา หนูจันทึก', phone: '095-330-3774', status: 'รอติดต่อกลับ' },
+                    { id: '1-16', name: 'อรณี ลิ้มสมบัติอนันต์', phone: '099-592-8718', status: 'รอติดต่อกลับ' },
+                    { id: '1-17', name: 'นส.ชุติกานต์ วงษ์น้อย', phone: '098-223-4386', status: 'รอติดต่อกลับ' },
+                    { id: '1-18', name: 'นางสาว กฤษกร เพิ่มธัญกรรม', phone: '092-868-5516', status: 'รอติดต่อกลับ' },
+                    { id: '1-19', name: 'ภาณุมาศ อานุภาพภราดร', phone: '082-089-2958', status: 'รอติดต่อกลับ' },
+                    { id: '1-20', name: 'นางสาวอินธุอร ค้าสม', phone: '097-197-2786', status: 'รอติดต่อกลับ' }
                 ]
             },
             {
                 id: 'reserve',
-                name: "รายชื่อสำรอง",
-                date: "รอเรียกตัวเมื่อมีผู้สละสิทธิ์",
+                name: "รายชื่อสำรองประจำหลักสูตร",
+                date: "รอเรียกตัวเข้าฝึกอบรมแทนที่ผู้สละสิทธิ์",
                 type: 'reserve',
                 trainees: [
-                    { id: 'R-01', name: 'พฤฒิพร พยัคฆ์', phone: '064-4790428', status: '-' },
-                    { id: 'R-02', name: 'ชนิดาภา เศรษฐบุตร', phone: '064-6149665', status: '-' },
-                    { id: 'R-03', name: 'นส.ธนิกา สกุลเพชรอร่าม', phone: '086-3914595', status: '-' },
-                    { id: 'R-04', name: 'นางสาว ธนิกา สกุลเพชรอร่าม', phone: '086-3914595', status: '-' },
-                    { id: 'R-05', name: 'เสาวนีย์ ศรีกาญจนารักษ์', phone: '094-6632697', status: '-' },
-                    { id: 'R-06', name: 'น.ส.ชนิดา เจริญศรี', phone: '088-1800888', status: '-' },
-                    { id: 'R-07', name: 'น.ส มาลัย เผือกโสภา', phone: '061-5974493', status: '-' },
-                    { id: 'R-08', name: 'มาลินี โทรักษา', phone: '090-2629553', status: '-' },
-                    { id: 'R-09', name: 'พิมพ์พจี พงษ์ธรรม', phone: '083-9418986', status: '-' },
-                    { id: 'R-10', name: 'นิศารัตน์ เสาะแสวง', phone: '091-7645719', status: '-' },
-                    { id: 'R-11', name: 'อัญชุลี อุดหนุน', phone: '081-8392961', status: '-' },
-                    { id: 'R-12', name: 'ดำรัสสิริ ประเสริฐสิทธิ์', phone: '095-3419615', status: '-' },
-                    { id: 'R-13', name: 'พิไลวรรณ หอมเนียม', phone: '084-6266914', status: '-' },
-                    { id: 'R-14', name: 'สุปาณี บุญเส็ง', phone: '062-3544799', status: '-' },
-                    { id: 'R-15', name: 'นส นันทิชา แก้วแหวน', phone: '091-7589125', status: '-' },
-                    { id: 'R-16', name: 'ชุติมา คงเพียร', phone: '064-8495888', status: '-' },
-                    { id: 'R-17', name: 'น.ส.ธนันชณัฏฐ์ ธรรมมณี', phone: '092-4479236', status: '-' }
+                    { id: 'R-01', name: 'พฤฒิพร พยัคฆ์', phone: '064-479-0428', status: '-' },
+                    { id: 'R-02', name: 'ชนิดาภา เศรษฐบุตร', phone: '064-614-9665', status: '-' },
+                    { id: 'R-03', name: 'นส.ธนิกา สกุลเพชรอร่าม', phone: '086-391-4595', status: '-' },
+                    { id: 'R-04', name: 'นางสาว ธนิกา สกุลเพชรอร่าม', phone: '086-391-4595', status: '-' },
+                    { id: 'R-05', name: 'เสาวนีย์ ศรีกาญจนารักษ์', phone: '094-663-2697', status: '-' },
+                    { id: 'R-06', name: 'น.ส.ชนิดา เจริญศรี', phone: '088-180-0888', status: '-' },
+                    { id: 'R-07', name: 'น.ส มาลัย เผือกโสภา', phone: '061-597-4493', status: '-' },
+                    { id: 'R-08', name: 'มาลินี โทรักษา', phone: '090-262-9553', status: '-' },
+                    { id: 'R-09', name: 'พิมพ์พจี พงษ์ธรรม', phone: '083-941-8986', status: '-' },
+                    { id: 'R-10', name: 'นิศารัตน์ เสาะแสวง', phone: '091-764-5719', status: '-' },
+                    { id: 'R-11', name: 'อัญชุลี อุดหนุน', phone: '081-839-2961', status: '-' },
+                    { id: 'R-12', name: 'ดำรัสสิริ ประเสริฐสิทธิ์', phone: '095-341-9615', status: '-' },
+                    { id: 'R-13', name: 'พิไลวรรณ หอมเนียม', phone: '084-626-6914', status: '-' },
+                    { id: 'R-14', name: 'สุปาณี บุญเส็ง', phone: '062-354-4799', status: '-' },
+                    { id: 'R-15', name: 'นส นันทิชา แก้วแหวน', phone: '091-758-9125', status: '-' },
+                    { id: 'R-16', name: 'ชุติมา คงเพียร', phone: '064-849-5888', status: '-' },
+                    { id: 'R-17', name: 'น.ส.ธนันชณัฏฐ์ ธรรมมณี', phone: '092-447-9236', status: '-' }
                 ]
             }
         ];
@@ -768,13 +779,13 @@
             let colorClasses = "";
             if (status === 'connected') {
                 colorClasses = "bg-green-500/10 hover:bg-green-500/20 border border-green-500/30 text-green-300";
-                cloudStatusTextEl.textContent = "เชื่อมต่อคลาวด์เรียบร้อย";
+                cloudStatusTextEl.textContent = "เชื่อมคลาวด์เรียบร้อย";
             } else if (status === 'connecting') {
                 colorClasses = "bg-yellow-500/10 hover:bg-yellow-500/20 border border-yellow-500/30 text-yellow-300";
                 cloudStatusTextEl.textContent = "กำลังเชื่อมต่อ...";
             } else if (status === 'slow') {
                 colorClasses = "bg-orange-500/10 hover:bg-orange-500/20 border border-orange-500/30 text-orange-300";
-                cloudStatusTextEl.textContent = "การเชื่อมต่อล่าช้า";
+                cloudStatusTextEl.textContent = "สัญญาณเชื่อมต่อช้า";
             } else if (status === 'error') {
                 colorClasses = "bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/30 text-rose-300";
                 cloudStatusTextEl.textContent = "ไม่ได้เชื่อมต่อคลาวด์";
@@ -782,7 +793,7 @@
 
             // จัดการคลาสแสดงผล (flex/hidden) ให้ตรงตามเงื่อนไขว่าผู้ใช้ล็อกอินในโหมด Admin หรือไม่
             const displayClass = isAdmin ? "flex" : "hidden";
-            cloudStatusBadgeEl.className = `${displayClass} items-center gap-1.5 ${colorClasses} text-xs px-3 py-1.5 rounded-full font-medium transition-all`;
+            cloudStatusBadgeEl.className = `${displayClass} items-center gap-1.5 ${colorClasses} text-[11px] px-3 py-1.5 rounded-xl font-bold transition-all`;
         }
 
         // --- ล็อกอินนิรนามส่ง Firebase ---
@@ -892,12 +903,12 @@
             // ตรวจหาอาการ Rules บล็อก
             if (message.includes('permission-denied') || title.includes('Rules') || title.includes('ความปลอดภัย')) {
                 guideHTML = `
-                    <div class="mt-4 bg-rose-500/10 border border-rose-500/20 p-4 rounded-xl text-left text-xs text-rose-300 space-y-2">
-                        <p class="font-bold text-rose-200">🛠| วิธีอัปเดตสิทธิ์ให้หน้าเว็บเขียนขึ้นคลาวด์ได้ทันที:</p>
-                        <p>1. ไปที่ <a href="https://console.firebase.google.com/" target="_blank" class="text-pink-400 underline font-semibold">Firebase Console</a> ของโครงการคุณ</p>
-                        <p>2. เข้าเมนู <b>Firestore Database</b> ที่แถบด้านซ้าย -> เลือกแท็บ <b>Rules</b> ด้านบน</p>
-                        <p>3. เขียนกฎอนุญาตให้อ่านและเขียนสาธารณะโดยวางทับของเก่าดังนี้:</p>
-                        <pre class="bg-black/40 p-2.5 rounded text-[10px] font-mono select-all text-pink-100">rules_version = '2';
+                    <div class="mt-4 bg-rose-500/10 border border-rose-500/20 p-4 rounded-2xl text-left text-xs text-rose-300 space-y-2 leading-relaxed">
+                        <p class="font-bold text-rose-200">🛠| วิธีเปิดสิทธิ์ในการเขียนไฟล์ลงฐานข้อมูล:</p>
+                        <p>1. ไปที่หน้า <a href="https://console.firebase.google.com/" target="_blank" class="text-pink-400 underline font-semibold">Firebase Console</a> ของคุณ</p>
+                        <p>2. ไปเมนู <b>Firestore Database</b> ที่แถบด้านซ้าย -> เลือกแท็บ <b>Rules</b> ด้านบน</p>
+                        <p>3. คัดลอกโค้ดสิทธิ์การเข้าถึงสาธารณะด้านล่างนี้ลงไปแทนค่าเดิม:</p>
+                        <pre class="bg-black/40 p-3 rounded-xl text-[10px] font-mono select-all text-pink-100">rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     match /artifacts/{appId}/public/data/{document=**} {
@@ -905,19 +916,19 @@ service cloud.firestore {
     }
   }
 }</pre>
-                        <p>4. กดปุ่ม <b>Publish</b> สีน้ำเงินที่มุมขวาบน แล้วทำการรีเฟรชหน้าเว็บรายชื่อนี้ใหม่อีกครั้งครับ</p>
+                        <p>4. กดปุ่ม <b>Publish</b> เพื่อยืนยันสิทธิ์ แล้วทำการรีเฟรชหน้าจอนี้อีกครั้งครับ</p>
                     </div>
                 `;
             } 
             // ตรวจหาอาการ Anonymous ล็อกอินโดนปิด
             else if (message.includes('auth/operation-not-allowed') || message.includes('Anonymous')) {
                 guideHTML = `
-                    <div class="mt-4 bg-rose-500/10 border border-rose-500/20 p-4 rounded-xl text-left text-xs text-rose-300 space-y-2">
-                        <p class="font-bold text-rose-200">🛠| วิธีเปิดสิทธิ์ระบบ Authentication (Anonymous Login):</p>
+                    <div class="mt-4 bg-rose-500/10 border border-rose-500/20 p-4 rounded-2xl text-left text-xs text-rose-300 space-y-2 leading-relaxed">
+                        <p class="font-bold text-rose-200">🛠| วิธีเปิดให้ล็อกอินระบบด้วย Guest:</p>
                         <p>1. ไปที่ <a href="https://console.firebase.google.com/" target="_blank" class="text-pink-400 underline font-semibold">Firebase Console</a></p>
-                        <p>2. เข้าเมนู <b>Authentication</b> ด้านซ้าย -> กดแท็บ <b>Sign-in method</b> ด้านบน</p>
-                        <p>3. เลื่อนลงมาเปิดสิทธิ์ผู้ให้บริการที่ชื่อว่า <b>Anonymous</b> สับสวิตช์เปิดใช้ (Enable) แล้วกด <b>Save</b></p>
-                        <p>4. กลับมาที่หน้าเว็บนี้แล้วกดรีเฟรชอีกครั้งเพื่อเริ่มใช้งานคลาวด์</p>
+                        <p>2. ไปที่เมนู <b>Authentication</b> ด้านซ้าย -> แท็บ <b>Sign-in method</b> ด้านบน</p>
+                        <p>3. เลื่อนลงมากดเพิ่มระบบล็อคอินที่ชื่อว่า <b>Anonymous</b> สับสวิตช์เปิดทำงาน (Enable) แล้วกด <b>Save</b></p>
+                        <p>4. กลับมาแล้วรีเฟรชหน้ารายงานข้อมูลนี้ใหม่อีกครั้งครับ</p>
                     </div>
                 `;
             }
@@ -925,12 +936,12 @@ service cloud.firestore {
             const listsCont = document.getElementById('listsContainer');
             if (listsCont) {
                 listsCont.innerHTML = `
-                    <div class="card-bg max-w-xl mx-auto rounded-2xl border border-rose-500/30 p-8 text-center shadow-2xl">
+                    <div class="card-bg max-w-xl mx-auto rounded-3xl border border-rose-500/25 p-8 text-center shadow-2xl">
                         <div class="w-16 h-16 bg-rose-500/10 rounded-full flex items-center justify-center mx-auto mb-4 text-rose-400">
                             <i data-lucide="cloud-off" class="w-8 h-8"></i>
                         </div>
-                        <h3 class="text-rose-200 font-bold text-lg">${title}</h3>
-                        <p class="text-rose-300/70 text-sm mt-2 leading-relaxed">${message}</p>
+                        <h3 class="text-rose-200 font-extrabold text-base">${title}</h3>
+                        <p class="text-rose-300/70 text-xs mt-2 leading-relaxed">${message}</p>
                         
                         ${guideHTML}
 
@@ -952,7 +963,7 @@ service cloud.firestore {
                 listsCont.innerHTML = `
                     <div class="flex flex-col items-center justify-center py-20 text-pink-400">
                         <div class="w-12 h-12 border-4 border-[var(--color-primary-border)] border-t-[var(--color-primary)] rounded-full animate-spin mb-4"></div>
-                        <p class="text-[var(--text-primary)]/70 text-sm">กำลังเชื่อมต่อฐานข้อมูลคลาวด์เรียบลไทม์...</p>
+                        <p class="text-[var(--text-primary)]/50 text-xs font-bold">กำลังเชื่อมต่อคลาวด์เรียบลไทม์...</p>
                     </div>
                 `;
             }
@@ -1027,7 +1038,7 @@ service cloud.firestore {
                 if (adminBatchActionEl) adminBatchActionEl.classList.remove('hidden');
                 if (adminBtnEl) adminBtnEl.className = "flex items-center gap-1.5 bg-[var(--color-primary-light)] hover:opacity-95 border border-[var(--color-primary-border)] text-[var(--color-primary-text)] text-xs px-3.5 py-1.5 rounded-xl font-bold transition-all duration-200";
                 if (adminBtnTextEl) adminBtnTextEl.textContent = "ออกจาก Admin";
-                if (searchInputEl) searchInputEl.placeholder = "ค้นหารายชื่อผู้เข้าอบรม หรือเบอร์โทรศัพท์...";
+                if (searchInputEl) searchInputEl.placeholder = "ค้นหาชื่อ นามสกุล หรือพิมพ์เฉพาะเบอร์โทรเพื่อคัดกรอง...";
                 if (cloudConfigBtnEl) cloudConfigBtnEl.classList.remove('hidden');
                 if (cloudStatusBadgeEl) cloudStatusBadgeEl.classList.remove('hidden'); // แสดงปุ่มเชื่อมต่อคลาวด์ให้เฉพาะแอดมินเห็น
                 if (themeDropdownWrapperEl) themeDropdownWrapperEl.classList.remove('hidden'); // แสดงปุ่มเปลี่ยนธีมสำหรับ Admin เท่านั้น
@@ -1035,8 +1046,8 @@ service cloud.firestore {
                 if (adminBannerEl) adminBannerEl.classList.add('hidden');
                 if (adminBatchActionEl) adminBatchActionEl.classList.add('hidden');
                 if (adminBtnEl) adminBtnEl.className = "flex items-center gap-1.5 bg-[var(--color-primary-light)] hover:opacity-95 border border-[var(--color-primary-border)] text-[var(--color-primary-text)] text-xs px-3.5 py-1.5 rounded-xl font-bold transition-all duration-200";
-                if (adminBtnTextEl) adminBtnTextEl.textContent = "เข้าสู่ระบบ Admin";
-                if (searchInputEl) searchInputEl.placeholder = "ค้นหารายชื่อผู้เข้าอบรม...";
+                if (adminBtnTextEl) adminBtnTextEl.textContent = "โหมดเจ้าหน้าที่";
+                if (searchInputEl) searchInputEl.placeholder = "พิมพ์รายชื่อผู้สมัครเพื่อค้นหา...";
                 if (cloudConfigBtnEl) cloudConfigBtnEl.classList.add('hidden');
                 if (cloudStatusBadgeEl) cloudStatusBadgeEl.classList.add('hidden'); // ซ่อนปุ่มเชื่อมต่อคลาวด์สำหรับคนทั่วไป
                 if (themeDropdownWrapperEl) themeDropdownWrapperEl.classList.add('hidden'); // ซ่อนปุ่มเปลี่ยนธีมสำหรับบุคคลทั่วไป
@@ -1047,7 +1058,7 @@ service cloud.firestore {
             const reserveBatch = batches.find(b => b.type === 'reserve');
             
             let tabsHTML = `
-                <button onclick="setActiveTab('all')" class="pb-3 px-1 text-sm font-medium whitespace-nowrap transition-colors ${activeTab === 'all' ? 'text-[var(--color-primary-text)] border-b-2 border-[var(--color-primary)] font-bold' : 'text-[var(--text-primary)]/70 hover:text-[var(--text-primary)]'}">
+                <button onclick="setActiveTab('all')" class="py-2.5 px-4 rounded-xl text-xs font-bold transition-all ${activeTab === 'all' ? 'bg-[var(--color-primary)] text-white shadow-md shadow-pink-500/10' : 'text-[var(--text-primary)]/60 hover:text-[var(--text-primary)] hover:bg-white/5'}">
                     ทั้งหมด
                 </button>
             `;
@@ -1056,8 +1067,9 @@ service cloud.firestore {
                 const isActive = activeTab === batch.id;
                 const totalTrainees = batch.trainees ? batch.trainees.length : 0;
                 tabsHTML += `
-                    <button onclick="setActiveTab('${batch.id}')" class="pb-3 px-1 text-sm font-medium whitespace-nowrap transition-colors flex items-center gap-2 ${isActive ? 'text-[var(--color-primary-text)] border-b-2 border-[var(--color-primary)] font-bold' : 'text-[var(--text-primary)]/70 hover:text-[var(--text-primary)]'}">
-                        ${batch.name} <span class="text-xs ${isActive ? 'text-[var(--color-primary-text)] font-bold' : 'text-[var(--text-primary)]/50'}">${totalTrainees}/${maxPerBatch}</span>
+                    <button onclick="setActiveTab('${batch.id}')" class="py-2.5 px-4 rounded-xl text-xs font-bold transition-all flex items-center gap-2 ${isActive ? 'bg-[var(--color-primary)] text-white shadow-md shadow-pink-500/10' : 'text-[var(--text-primary)]/60 hover:text-[var(--text-primary)] hover:bg-white/5'}">
+                        <span>${batch.name}</span> 
+                        <span class="px-2 py-0.5 rounded-lg text-[10px] ${isActive ? 'bg-black/20 text-white' : 'bg-black/30 text-[var(--color-primary-text)]'}">${totalTrainees}/${maxPerBatch}</span>
                     </button>
                 `;
             });
@@ -1066,8 +1078,10 @@ service cloud.firestore {
                 const isActive = activeTab === 'reserve';
                 const totalRes = reserveBatch.trainees ? reserveBatch.trainees.length : 0;
                 tabsHTML += `
-                    <button onclick="setActiveTab('reserve')" class="pb-3 px-1 text-sm font-medium whitespace-nowrap transition-colors flex items-center gap-2 ${isActive ? 'text-orange-400 border-b-2 border-orange-400 font-bold' : 'text-[var(--text-primary)]/70 hover:text-orange-300'}">
-                        <i data-lucide="clock" class="w-4 h-4"></i> รายชื่อสำรอง <span class="text-xs bg-orange-500/20 text-orange-300 px-1.5 py-0.5 rounded-full">${totalRes}</span>
+                    <button onclick="setActiveTab('reserve')" class="py-2.5 px-4 rounded-xl text-xs font-bold transition-all flex items-center gap-2 ${isActive ? 'bg-orange-600 text-white shadow-md shadow-orange-500/10' : 'text-orange-400/80 hover:text-orange-300 hover:bg-orange-500/5'}">
+                        <i data-lucide="clock" class="w-3.5 h-3.5"></i> 
+                        <span>รายชื่อสำรอง</span> 
+                        <span class="px-2 py-0.5 rounded-lg text-[10px] ${isActive ? 'bg-black/20 text-white' : 'bg-orange-950/40 text-orange-300'}">${totalRes}</span>
                     </button>
                 `;
             }
@@ -1104,128 +1118,142 @@ service cloud.firestore {
                 const avail = maxPerBatch - count;
 
                 html += `
-                <div class="card-bg rounded-2xl border card-border overflow-hidden shadow-sm shadow-black/5 mb-6 transition-all duration-200">
-                    <!-- Batch Header -->
-                    <div class="p-5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b card-border bg-black/10">
-                        <div class="flex items-center gap-4">
-                            <div class="w-10 h-10 bg-[var(--color-primary-light)] text-[var(--color-primary-text)] rounded-lg flex items-center justify-center">
-                                <i data-lucide="bookmark" class="w-5 h-5"></i>
+                <div class="card-bg rounded-3xl border card-border overflow-hidden shadow-md shadow-black/10 mb-8 transition-all duration-300">
+                    <!-- Batch Header (ดูเป็นระเบียบ สะอาดตา และไล่โทนสีนุ่มนวล) -->
+                    <div class="p-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-5 border-b card-border bg-black/15">
+                        <div class="flex items-center gap-4.5">
+                            <div class="w-12 h-12 bg-[var(--color-primary-light)] text-[var(--color-primary-text)] rounded-2xl flex items-center justify-center border border-[var(--color-primary-border)] shadow-sm">
+                                <i data-lucide="bookmark" class="w-6 h-6"></i>
                             </div>
                             <div>
                                 <div class="flex flex-wrap items-center gap-2">
-                                    <h2 class="text-lg font-bold text-[var(--text-primary)]">${batch.name}</h2>
+                                    <h2 class="text-base sm:text-lg font-black text-[var(--text-primary)] leading-tight tracking-wide">${batch.name}</h2>
                                     ${isAdmin ? `
-                                    <div class="flex items-center gap-1.5">
-                                        <button onclick="openBatchModal('${batch.id}')" class="p-1 bg-yellow-500/10 border border-yellow-500/20 text-yellow-300 rounded hover:bg-yellow-500/25 transition-colors" title="แก้ไขรุ่น">
+                                    <div class="flex items-center gap-1 bg-black/20 px-1.5 py-1 rounded-lg">
+                                        <button onclick="openBatchModal('${batch.id}')" class="p-1 hover:bg-yellow-500/20 text-yellow-400 rounded transition-colors" title="แก้ไขข้อมูลรุ่น">
                                             <i data-lucide="edit-3" class="w-3.5 h-3.5"></i>
                                         </button>
-                                        <button onclick="confirmDeleteBatch('${batch.id}')" class="p-1 bg-rose-500/10 border border-rose-500/20 text-rose-300 rounded hover:bg-rose-500/25 transition-colors" title="ลบรุ่น">
+                                        <button onclick="confirmDeleteBatch('${batch.id}')" class="p-1 hover:bg-rose-500/20 text-rose-400 rounded transition-colors" title="ลบรุ่นนี้ทิ้ง">
                                             <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
                                         </button>
                                     </div>
                                     ` : ''}
                                 </div>
-                                <p class="text-xs text-[var(--text-primary)]/70 mt-0.5 flex items-center gap-1">
-                                    <i data-lucide="calendar" class="w-3 h-3"></i> ${batch.date}
+                                <p class="text-xs text-[var(--text-primary)]/50 font-semibold mt-1 flex items-center gap-1.5">
+                                    <i data-lucide="calendar" class="w-3.5 h-3.5 text-[var(--color-primary-text)]"></i> ช่วงจัดอบรม: ${batch.date}
                                 </p>
                             </div>
                         </div>
                         
                         ${isMain ? `
-                        <div class="text-right w-full sm:w-auto">
-                            <div class="flex items-center justify-start sm:justify-end gap-2 text-xs mb-2">
-                                <span class="text-[var(--text-primary)]/70">ผู้เข้าอบรม</span>
-                                <span class="font-bold text-[var(--text-primary)]">${count} <span class="text-[var(--text-primary)]/50 font-normal">/ ${maxPerBatch} คน</span></span>
-                                <span class="text-[var(--text-primary)]/70 ml-4">ว่าง ${avail} ที่</span>
-                                <span class="text-[var(--color-primary-text)] ml-2 font-medium">${percent}%</span>
+                        <div class="text-left md:text-right w-full md:w-auto">
+                            <div class="flex items-center justify-start md:justify-end gap-3 text-xs mb-2.5 font-bold">
+                                <span class="text-[var(--text-primary)]/50">ยอดรายชื่อผู้สมัครเข้าร่วม:</span>
+                                <span class="text-[var(--text-primary)] font-black text-sm">${count} / ${maxPerBatch} คน</span>
+                                <span class="bg-green-500/10 text-green-300 px-2 py-0.5 rounded-lg border border-green-500/25">ว่าง ${avail} ที่</span>
+                                <span class="text-[var(--color-primary-text)] font-black">${percent}%</span>
                             </div>
-                            <div class="w-full sm:w-48 h-1.5 bg-black/20 rounded-full overflow-hidden">
-                                <div class="bg-[var(--color-primary)] h-full rounded-full transition-all duration-300" style="width: ${percent}%"></div>
+                            <div class="w-full md:w-56 h-2 bg-black/25 rounded-full overflow-hidden border border-white/5">
+                                <div class="bg-gradient-to-r from-[var(--color-primary-text)] to-[var(--color-primary)] h-full rounded-full transition-all duration-500" style="width: ${percent}%"></div>
                             </div>
                         </div>
                         ` : `
-                        <div class="text-left sm:text-right">
-                            <div class="text-xs text-[var(--text-primary)]/70 mb-1 font-medium">จำนวนผู้รอเรียกตัวหลักสูตรสำรอง</div>
-                            <div class="font-bold text-orange-400 text-lg">${count} คน</div>
+                        <div class="text-left md:text-right">
+                            <div class="text-xs text-[var(--text-primary)]/50 mb-1 font-bold">จำนวนผู้ลงทะเบียนรอดำเนินการเรียกตัว</div>
+                            <div class="font-black text-orange-400 text-xl tracking-wide">${count} คน</div>
                         </div>
                         `}
                     </div>
 
                     <!-- แถบปุ่ม เพิ่มรายชื่อ (เฉพาะ Admin) -->
                     ${isAdmin ? `
-                    <div class="px-5 py-3 border-b card-border bg-black/5 flex justify-end">
-                        <button onclick="openTraineeModal('${batch.id}')" class="flex items-center gap-1.5 bg-[var(--color-primary)] hover:bg-[var(--color-primary-hover)] text-white text-xs font-bold px-4 py-2 rounded-xl transition-all shadow-md shadow-black/10">
-                            <i data-lucide="user-plus" class="w-3.5 h-3.5"></i>
-                            <span>เพิ่มรายชื่อผู้สมัคร</span>
+                    <div class="px-6 py-3.5 border-b card-border bg-black/5 flex justify-end">
+                        <button onclick="openTraineeModal('${batch.id}')" class="flex items-center gap-1.5 bg-[var(--color-primary)] hover:bg-[var(--color-primary-hover)] text-white text-xs font-black px-4.5 py-2.5 rounded-xl transition-all shadow-md">
+                            <i data-lucide="user-plus" class="w-4 h-4"></i>
+                            <span>เพิ่มผู้สมัครในรุ่นนี้</span>
                         </button>
                     </div>
                     ` : ''}
 
-                    <!-- Table Header -->
-                    <div class="px-5 py-3 grid grid-cols-12 text-xs font-semibold text-[var(--text-primary)]/70 border-b card-border bg-transparent">
-                        <div class="col-span-1 text-center">ลำดับ</div>
-                        <div class="${isAdmin ? 'col-span-6' : 'col-span-9'}">ชื่อ-นามสกุล ${isAdmin ? '/ เบอร์โทรศัพท์' : ''}</div>
-                        <div class="${isAdmin ? 'col-span-3 text-center' : 'col-span-2 text-right'}">สถานะ</div>
+                    <!-- Table Header (เรียบหรู คอนทราสต์อ่านง่าย) -->
+                    <div class="px-6 py-3.5 grid grid-cols-12 text-xs font-extrabold text-[var(--text-primary)]/40 uppercase tracking-wider border-b card-border bg-black/5">
+                        <div class="col-span-1 text-center">No.</div>
+                        <div class="${isAdmin ? 'col-span-6' : 'col-span-8'}">รายชื่อผู้มีสิทธิ์ฝึกอบรม ${isAdmin ? '/ เบอร์ติดต่อกลับ' : ''}</div>
+                        <div class="${isAdmin ? 'col-span-3 text-center' : 'col-span-3 text-right'}">สถานะสิทธิ์ในระบบ</div>
                         ${isAdmin ? '<div class="col-span-2 text-right">การจัดการ</div>' : ''}
                     </div>
 
-                    <!-- Table Body -->
-                    <div class="divide-y card-border bg-transparent">
+                    <!-- Table Body (ปรับช่องไฟ แถบสี และปุ่มต่างๆ ให้อ่านเรียงบรรทัดง่าย) -->
+                    <div class="divide-y card-border">
                         ${filteredTrainees.length === 0 ? `
-                        <div class="p-8 text-center text-[var(--text-primary)]/40 text-sm">ยังไม่มีรายชื่อในกลุ่มนี้</div>
+                        <div class="p-10 text-center text-[var(--text-primary)]/30 text-xs font-bold leading-normal">ยังไม่มีรายชื่อลงทะเบียนในรุ่นนี้</div>
                         ` : filteredTrainees.map((trainee, index) => {
                             const originalIndex = list.findIndex(t => t.id === trainee.id);
                             
-                            let badgeColorClass = 'bg-white/5 text-[var(--text-primary)]/40 border-white/10';
+                            let badgeStyle = 'bg-white/5 text-[var(--text-primary)]/40 border-white/10';
+                            let statusDotColor = 'bg-gray-500';
+                            
                             if (trainee.status === 'ยืนยัน') {
-                                badgeColorClass = 'bg-green-500/20 text-green-300 border-green-500/30';
+                                badgeStyle = 'bg-emerald-500/10 text-emerald-300 border-emerald-500/20';
+                                statusDotColor = 'bg-emerald-400';
                             } else if (trainee.status === 'รอติดต่อกลับ') {
-                                badgeColorClass = 'bg-orange-500/20 text-orange-300 border-orange-500/30';
+                                badgeStyle = 'bg-amber-500/10 text-amber-300 border-amber-500/20';
+                                statusDotColor = 'bg-amber-400';
                             } else if (trainee.status === 'สละสิทธิ์') {
-                                badgeColorClass = 'bg-rose-500/20 text-rose-300 border-rose-500/30';
+                                badgeStyle = 'bg-rose-500/10 text-rose-300 border-rose-500/20';
+                                statusDotColor = 'bg-rose-400';
                             }
 
                             return `
-                            <div class="px-5 py-3.5 grid grid-cols-12 items-center hover:bg-white/5 transition-colors">
+                            <div class="px-6 py-4 grid grid-cols-12 items-center hover:bg-white/[0.02] transition-colors gap-1 sm:gap-0">
+                                <!-- ลำดับ No. -->
                                 <div class="col-span-1 flex justify-center">
-                                    <div class="w-6 h-6 rounded-full bg-black/20 text-[var(--color-primary-text)] flex items-center justify-center text-xs font-medium">
+                                    <div class="w-7 h-7 rounded-xl bg-black/35 border border-white/5 text-[var(--color-primary-text)] flex items-center justify-center text-xs font-black">
                                         ${originalIndex + 1}
                                     </div>
                                 </div>
-                                <div class="${isAdmin ? 'col-span-6' : 'col-span-9'} font-medium ${trainee.status === 'ว่าง' ? 'text-[var(--text-primary)]/40' : 'text-pink-100'}">
-                                    <div class="text-sm sm:text-base font-semibold leading-normal text-[var(--text-primary)]">${trainee.name || '-'}</div>
-                                    ${isAdmin && trainee.phone ? `
-                                    <div class="text-[11px] text-[var(--text-primary)]/50 flex items-center gap-1 mt-0.5">
-                                        <i data-lucide="phone" class="w-3 h-3"></i> <span>${trainee.phone}</span>
-                                    </div>
+                                <!-- ข้อมูลผู้สมัคร (แยก Name / Phone ด้วยขนาดตัวอักษร) -->
+                                <div class="${isAdmin ? 'col-span-6' : 'col-span-8'} flex flex-col">
+                                    <span class="text-sm sm:text-base font-bold text-[var(--text-primary)] leading-relaxed tracking-wide">${trainee.name || '-'}</span>
+                                    ${trainee.phone ? `
+                                    <span class="text-xs text-[var(--text-primary)]/40 flex items-center gap-1 mt-0.5 font-mono">
+                                        <i data-lucide="phone" class="w-3 h-3 text-[var(--color-primary-text)]"></i>
+                                        <span>${trainee.phone}</span>
+                                    </span>
                                     ` : ''}
                                 </div>
-                                <div class="${isAdmin ? 'col-span-3 flex justify-center' : 'col-span-2 flex justify-end'}">
+                                <!-- แถบสถานะ (ดูสะอาดตาขึ้นมาก ด้วยจุดระบุสีเรืองแสง) -->
+                                <div class="${isAdmin ? 'col-span-3 flex justify-center' : 'col-span-3 flex justify-end'}">
                                     ${isAdmin ? `
-                                    <select onchange="changeTraineeStatusDirectly('${batch.id}', '${trainee.id}', this.value)" class="bg-black/20 text-xs font-medium rounded-full border border-[var(--border-card)] px-3 py-1 text-[var(--text-primary)] focus:outline-none focus:ring-1 focus:ring-[var(--color-primary)] cursor-pointer ${
-                                        trainee.status === 'ยืนยัน' ? 'border-green-500/50 text-green-300 bg-green-950/20' :
-                                        trainee.status === 'รอติดต่อกลับ' ? 'border-orange-500/50 text-orange-300 bg-orange-950/20' :
-                                        trainee.status === 'สละสิทธิ์' ? 'border-rose-500/50 text-rose-300 bg-rose-950/20' :
-                                        'border-[var(--border-card)] text-[var(--text-primary)]/70'
-                                    }">
-                                        <option value="รอติดต่อกลับ" ${trainee.status === 'รอติดต่อกลับ' ? 'selected' : ''}>รอติดต่อกลับ</option>
-                                        <option value="ยืนยัน" ${trainee.status === 'ยืนยัน' ? 'selected' : ''}>ยืนยัน</option>
-                                        <option value="สละสิทธิ์" ${trainee.status === 'สละสิทธิ์' ? 'selected' : ''}>สละสิทธิ์</option>
-                                        <option value="-" ${trainee.status === '-' || !trainee.status ? 'selected' : ''}>-</option>
-                                    </select>
+                                    <div class="relative flex items-center gap-2">
+                                        <span class="w-2 h-2 rounded-full ${statusDotColor} pulse-dot"></span>
+                                        <select onchange="changeTraineeStatusDirectly('${batch.id}', '${trainee.id}', this.value)" class="bg-black/30 text-xs font-bold rounded-xl border border-[var(--border-card)] px-3 py-2 text-[var(--text-primary)] focus:outline-none focus:ring-1 focus:ring-[var(--color-primary)] cursor-pointer hover:bg-black/50 ${
+                                            trainee.status === 'ยืนยัน' ? 'border-emerald-500/35 text-emerald-300 bg-emerald-950/20' :
+                                            trainee.status === 'รอติดต่อกลับ' ? 'border-amber-500/35 text-amber-300 bg-amber-950/20' :
+                                            trainee.status === 'สละสิทธิ์' ? 'border-rose-500/35 text-rose-300 bg-rose-950/20' :
+                                            'border-[var(--border-card)] text-[var(--text-primary)]/60'
+                                        }">
+                                            <option value="รอติดต่อกลับ" ${trainee.status === 'รอติดต่อกลับ' ? 'selected' : ''}>⏳ รอติดต่อกลับ</option>
+                                            <option value="ยืนยัน" ${trainee.status === 'ยืนยัน' ? 'selected' : ''}>✅ ยืนยันเข้าร่วม</option>
+                                            <option value="สละสิทธิ์" ${trainee.status === 'สละสิทธิ์' ? 'selected' : ''}>❌ สละสิทธิ์</option>
+                                            <option value="-" ${trainee.status === '-' || !trainee.status ? 'selected' : ''}>- ไม่มีสถานะ</option>
+                                        </select>
+                                    </div>
                                     ` : `
-                                    <span class="border px-2.5 py-1 rounded-full text-xs font-medium ${badgeColorClass}">
-                                        ${trainee.status || '-'}
+                                    <span class="border px-3 py-1.5 rounded-xl text-xs font-bold flex items-center gap-2 ${badgeStyle}">
+                                        <span class="w-1.5 h-1.5 rounded-full ${statusDotColor}"></span>
+                                        <span>${trainee.status || '-'}</span>
                                     </span>
                                     `}
                                 </div>
+                                <!-- การลบ/แก้ไขเฉพาะสิทธิ์ Admin -->
                                 ${isAdmin ? `
                                 <div class="col-span-2 flex justify-end gap-1.5">
-                                    <button onclick="openTraineeModal('${batch.id}', '${trainee.id}')" class="p-1.5 bg-yellow-500/10 hover:bg-yellow-500/20 border border-yellow-500/20 text-yellow-300 rounded-lg transition-colors" title="แก้ไขข้อมูล">
-                                        <i data-lucide="edit-2" class="w-3.5 h-3.5"></i>
+                                    <button onclick="openTraineeModal('${batch.id}', '${trainee.id}')" class="p-2 hover:bg-yellow-500/10 text-yellow-400 hover:text-yellow-300 rounded-xl border border-transparent hover:border-yellow-500/20 transition-all" title="แก้ไข">
+                                        <i data-lucide="edit-2" class="w-4 h-4"></i>
                                     </button>
-                                    <button onclick="confirmDeleteTrainee('${batch.id}', '${trainee.id}')" class="p-1.5 bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/20 text-rose-300 rounded-lg transition-colors" title="ลบข้อมูล">
-                                        <i data-lucide="trash" class="w-3.5 h-3.5"></i>
+                                    <button onclick="confirmDeleteTrainee('${batch.id}', '${trainee.id}')" class="p-2 hover:bg-rose-500/10 text-rose-400 hover:text-rose-300 rounded-xl border border-transparent hover:border-rose-500/20 transition-all" title="ลบออก">
+                                        <i data-lucide="trash" class="w-4 h-4"></i>
                                     </button>
                                 </div>
                                 ` : ''}
@@ -1239,12 +1267,12 @@ service cloud.firestore {
 
             if (html === '') {
                 html = `
-                <div class="card-bg rounded-2xl border card-border p-12 text-center shadow-sm shadow-black/5">
-                    <div class="w-16 h-16 bg-black/10 rounded-full flex items-center justify-center mx-auto mb-4 text-pink-500/50">
-                        <i data-lucide="search-x" class="w-8 h-8"></i>
+                <div class="card-bg rounded-3xl border card-border p-14 text-center shadow-md shadow-black/10">
+                    <div class="w-16 h-16 bg-black/10 rounded-full flex items-center justify-center mx-auto mb-4 text-pink-500/40 border border-white/5">
+                        <i data-lucide="search-x" class="w-7 h-7"></i>
                     </div>
-                    <h3 class="text-[var(--text-primary)] font-medium text-lg">ไม่พบข้อมูล</h3>
-                    <p class="text-[var(--text-primary)]/70 text-sm mt-1">ลองเปลี่ยนคำค้นหา หรือเลือกดูรุ่นอื่น</p>
+                    <h3 class="text-[var(--text-primary)] font-black text-base">ค้นหาไม่พบข้อมูล</h3>
+                    <p class="text-[var(--text-primary)]/50 text-xs mt-1.5 leading-normal">กรุณาตรวจสอบชื่อสะกดใหม่อีกครั้ง หรือเลือกดูในรุ่นอื่นครับ</p>
                 </div>`;
             }
 
@@ -1288,25 +1316,27 @@ service cloud.firestore {
             if (!container) return;
             
             const toast = document.createElement('div');
-            toast.className = `p-4 rounded-xl shadow-lg border text-xs sm:text-sm flex items-center gap-2 pointer-events-auto transition-all duration-300 transform translate-y-2 opacity-0 card-bg`;
+            toast.className = `p-4.5 rounded-2xl shadow-xl border text-xs sm:text-sm flex items-center gap-3.5 pointer-events-auto transition-all duration-300 transform translate-y-2 opacity-0 card-bg max-w-sm`;
             
             let iconName = 'info';
             let colorTheme = 'text-[var(--color-primary-text)] border-[var(--color-primary-border)] bg-[var(--color-primary-light)]';
             
             if (type === 'success') {
                 iconName = 'check-circle';
-                colorTheme = 'text-green-300 border-green-500/30 bg-green-500/5';
+                colorTheme = 'text-green-300 border-green-500/25 bg-green-500/5';
             } else if (type === 'error') {
                 iconName = 'alert-triangle';
-                colorTheme = 'text-rose-300 border-rose-500/30 bg-rose-500/5';
+                colorTheme = 'text-rose-300 border-rose-500/25 bg-rose-500/5';
             } else if (type === 'warning') {
                 iconName = 'alert-circle';
-                colorTheme = 'text-orange-300 border-orange-500/30 bg-orange-500/5';
+                colorTheme = 'text-orange-300 border-orange-500/25 bg-orange-500/5';
             }
 
             toast.innerHTML = `
-                <i data-lucide="${iconName}" class="w-4 h-4 flex-shrink-0"></i>
-                <span class="flex-1 font-medium text-[var(--text-primary)]">${message}</span>
+                <div class="p-1 rounded-lg bg-black/10">
+                    <i data-lucide="${iconName}" class="w-4 h-4 flex-shrink-0"></i>
+                </div>
+                <span class="flex-1 font-bold text-[var(--text-primary)]/90 leading-relaxed">${message}</span>
             `;
             toast.classList.add(...colorTheme.split(' '));
             container.appendChild(toast);
@@ -1330,7 +1360,7 @@ service cloud.firestore {
             if (isAdmin) {
                 isAdmin = false;
                 sessionStorage.removeItem('isAdminMode');
-                showToast("ออกจากโหมด Admin เรียบร้อยแล้ว", "info");
+                showToast("คุณออกจากโหมดแอดมินการควบคุมแล้ว", "info");
                 updateStats();
                 renderTabs();
                 renderLists();
@@ -1350,7 +1380,7 @@ service cloud.firestore {
             if (passwordInput && passwordInput.value === targetPassword) {
                 isAdmin = true;
                 sessionStorage.setItem('isAdminMode', 'true');
-                showToast("เข้าสู่ระบบในโหมด Admin สำเร็จ!", "success");
+                showToast("ลงทะเบียนเข้าสิทธิ์ระบบแอดมินผู้จัดการเรียบร้อย", "success");
                 closeModal('loginModal');
                 passwordInput.value = '';
                 updateStats();
@@ -1358,7 +1388,7 @@ service cloud.firestore {
                 renderLists();
                 setCloudStatus('connected'); // อัปเดตแสดงผล Badge เชื่อมต่อคลาวด์สำหรับ Admin ทันที
             } else {
-                showToast("รหัสผ่านไม่ถูกต้อง กรุณาตรวจสอบอีกครั้ง", "error");
+                showToast("รหัสผ่านไม่ถูกต้อง กรุณาลงทะเบียนใหม่อีกครั้ง", "error");
             }
         }
 
@@ -1367,7 +1397,7 @@ service cloud.firestore {
             const newPwdInput = document.getElementById('newAdminPassword');
             const newPwd = newPwdInput ? newPwdInput.value.trim() : '';
             if (newPwd.length < 6) {
-                return showToast("รหัสผ่านต้องมีความยาวอย่างน้อย 6 ตัวอักษร", "warning");
+                return showToast("รหัสผ่านต้องการความยาว 6 ตัวอักษรขึ้นไป", "warning");
             }
 
             // 1. บันทึกลงหน่วยความจำเครื่องสำรอง
@@ -1378,13 +1408,13 @@ service cloud.firestore {
                 try {
                     const adminSettingsRef = doc(db, 'artifacts', finalAppId, 'public', 'data', 'settings', 'admin');
                     await setDoc(adminSettingsRef, { password: newPwd });
-                    showToast("เปลี่ยนรหัสผ่าน Admin และอัปเดตขึ้นระบบคลาวด์สำเร็จ!", "success");
+                    showToast("เปลี่ยนรหัสแอดมินและอัปเดตระบบคลาวด์เรียบร้อย!", "success");
                 } catch (err) {
                     console.error("Cloud password sync error:", err);
-                    showToast("เปลี่ยนรหัสผ่านในเครื่องสำเร็จ แต่ไม่สามารถซิงก์ขึ้นคลาวด์ได้", "warning");
+                    showToast("เปลี่ยนรหัสเครื่องเรียบร้อย (ระบบอัพเดตคลาวด์ไม่สำเร็จ)", "warning");
                 }
             } else {
-                showToast("เปลี่ยนรหัสผ่านในเครื่องเรียบร้อยแล้ว (กำลังใช้งานในโหมดออฟไลน์)", "success");
+                showToast("เปลี่ยนรหัสเรียบร้อยแล้ว", "success");
             }
             
             closeModal('adminPasswordModal');
@@ -1435,7 +1465,7 @@ service cloud.firestore {
             localStorage.setItem('cfg_messagingSenderId', messagingSenderId);
             localStorage.setItem('cfg_appId', appId);
 
-            showToast("บันทึกการเชื่อมต่อแล้ว! กำลังโหลดหน้าเว็บบันทึกใหม่เพื่อเริ่มงานซิงก์คลาวด์...", "success");
+            showToast("อัปโหลดการซิงก์เรียบร้อย! หน้าจอกำลังรีโหลดซิงก์ข้อมูลวิชาคลาวด์...", "success");
             
             setTimeout(() => {
                 window.location.reload();
@@ -1508,7 +1538,7 @@ service cloud.firestore {
             if (batchId) {
                 const batch = batches.find(b => String(b.id) === String(batchId));
                 if (batch) {
-                    title.innerHTML = `<i data-lucide="edit-3" class="w-5 h-5 text-yellow-400"></i> แก้ไขรุ่นฝึกอบรม`;
+                    title.innerHTML = `<i data-lucide="edit-3" class="w-5 h-5 text-yellow-400"></i> แก้ไขรุ่นหลักสูตร`;
                     editId.value = batch.id;
                     nameInput.value = batch.name || '';
                     dateInput.value = batch.date || '';
@@ -1521,7 +1551,7 @@ service cloud.firestore {
                     }
                 }
             } else {
-                title.innerHTML = `<i data-lucide="folder-plus" class="w-5 h-5 text-[var(--color-primary-text)]"></i> เพิ่มรุ่นฝึกอบรม`;
+                title.innerHTML = `<i data-lucide="folder-plus" class="w-5 h-5 text-[var(--color-primary-text)]"></i> เพิ่มรุ่นหลักสูตรใหม่`;
                 editId.value = '';
                 nameInput.value = '';
                 dateInput.value = '';
@@ -1563,7 +1593,7 @@ service cloud.firestore {
 
             const success = await commitBatchData(batchId, batchData);
             if (success) {
-                showToast(editId ? "อัปเดตข้อมูลรุ่นสำเร็จ" : "เพิ่มรุ่นฝึกอบรมสำเร็จแล้ว", "success");
+                showToast(editId ? "อัปเดตข้อมูลรุ่นหลักสูตรสำเร็จ" : "เพิ่มรุ่นหลักสูตรลงคลาวด์สำเร็จแล้ว", "success");
                 closeModal('batchModal');
             }
         }
@@ -1572,10 +1602,10 @@ service cloud.firestore {
             // ปิดหน้าต่าง Edit ก่อนเพื่อความสะดวกในการยืนยันตัวตน
             closeModal('batchModal');
             
-            showConfirm("คุณแน่ใจว่าต้องการลบรุ่นฝึกอบรมนี้? รายชื่อผู้สมัครทั้งหมดในรุ่นนี้จะสูญหายไปด้วย", async () => {
+            showConfirm("คุณแน่ใจว่าต้องการลบหลักสูตรรุ่นนี้หรือไม่? ข้อมูลรายชื่อนักเรียนและข้อมูลการซิงก์ในรุ่นนี้จะหายไปจากเซิร์ฟเวอร์", async () => {
                 const success = await commitDeleteBatch(batchId);
                 if (success) {
-                    showToast("ลบรุ่นฝึกอบรมเรียบร้อยแล้ว", "success");
+                    showToast("ลบรุ่นหลักสูตรเรียบร้อยแล้ว", "success");
                 }
             });
         }
@@ -1600,14 +1630,14 @@ service cloud.firestore {
                 const trainee = batch ? batch.trainees.find(t => String(t.id) === String(traineeId)) : null;
                 
                 if (trainee) {
-                    title.innerHTML = `<i data-lucide="edit-2" class="w-5 h-5 text-yellow-400"></i> แก้ไขประวัติผู้สมัคร`;
+                    title.innerHTML = `<i data-lucide="edit-2" class="w-5 h-5 text-yellow-400"></i> แก้ไขประวัติข้อมูลผู้สมัคร`;
                     tIdInput.value = trainee.id;
                     nameInput.value = trainee.name || '';
                     phoneInput.value = trainee.phone || '';
                     statusInput.value = trainee.status || 'รอติดต่อกลับ';
                 }
             } else {
-                title.innerHTML = `<i data-lucide="user-plus" class="w-5 h-5 text-pink-400"></i> เพิ่มรายชื่อผู้สมัคร`;
+                title.innerHTML = `<i data-lucide="user-plus" class="w-5 h-5 text-pink-400"></i> เพิ่มข้อมูลผู้สมัครอบรม`;
                 tIdInput.value = '';
                 nameInput.value = '';
                 phoneInput.value = '';
@@ -1628,11 +1658,11 @@ service cloud.firestore {
             const status = document.getElementById('traineeStatus') ? document.getElementById('traineeStatus').value : 'รอติดต่อกลับ';
 
             if (!name) {
-                return showToast("กรุณากรอกชื่อ-นามสกุลจริงผู้สมัคร", "warning");
+                return showToast("กรุณากรอกชื่อและนามสกุลจริงผู้สมัคร", "warning");
             }
 
             const batch = batches.find(b => String(b.id) === String(batchId));
-            if (!batch) return showToast("ไม่พบข้อมูลรุ่นฝึกอบรม", "error");
+            if (!batch) return showToast("ไม่พบรุ่นข้อมูล", "error");
 
             let updatedTrainees = [...(batch.trainees || [])];
 
@@ -1659,7 +1689,7 @@ service cloud.firestore {
             const batchData = { ...batch, trainees: updatedTrainees };
             const success = await commitBatchData(batchId, batchData);
             if (success) {
-                showToast("บันทึกข้อมูลรายชื่อสำเร็จ", "success");
+                showToast("บันทึกข้อมูลและปรับปรุงคลาวด์เรียบร้อย", "success");
                 closeModal('traineeModal');
             }
         }
@@ -1680,14 +1710,14 @@ service cloud.firestore {
                 const batchData = { ...batch, trainees: updatedTrainees };
                 const success = await commitBatchData(batchId, batchData);
                 if (success) {
-                    showToast(`อัปเดตสถานะของ ${updatedTrainees[index].name} เป็น "${newStatus}" เรียบร้อย`, "success");
+                    showToast(`อัปเดตสถานะของ ${updatedTrainees[index].name} เป็น "${newStatus}" แล้ว`, "success");
                 }
             }
         }
         window.changeTraineeStatusDirectly = changeTraineeStatusDirectly;
 
         function confirmDeleteTrainee(batchId, traineeId) {
-            showConfirm("คุณแน่ใจว่าต้องการลบรายชื่อผู้สมัครท่านนี้?", async () => {
+            showConfirm("คุณแน่ใจว่าต้องการลบข้อมูลสิทธิ์ผู้ฝึกอบรมรายนี้ใช่หรือไม่?", async () => {
                 const batch = batches.find(b => String(b.id) === String(batchId));
                 if (!batch) return;
 
@@ -1695,7 +1725,7 @@ service cloud.firestore {
                 const batchData = { ...batch, trainees: updatedTrainees };
                 const success = await commitBatchData(batchId, batchData);
                 if (success) {
-                    showToast("ลบรายชื่อเรียบร้อยแล้ว", "success");
+                    showToast("ลบข้อมูลประวัติเรียบร้อยแล้ว", "success");
                 }
             });
         }
