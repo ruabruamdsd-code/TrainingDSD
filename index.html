@@ -522,7 +522,7 @@
         };
 
         // ฟังก์ชันในการทำงานกับธีมระบบ
-        function applyTheme(themeKey) {
+        async function applyTheme(themeKey, saveToCloud = false) {
             const theme = themes[themeKey] || themes.nail;
             const root = document.documentElement;
             root.style.setProperty('--bg-body', theme.bgBody);
@@ -536,6 +536,16 @@
             root.style.setProperty('--color-primary-text', theme.primaryText);
             
             localStorage.setItem('selected_theme', themeKey);
+
+            // ซิงค์ธีมสีขึ้นระบบคลาวด์ หากผู้ใช้คือแอดมินที่ล็อกอินสำเร็จ และมีการสั่งบันทึก
+            if (saveToCloud && usingCloud && db && user && isAdmin) {
+                try {
+                    const themeSettingsRef = doc(db, 'artifacts', finalAppId, 'public', 'data', 'settings', 'theme');
+                    await setDoc(themeSettingsRef, { currentTheme: themeKey });
+                } catch (err) {
+                    console.error("Failed to sync theme to cloud:", err);
+                }
+            }
         }
 
         function renderThemeSwitcher() {
@@ -557,7 +567,7 @@
         }
 
         window.changeTheme = (themeKey) => {
-            applyTheme(themeKey);
+            applyTheme(themeKey, true); // สั่งบันทึกธีมลงระบบคลาวด์ด้วย (หากเป็นแอดมิน)
             renderThemeSwitcher();
             renderTabs();
             renderLists();
@@ -793,6 +803,7 @@
 
         let unsubscribe = null;
         let unsubscribeAdmin = null;
+        let unsubscribeTheme = null;
 
         // --- ซิงค์ดึงข้อมูลแบบ Real-Time จากคลาวด์ ---
         function setupFirestoreSync() {
@@ -800,7 +811,7 @@
 
             const collectionRef = collection(db, 'artifacts', finalAppId, 'public', 'data', 'batches');
 
-            // ติดตามการตั้งค่ารหัสผ่าน Admin จากคลาวด์ส่วนกลาง
+            // 1. ติดตามการตั้งค่ารหัสผ่าน Admin จากคลาวด์ส่วนกลาง
             const adminSettingsRef = doc(db, 'artifacts', finalAppId, 'public', 'data', 'settings', 'admin');
             unsubscribeAdmin = onSnapshot(adminSettingsRef, (docSnap) => {
                 if (docSnap.exists()) {
@@ -813,7 +824,25 @@
                 console.warn("สิทธิ์เข้าถึงพาสเวิร์ดแอดมินถูกปิดกั้น:", err);
             });
 
-            // ซิงค์ตารางรุ่นผู้ฝึกอบรม
+            // 2. ติดตามการตั้งค่าธีมสีเรียลไทม์จากคลาวด์ส่วนกลาง
+            const themeSettingsRef = doc(db, 'artifacts', finalAppId, 'public', 'data', 'settings', 'theme');
+            unsubscribeTheme = onSnapshot(themeSettingsRef, (docSnap) => {
+                if (docSnap.exists()) {
+                    const themeData = docSnap.data();
+                    if (themeData && themeData.currentTheme) {
+                        // อัปเดตฝั่งผู้ใช้งานโดยไม่ต้องเขียนทับกลับไปที่คลาวด์ (saveToCloud = false) เพื่อป้องกันการสะท้อนวนลูป
+                        applyTheme(themeData.currentTheme, false);
+                        renderThemeSwitcher();
+                        renderTabs();
+                        renderLists();
+                        updateStats();
+                    }
+                }
+            }, (err) => {
+                console.warn("สิทธิ์การเข้าถึงการซิงค์สีธีมจากคลาวด์ถูกจำกัด:", err);
+            });
+
+            // 3. ซิงค์ตารางรุ่นผู้ฝึกอบรม
             unsubscribe = onSnapshot(collectionRef, async (snapshot) => {
                 if (connectionTimeout) clearTimeout(connectionTimeout);
                 setCloudStatus('connected');
